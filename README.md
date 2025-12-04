@@ -2,7 +2,9 @@
 
 Course materials for CS 203 at IIT Gandhinagar.
 
-Course website: https://nipunbatra.github.io/stt-ai-26/
+**Course website:** https://nipunbatra.github.io/stt-ai-26/
+
+**Slides (GitHub Pages):** https://nipunbatra.github.io/stt-ai-teaching/
 
 ## Slides
 
@@ -24,25 +26,49 @@ Comprehensive slides covering:
 
 Install Quarto: https://quarto.org/docs/get-started/
 
-### Render HTML Slides
+### Using Makefile (Recommended)
 
+```bash
+# Build all slides (HTML + PDF)
+make all
+
+# Build only HTML slides
+make html
+
+# Build only PDF documents
+make pdf
+
+# Build specific slide
+make data-collection-labeling
+
+# List available slides
+make list
+
+# Clean generated files
+make clean
+```
+
+### Manual Build
+
+**Render HTML Slides:**
 ```bash
 quarto render data-collection-labeling.qmd --to revealjs
 ```
 
-This creates `data-collection-labeling.html` - open in browser to present.
+**Export to PDF:**
+```bash
+quarto render data-collection-labeling.qmd --to pdf
+```
 
-**Navigation:**
+**Navigation (HTML slides):**
 - Arrow keys / Space: Next slide
 - `F`: Fullscreen
 - `S`: Speaker notes
 - `C`: Chalkboard (draw on slides)
 
-### Export to PDF (Document Style)
+### GitHub Actions (Automatic)
 
-```bash
-quarto render data-collection-labeling.qmd --to pdf
-```
+All slides are automatically built and published to GitHub Pages on every push to master/main branch.
 
 ## Editing Slides
 

@@ -1,0 +1,209 @@
+name: Render and Publish Quarto Slides
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 'pre-release'
+
+      - name: Render all slides to HTML
+        run: |
+          for file in *.qmd; do
+            if [ "$file" != "index.qmd" ]; then
+              echo "Rendering $file to HTML..."
+              quarto render "$file" --to revealjs
+            fi
+          done
+
+      - name: Render all slides to PDF
+        run: |
+          for file in *.qmd; do
+            if [ "$file" != "index.qmd" ]; then
+              echo "Rendering $file to PDF..."
+              quarto render "$file" --to pdf
+            fi
+          done
+
+      - name: Create index page
+        run: |
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>CS 203: Software Tools and Techniques for AI</title>
+            <style>
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 2rem;
+                background: #f5f5f5;
+                color: #333;
+              }
+              header {
+                background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+                color: white;
+                padding: 2rem;
+                border-radius: 10px;
+                margin-bottom: 2rem;
+              }
+              h1 { margin: 0; font-size: 2.5rem; }
+              h2 { color: #1e3a8a; margin-top: 2rem; }
+              .subtitle { opacity: 0.9; margin-top: 0.5rem; }
+              .slides-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                gap: 1.5rem;
+                margin-top: 2rem;
+              }
+              .slide-card {
+                background: white;
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                transition: transform 0.2s, box-shadow 0.2s;
+              }
+              .slide-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+              }
+              .slide-title {
+                font-size: 1.3rem;
+                font-weight: 600;
+                color: #1e3a8a;
+                margin-bottom: 0.5rem;
+              }
+              .slide-description {
+                color: #666;
+                font-size: 0.9rem;
+                line-height: 1.5;
+                margin-bottom: 1rem;
+              }
+              .links {
+                display: flex;
+                gap: 1rem;
+              }
+              .btn {
+                display: inline-block;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: opacity 0.2s;
+              }
+              .btn:hover { opacity: 0.8; }
+              .btn-html {
+                background: #3b82f6;
+                color: white;
+              }
+              .btn-pdf {
+                background: #ef4444;
+                color: white;
+              }
+              footer {
+                margin-top: 3rem;
+                padding-top: 2rem;
+                border-top: 1px solid #ddd;
+                text-align: center;
+                color: #666;
+              }
+              a { color: #3b82f6; }
+            </style>
+          </head>
+          <body>
+            <header>
+              <h1>CS 203: Software Tools and Techniques for AI</h1>
+              <div class="subtitle">IIT Gandhinagar | Course Slides</div>
+            </header>
+
+            <section>
+              <p>
+                Course website: <a href="https://nipunbatra.github.io/stt-ai-26/" target="_blank" style="color: white; text-decoration: underline;">nipunbatra.github.io/stt-ai-26</a>
+              </p>
+            </section>
+
+            <h2>Lecture Slides</h2>
+            <div class="slides-grid">
+          EOF
+
+          # Generate cards for each slide
+          for file in *.qmd; do
+            if [ "$file" != "index.qmd" ]; then
+              basename="${file%.qmd}"
+
+              # Extract title from qmd file
+              title=$(grep -m 1 "^title:" "$file" | sed 's/title: *"\(.*\)"/\1/' | tr -d '"')
+
+              # Extract subtitle or first description line
+              subtitle=$(grep -m 1 "^subtitle:" "$file" | sed 's/subtitle: *"\(.*\)"/\1/' | tr -d '"')
+
+              cat >> index.html << CARD
+              <div class="slide-card">
+                <div class="slide-title">${title}</div>
+                <div class="slide-description">${subtitle}</div>
+                <div class="links">
+                  <a href="${basename}.html" class="btn btn-html" target="_blank">View Slides</a>
+                  <a href="${basename}.pdf" class="btn btn-pdf" download>Download PDF</a>
+                </div>
+              </div>
+          CARD
+            fi
+          done
+
+          cat >> index.html << 'EOF'
+            </div>
+
+            <footer>
+              <p>Course materials by Prof. Nipun Batra, IIT Gandhinagar</p>
+              <p><a href="https://github.com/nipunbatra/stt-ai-teaching" target="_blank">View on GitHub</a></p>
+            </footer>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
