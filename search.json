@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "CS 203: Software Tools and Techniques for AI",
+    "section": "",
+    "text": "Instructor: Prof. Nipun Batra, IIT Gandhinagar\nCourse Website: nipunbatra.github.io/stt-ai-26"
+  },
+  {
+    "objectID": "index.html#course-information",
+    "href": "index.html#course-information",
+    "title": "CS 203: Software Tools and Techniques for AI",
+    "section": "",
+    "text": "Instructor: Prof. Nipun Batra, IIT Gandhinagar\nCourse Website: nipunbatra.github.io/stt-ai-26"
+  },
+  {
+    "objectID": "index.html#lecture-slides",
+    "href": "index.html#lecture-slides",
+    "title": "CS 203: Software Tools and Techniques for AI",
+    "section": "Lecture Slides",
+    "text": "Lecture Slides\n\n\nData Collection and Labeling\nComprehensive, code-heavy slides for beginners covering: - Data Collection: Python logging, web scraping, APIs, databases - Data Validation: Pydantic, Pandas, handling missing data - Data Labeling: Label Studio, inter-annotator agreement, active learning - Data Augmentation: PIL, OpenCV, text augmentation, SMOTE\nDownloads:\n\nLight Theme PDF (white background)\nDark Theme PDF (dark background)\nView Source Code\n\n\n\n\nMore slides will be added throughout the semester"
+  }
+]
