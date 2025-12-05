@@ -9,8 +9,5 @@ node_modules/
 bun.lockb
 bun.lock
 
-# Theme previews (too large, build locally)
-theme-previews/
-
 # Experiments
 experiments/

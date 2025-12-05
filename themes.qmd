@@ -11,7 +11,13 @@ Preview the slides in different Marp themes:
 ### Built-in Themes
 
 - **Default** - [PDF](data-collection-labeling-marp.pdf) | [HTML](data-collection-labeling-marp.html)
+  - Clean white background with blue accents
+
 - **Gaia** - [PDF](theme-previews/gaia.pdf) | [HTML](theme-previews/gaia.html)
+  - Modern presentation style with professional look
+
+- **Uncover** - [PDF](theme-previews/uncover.pdf) | [HTML](theme-previews/uncover.html)
+  - Minimalist design with clean typography
 
 ### Custom Themes
 
@@ -23,7 +29,11 @@ Preview the slides in different Marp themes:
   - LaTeX Beamer-inspired theme
   - Source: [rnd195/my-marp-themes](https://github.com/rnd195/my-marp-themes)
 
-- **Gradient** - [HTML](theme-previews/gradient.html)
+- **Border** - [PDF](theme-previews/border.pdf) | [HTML](theme-previews/border.html)
+  - Default theme with decorative borders
+  - Source: [rnd195/my-marp-themes](https://github.com/rnd195/my-marp-themes)
+
+- **Gradient** - [PDF](theme-previews/gradient.pdf) | [HTML](theme-previews/gradient.html)
   - Modern gradient-based design
   - Source: [rnd195/my-marp-themes](https://github.com/rnd195/my-marp-themes)
 
