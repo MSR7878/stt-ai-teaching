@@ -113,6 +113,51 @@ title: "CS 203: Software Tools and Techniques for AI"
 
 ---
 
+## Reproducibility & Environments
+
+**Topics**: Docker, venv, conda, DVC, MLflow, experiment tracking
+
+### Lecture (1.5 hours)
+- [PDF](reproducibility-lecture.pdf) | [HTML](reproducibility-lecture.html) | [Source](https://github.com/nipunbatra/stt-ai-teaching/blob/master/reproducibility-lecture.md)
+- Content: Environment management, Docker containerization, DVC for data versioning, experiment tracking with MLflow/W&B
+
+### Lab (3 hours)
+- [PDF](reproducibility-lab.pdf) | [HTML](reproducibility-lab.html) | [Source](https://github.com/nipunbatra/stt-ai-teaching/blob/master/reproducibility-lab.md)
+- Exercises: Virtual environments, Docker setup, dockerizing ML projects, experiment tracking
+- Project: Containerize ML pipeline with full reproducibility
+
+---
+
+## Testing & CI/CD
+
+**Topics**: pytest, GitHub Actions, automated testing for ML, continuous integration
+
+### Lecture (1.5 hours)
+- [PDF](testing-cicd-lecture.pdf) | [HTML](testing-cicd-lecture.html) | [Source](https://github.com/nipunbatra/stt-ai-teaching/blob/master/testing-cicd-lecture.md)
+- Content: Unit/integration testing, data validation, model testing, bias testing, GitHub Actions workflows
+
+### Lab (3 hours)
+- [PDF](testing-cicd-lab.pdf) | [HTML](testing-cicd-lab.html) | [Source](https://github.com/nipunbatra/stt-ai-teaching/blob/master/testing-cicd-lab.md)
+- Exercises: Writing tests with pytest, CI/CD pipelines, pre-commit hooks
+- Project: Complete test suite with automated CI/CD
+
+---
+
+## Model Deployment
+
+**Topics**: Model optimization, quantization, serving, monitoring
+
+### Lecture (1.5 hours)
+- [PDF](deployment-lecture.pdf) | [HTML](deployment-lecture.html) | [Source](https://github.com/nipunbatra/stt-ai-teaching/blob/master/deployment-lecture.md)
+- Content: Model quantization, ONNX, FastAPI serving, Docker deployment, monitoring, A/B testing
+
+### Lab (3 hours)
+- [PDF](deployment-lab.pdf) | [HTML](deployment-lab.html) | [Source](https://github.com/nipunbatra/stt-ai-teaching/blob/master/deployment-lab.md)
+- Exercises: Model optimization, API development, Docker deployment, load testing
+- Project: Deploy production-ready model API
+
+---
+
 ## Reference Materials
 
 ### Data Collection and Labeling (Full Course Content)
