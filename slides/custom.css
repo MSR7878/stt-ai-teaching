@@ -9,6 +9,21 @@ section {
     padding: 70px; /* Standard Marp padding is ~70px. This ensures consistency. */
 }
 
+/* Pagination (Slide Numbers) */
+section::after {
+    content: attr(data-marpit-pagination) ' / ' attr(data-marpit-pagination-total);
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    font-size: 18px;
+    color: #64748b;
+}
+
+/* Hide pagination on title slide (first slide usually doesn't have it) */
+section:first-of-type::after {
+    display: none;
+}
+
 /* Title Styling */
 h1 {
     color: #1e293b;
