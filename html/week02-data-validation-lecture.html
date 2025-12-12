@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en-IN"><head><title>Week 2: Data Validation</title><meta property="og:title" content="Week 2: Data Validation"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"><meta name="apple-mobile-web-app-capable" content="yes"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><style>@media screen{body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button{appearance:none;background-color:initial;border:0;color:inherit;cursor:pointer;font-size:inherit;opacity:.8;outline:none;padding:0;transition:opacity .2s linear;-webkit-tap-highlight-color:transparent}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:disabled{cursor:not-allowed;opacity:.15!important}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover{opacity:1}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover:active{opacity:.6}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover:not(:disabled){transition:none}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-prev{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNNjggOTAgMjggNTBsNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-next{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJtMzIgOTAgNDAtNDAtNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgeD0iMTAiIHk9IjIwIiBjbGFzcz0iYSIgcng9IjUuNjciLz48cGF0aCBkPSJNNDAgNzBIMjBWNTBtMjAgMEwyMCA3MG00MC00MGgyMHYyMG0tMjAgMCAyMC0yMCIgY2xhc3M9ImEiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen]{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgeD0iMTAiIHk9IjIwIiBjbGFzcz0iYSIgcng9IjUuNjciLz48cGF0aCBkPSJNMjAgNTBoMjB2MjBtLTIwIDAgMjAtMjBtNDAgMEg2MFYzMG0yMCAwTDYwIDUwIiBjbGFzcz0iYSIvPjwvc3ZnPg==")}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNODcuOCA0Ny41Qzg5IDUwIDg3LjcgNTIgODUgNTJIMzVhOC43IDguNyAwIDAgMS03LjItNC41bC0xNS42LTMxQzExIDE0IDEyLjIgMTIgMTUgMTJoNTBhOC44IDguOCAwIDAgMSA3LjIgNC41ek02MCA1MnYzNm0tMTAgMGgyME00NSA0MmgyMCIvPjwvc3ZnPg==") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button.bespoke-marp-presenter-note-bigger{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMTIgNTBoODBNNTIgOTBWMTAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button.bespoke-marp-presenter-note-smaller{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMTIgNTBoODAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}}@keyframes __bespoke_marp_transition_reduced_outgoing__{0%{opacity:1}to{opacity:0}}@keyframes __bespoke_marp_transition_reduced_incoming__{0%{mix-blend-mode:plus-lighter;opacity:0}to{mix-blend-mode:plus-lighter;opacity:1}}.bespoke-marp-note,.bespoke-marp-osc,.bespoke-progress-parent{display:none;transition:none}@media screen{::view-transition-group(*){animation-duration:var(--marp-bespoke-transition-animation-duration,.5s);animation-timing-function:ease}::view-transition-new(*),::view-transition-old(*){animation-delay:0s;animation-direction:var(--marp-bespoke-transition-animation-direction,normal);animation-duration:var(--marp-bespoke-transition-animation-duration,.5s);animation-fill-mode:both;animation-name:var(--marp-bespoke-transition-animation-name,var(--marp-bespoke-transition-animation-name-fallback,__bespoke_marp_transition_no_animation__));mix-blend-mode:normal}::view-transition-old(*){--marp-bespoke-transition-animation-name-fallback:__bespoke_marp_transition_reduced_outgoing__;animation-timing-function:ease}::view-transition-new(*){--marp-bespoke-transition-animation-name-fallback:__bespoke_marp_transition_reduced_incoming__;animation-timing-function:ease}::view-transition-new(root),::view-transition-old(root){animation-timing-function:linear}::view-transition-new(__bespoke_marp_transition_osc__),::view-transition-old(__bespoke_marp_transition_osc__){animation-duration:0s!important;animation-name:__bespoke_marp_transition_osc__!important}::view-transition-new(__bespoke_marp_transition_osc__){opacity:0!important}.bespoke-marp-transition-warming-up::view-transition-group(*),.bespoke-marp-transition-warming-up::view-transition-new(*),.bespoke-marp-transition-warming-up::view-transition-old(*){animation-play-state:paused!important}body,html{height:100%;margin:0}body{background:#000;overflow:hidden}svg.bespoke-marp-slide{content-visibility:hidden;opacity:0;pointer-events:none;z-index:-1}svg.bespoke-marp-slide:not(.bespoke-marp-active) *{view-transition-name:none!important}svg.bespoke-marp-slide.bespoke-marp-active{content-visibility:visible;opacity:1;pointer-events:auto;z-index:0}svg.bespoke-marp-slide.bespoke-marp-active.bespoke-marp-active-ready *{animation-name:__bespoke_marp__!important}@supports not (content-visibility:hidden){svg.bespoke-marp-slide[data-bespoke-marp-load=hideable]{display:none}svg.bespoke-marp-slide[data-bespoke-marp-load=hideable].bespoke-marp-active{display:block}}}@media screen and (prefers-reduced-motion:reduce){svg.bespoke-marp-slide *{view-transition-name:none!important}}@media screen{[data-bespoke-marp-fragment=inactive]{visibility:hidden}body[data-bespoke-view=""] .bespoke-marp-parent,body[data-bespoke-view=next] .bespoke-marp-parent{inset:0;position:absolute}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc{background:#000000a6;border-radius:7px;bottom:50px;color:#fff;contain:paint;display:block;font-family:Helvetica,Arial,sans-serif;font-size:16px;left:50%;line-height:0;opacity:1;padding:12px;position:absolute;touch-action:manipulation;transform:translateX(-50%);transition:opacity .2s linear;-webkit-user-select:none;user-select:none;white-space:nowrap;will-change:transform;z-index:1;view-transition-name:__bespoke_marp_transition_osc__}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>*,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>*{margin-left:6px}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>:first-child,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>:first-child{margin-left:0}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>span,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>span{opacity:.8}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page]{display:inline-block;min-width:140px;text-align:center}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev]{height:32px;line-height:32px;width:32px}body[data-bespoke-view=""] .bespoke-marp-parent.bespoke-marp-inactive,body[data-bespoke-view=next] .bespoke-marp-parent.bespoke-marp-inactive{cursor:none}body[data-bespoke-view=""] .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc,body[data-bespoke-view=next] .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc{opacity:0;pointer-events:none}body[data-bespoke-view=""] svg.bespoke-marp-slide,body[data-bespoke-view=next] svg.bespoke-marp-slide{height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent{background:#222;display:flex;height:5px;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent+.bespoke-marp-parent{top:5px}body[data-bespoke-view=""] .bespoke-progress-parent .bespoke-progress-bar{background:#0288d1;flex:0 0 0;transition:flex-basis .2s cubic-bezier(0,1,1,1)}body[data-bespoke-view=next]{background:#0000}body[data-bespoke-view=presenter]{background:#161616}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container{display:grid;font-family:Helvetica,Arial,sans-serif;grid-template:"current dragbar next" minmax(140px,1fr) "current dragbar note" 2fr "info    dragbar note" 3em;grid-template-columns:minmax(3px,var(--bespoke-marp-presenter-split-ratio,66%)) 0 minmax(3px,1fr);height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent{grid-area:current;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent svg.bespoke-marp-slide{height:calc(100% - 40px);left:20px;pointer-events:none;position:absolute;top:20px;-webkit-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent svg.bespoke-marp-slide.bespoke-marp-active{filter:drop-shadow(0 3px 10px rgba(0,0,0,.5))}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container{background:#0288d1;cursor:col-resize;grid-area:dragbar;margin-left:-3px;opacity:0;position:relative;transition:opacity .4s linear .1s;width:6px;z-index:10}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container:hover{opacity:1}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container.active{opacity:1;transition-delay:0s}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container{background:#222;cursor:pointer;display:none;grid-area:next;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container iframe.bespoke-marp-presenter-next{background:#0000;border:0;display:block;filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));height:calc(100% - 40px);left:20px;pointer-events:none;position:absolute;top:20px;-webkit-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container{background:#222;color:#eee;grid-area:note;position:relative;z-index:1}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-wrapper{display:block;inset:0;position:absolute}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-buttons{background:#000000a6;border-radius:4px;bottom:0;display:flex;gap:4px;margin:12px;opacity:0;padding:6px;pointer-events:none;position:absolute;right:0;transition:opacity .2s linear}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-buttons:focus-within,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-wrapper:focus-within+.bespoke-marp-presenter-note-buttons,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container:hover .bespoke-marp-presenter-note-buttons{opacity:1;pointer-events:auto}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note{box-sizing:border-box;font-size:calc(1.1em*var(--bespoke-marp-note-font-scale, 1));height:calc(100% - 40px);margin:20px;overflow:auto;padding-right:3px;white-space:pre-wrap;width:calc(100% - 40px);word-wrap:break-word;scrollbar-color:#eeeeee80 #0000;scrollbar-width:thin}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar{width:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-track{background:#0000}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-thumb{background:#eeeeee80;border-radius:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note:empty{pointer-events:none}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:first-child{margin-top:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:last-child{margin-bottom:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container{align-items:center;box-sizing:border-box;color:#eee;display:flex;flex-wrap:nowrap;grid-area:info;justify-content:center;overflow:hidden;padding:0 10px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{box-sizing:border-box;display:block;padding:0 10px;white-space:nowrap;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page{order:2;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page .bespoke-marp-presenter-info-page-text{display:inline-block;min-width:120px;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time{color:#999;order:1;text-align:left}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{color:#999;order:3;text-align:right}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer:hover{cursor:pointer}}@media print{.bespoke-marp-presenter-info-container,.bespoke-marp-presenter-next-container,.bespoke-marp-presenter-note-container{display:none}}</style><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap');@import 'custom.css';div#\:\$p > svg > foreignObject > section{width:1280px;height:720px;box-sizing:border-box;overflow:hidden;position:relative;scroll-snap-align:center center;-webkit-text-size-adjust:100%;text-size-adjust:100%}div#\:\$p > svg > foreignObject > section::after{bottom:0;content:attr(data-marpit-pagination);padding:inherit;pointer-events:none;position:absolute;right:0}div#\:\$p > svg > foreignObject > section:not([data-marpit-pagination])::after{display:none}div#\:\$p > svg > foreignObject > section :is(h1, marp-h1){font-size:2em;margin-block:0.67em}div#\:\$p > svg > foreignObject > section video::-webkit-media-controls{will-change:transform}@page {size:1280px 720px;margin:0}@media print{html, body{background-color:#fff;margin:0;page-break-inside:avoid;break-inside:avoid-page}div#\:\$p > svg > foreignObject > section{page-break-before:always;break-before:page}div#\:\$p > svg > foreignObject > section, div#\:\$p > svg > foreignObject > section *{-webkit-print-color-adjust:exact!important;animation-delay:0s!important;animation-duration:0s!important;color-adjust:exact!important;print-color-adjust:exact!important;transition:none!important}div#\:\$p > svg[data-marpit-svg]{display:block;height:100vh;width:100vw}}div#\:\$p > svg > foreignObject > :where(section){container-type:size}div#\:\$p > svg > foreignObject > section img[data-marp-twemoji]{background:transparent;height:1em;margin:0 .05em 0 .1em;vertical-align:-.1em;width:1em}div#\:\$p > svg > foreignObject > section{--focus-outlineColor:light-dark(#0969da, #1f6feb);--fgColor-default:light-dark(#1f2328, #f0f6fc);--fgColor-muted:light-dark(#59636e, #9198a1);--fgColor-accent:light-dark(#0969da, #4493f8);--fgColor-success:light-dark(#1a7f37, #3fb950);--fgColor-attention:light-dark(#9a6700, #d29922);--fgColor-danger:light-dark(#d1242f, #f85149);--fgColor-done:light-dark(#8250df, #ab7df8);--bgColor-default:light-dark(#fff, #0d1117);--bgColor-muted:light-dark(#f6f8fa, #151b23);--bgColor-neutral-muted:light-dark(#818b981f, #656c7633);--bgColor-attention-muted:light-dark(#fff8c5, #bb800926);--borderColor-default:light-dark(#d1d9e0, #3d444d);--borderColor-muted:light-dark(#d1d9e0b3, #3d444db3);--borderColor-neutral-muted:light-dark(#d1d9e0b3, #3d444db3);--borderColor-accent-emphasis:light-dark(#0969da, #1f6feb);--borderColor-success-emphasis:light-dark(#1a7f37, #238636);--borderColor-attention-emphasis:light-dark(#9a6700, #9e6a03);--borderColor-danger-emphasis:light-dark(#cf222e, #da3633);--borderColor-done-emphasis:light-dark(#8250df, #8957e5);--color-prettylights-syntax-comment:light-dark(#59636e, #9198a1);--color-prettylights-syntax-constant:light-dark(#0550ae, #79c0ff);--color-prettylights-syntax-constant-other-reference-link:light-dark(#0a3069, #a5d6ff);--color-prettylights-syntax-entity:light-dark(#6639ba, #d2a8ff);--color-prettylights-syntax-storage-modifier-import:light-dark(#1f2328, #f0f6fc);--color-prettylights-syntax-entity-tag:light-dark(#0550ae, #7ee787);--color-prettylights-syntax-keyword:light-dark(#cf222e, #ff7b72);--color-prettylights-syntax-string:light-dark(#0a3069, #a5d6ff);--color-prettylights-syntax-variable:light-dark(#953800, #ffa657);--color-prettylights-syntax-brackethighlighter-unmatched:light-dark(#82071e, #f85149);--color-prettylights-syntax-brackethighlighter-angle:light-dark(#59636e, #9198a1);--color-prettylights-syntax-invalid-illegal-text:light-dark(#f6f8fa, #f0f6fc);--color-prettylights-syntax-invalid-illegal-bg:light-dark(#82071e, #8e1519);--color-prettylights-syntax-carriage-return-text:light-dark(#f6f8fa, #f0f6fc);--color-prettylights-syntax-carriage-return-bg:light-dark(#cf222e, #b62324);--color-prettylights-syntax-string-regexp:light-dark(#116329, #7ee787);--color-prettylights-syntax-markup-list:light-dark(#3b2300, #f2cc60);--color-prettylights-syntax-markup-heading:light-dark(#0550ae, #1f6feb);--color-prettylights-syntax-markup-italic:light-dark(#1f2328, #f0f6fc);--color-prettylights-syntax-markup-bold:light-dark(#1f2328, #f0f6fc);--color-prettylights-syntax-markup-deleted-text:light-dark(#82071e, #ffdcd7);--color-prettylights-syntax-markup-deleted-bg:light-dark(#ffebe9, #67060c);--color-prettylights-syntax-markup-inserted-text:light-dark(#116329, #aff5b4);--color-prettylights-syntax-markup-inserted-bg:light-dark(#dafbe1, #033a16);--color-prettylights-syntax-markup-changed-text:light-dark(#953800, #ffdfb6);--color-prettylights-syntax-markup-changed-bg:light-dark(#ffd8b5, #5a1e02);--color-prettylights-syntax-markup-ignored-text:light-dark(#d1d9e0, #f0f6fc);--color-prettylights-syntax-markup-ignored-bg:light-dark(#0550ae, #1158c7);--color-prettylights-syntax-meta-diff-range:light-dark(#8250df, #d2a8ff);--color-prettylights-syntax-sublimelinter-gutter-mark:light-dark(#818b98, #3d444d);--base-size-4:calc(var(--marpit-root-font-size, 1rem) * 0.25);--base-size-8:calc(var(--marpit-root-font-size, 1rem) * 0.5);--base-size-16:calc(var(--marpit-root-font-size, 1rem) * 1);--base-size-24:calc(var(--marpit-root-font-size, 1rem) * 1.5);--base-size-40:calc(var(--marpit-root-font-size, 1rem) * 2.5);--base-text-weight-normal:400;--base-text-weight-medium:500;--base-text-weight-semibold:600;--fontStack-monospace:ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;--fgColor-accent:Highlight;}/*!
+<!DOCTYPE html><html lang="en-IN"><head><title>Week 2: Data Validation</title><meta property="og:title" content="Week 2: Data Validation"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"><meta name="apple-mobile-web-app-capable" content="yes"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><style>@media screen{body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button{appearance:none;background-color:initial;border:0;color:inherit;cursor:pointer;font-size:inherit;opacity:.8;outline:none;padding:0;transition:opacity .2s linear;-webkit-tap-highlight-color:transparent}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:disabled{cursor:not-allowed;opacity:.15!important}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover{opacity:1}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover:active{opacity:.6}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover:not(:disabled){transition:none}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-prev{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNNjggOTAgMjggNTBsNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-next{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJtMzIgOTAgNDAtNDAtNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgeD0iMTAiIHk9IjIwIiBjbGFzcz0iYSIgcng9IjUuNjciLz48cGF0aCBkPSJNNDAgNzBIMjBWNTBtMjAgMEwyMCA3MG00MC00MGgyMHYyMG0tMjAgMCAyMC0yMCIgY2xhc3M9ImEiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen]{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgeD0iMTAiIHk9IjIwIiBjbGFzcz0iYSIgcng9IjUuNjciLz48cGF0aCBkPSJNMjAgNTBoMjB2MjBtLTIwIDAgMjAtMjBtNDAgMEg2MFYzMG0yMCAwTDYwIDUwIiBjbGFzcz0iYSIvPjwvc3ZnPg==")}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNODcuOCA0Ny41Qzg5IDUwIDg3LjcgNTIgODUgNTJIMzVhOC43IDguNyAwIDAgMS03LjItNC41bC0xNS42LTMxQzExIDE0IDEyLjIgMTIgMTUgMTJoNTBhOC44IDguOCAwIDAgMSA3LjIgNC41ek02MCA1MnYzNm0tMTAgMGgyME00NSA0MmgyMCIvPjwvc3ZnPg==") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button.bespoke-marp-presenter-note-bigger{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMTIgNTBoODBNNTIgOTBWMTAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button.bespoke-marp-presenter-note-smaller{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMTIgNTBoODAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}}@keyframes __bespoke_marp_transition_reduced_outgoing__{0%{opacity:1}to{opacity:0}}@keyframes __bespoke_marp_transition_reduced_incoming__{0%{mix-blend-mode:plus-lighter;opacity:0}to{mix-blend-mode:plus-lighter;opacity:1}}.bespoke-marp-note,.bespoke-marp-osc,.bespoke-progress-parent{display:none;transition:none}@media screen{::view-transition-group(*){animation-duration:var(--marp-bespoke-transition-animation-duration,.5s);animation-timing-function:ease}::view-transition-new(*),::view-transition-old(*){animation-delay:0s;animation-direction:var(--marp-bespoke-transition-animation-direction,normal);animation-duration:var(--marp-bespoke-transition-animation-duration,.5s);animation-fill-mode:both;animation-name:var(--marp-bespoke-transition-animation-name,var(--marp-bespoke-transition-animation-name-fallback,__bespoke_marp_transition_no_animation__));mix-blend-mode:normal}::view-transition-old(*){--marp-bespoke-transition-animation-name-fallback:__bespoke_marp_transition_reduced_outgoing__;animation-timing-function:ease}::view-transition-new(*){--marp-bespoke-transition-animation-name-fallback:__bespoke_marp_transition_reduced_incoming__;animation-timing-function:ease}::view-transition-new(root),::view-transition-old(root){animation-timing-function:linear}::view-transition-new(__bespoke_marp_transition_osc__),::view-transition-old(__bespoke_marp_transition_osc__){animation-duration:0s!important;animation-name:__bespoke_marp_transition_osc__!important}::view-transition-new(__bespoke_marp_transition_osc__){opacity:0!important}.bespoke-marp-transition-warming-up::view-transition-group(*),.bespoke-marp-transition-warming-up::view-transition-new(*),.bespoke-marp-transition-warming-up::view-transition-old(*){animation-play-state:paused!important}body,html{height:100%;margin:0}body{background:#000;overflow:hidden}svg.bespoke-marp-slide{content-visibility:hidden;opacity:0;pointer-events:none;z-index:-1}svg.bespoke-marp-slide:not(.bespoke-marp-active) *{view-transition-name:none!important}svg.bespoke-marp-slide.bespoke-marp-active{content-visibility:visible;opacity:1;pointer-events:auto;z-index:0}svg.bespoke-marp-slide.bespoke-marp-active.bespoke-marp-active-ready *{animation-name:__bespoke_marp__!important}@supports not (content-visibility:hidden){svg.bespoke-marp-slide[data-bespoke-marp-load=hideable]{display:none}svg.bespoke-marp-slide[data-bespoke-marp-load=hideable].bespoke-marp-active{display:block}}}@media screen and (prefers-reduced-motion:reduce){svg.bespoke-marp-slide *{view-transition-name:none!important}}@media screen{[data-bespoke-marp-fragment=inactive]{visibility:hidden}body[data-bespoke-view=""] .bespoke-marp-parent,body[data-bespoke-view=next] .bespoke-marp-parent{inset:0;position:absolute}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc{background:#000000a6;border-radius:7px;bottom:50px;color:#fff;contain:paint;display:block;font-family:Helvetica,Arial,sans-serif;font-size:16px;left:50%;line-height:0;opacity:1;padding:12px;position:absolute;touch-action:manipulation;transform:translateX(-50%);transition:opacity .2s linear;-webkit-user-select:none;user-select:none;white-space:nowrap;will-change:transform;z-index:1;view-transition-name:__bespoke_marp_transition_osc__}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>*,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>*{margin-left:6px}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>:first-child,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>:first-child{margin-left:0}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>span,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>span{opacity:.8}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page]{display:inline-block;min-width:140px;text-align:center}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev]{height:32px;line-height:32px;width:32px}body[data-bespoke-view=""] .bespoke-marp-parent.bespoke-marp-inactive,body[data-bespoke-view=next] .bespoke-marp-parent.bespoke-marp-inactive{cursor:none}body[data-bespoke-view=""] .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc,body[data-bespoke-view=next] .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc{opacity:0;pointer-events:none}body[data-bespoke-view=""] svg.bespoke-marp-slide,body[data-bespoke-view=next] svg.bespoke-marp-slide{height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent{background:#222;display:flex;height:5px;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent+.bespoke-marp-parent{top:5px}body[data-bespoke-view=""] .bespoke-progress-parent .bespoke-progress-bar{background:#0288d1;flex:0 0 0;transition:flex-basis .2s cubic-bezier(0,1,1,1)}body[data-bespoke-view=next]{background:#0000}body[data-bespoke-view=presenter]{background:#161616}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container{display:grid;font-family:Helvetica,Arial,sans-serif;grid-template:"current dragbar next" minmax(140px,1fr) "current dragbar note" 2fr "info    dragbar note" 3em;grid-template-columns:minmax(3px,var(--bespoke-marp-presenter-split-ratio,66%)) 0 minmax(3px,1fr);height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent{grid-area:current;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent svg.bespoke-marp-slide{height:calc(100% - 40px);left:20px;pointer-events:none;position:absolute;top:20px;-webkit-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-parent svg.bespoke-marp-slide.bespoke-marp-active{filter:drop-shadow(0 3px 10px rgba(0,0,0,.5))}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container{background:#0288d1;cursor:col-resize;grid-area:dragbar;margin-left:-3px;opacity:0;position:relative;transition:opacity .4s linear .1s;width:6px;z-index:10}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container:hover{opacity:1}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container.active{opacity:1;transition-delay:0s}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container{background:#222;cursor:pointer;display:none;grid-area:next;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container iframe.bespoke-marp-presenter-next{background:#0000;border:0;display:block;filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));height:calc(100% - 40px);left:20px;pointer-events:none;position:absolute;top:20px;-webkit-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container{background:#222;color:#eee;grid-area:note;position:relative;z-index:1}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-wrapper{display:block;inset:0;position:absolute}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-buttons{background:#000000a6;border-radius:4px;bottom:0;display:flex;gap:4px;margin:12px;opacity:0;padding:6px;pointer-events:none;position:absolute;right:0;transition:opacity .2s linear}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-buttons:focus-within,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-wrapper:focus-within+.bespoke-marp-presenter-note-buttons,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container:hover .bespoke-marp-presenter-note-buttons{opacity:1;pointer-events:auto}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note{box-sizing:border-box;font-size:calc(1.1em*var(--bespoke-marp-note-font-scale, 1));height:calc(100% - 40px);margin:20px;overflow:auto;padding-right:3px;white-space:pre-wrap;width:calc(100% - 40px);word-wrap:break-word;scrollbar-color:#eeeeee80 #0000;scrollbar-width:thin}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar{width:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-track{background:#0000}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-thumb{background:#eeeeee80;border-radius:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note:empty{pointer-events:none}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:first-child{margin-top:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:last-child{margin-bottom:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container{align-items:center;box-sizing:border-box;color:#eee;display:flex;flex-wrap:nowrap;grid-area:info;justify-content:center;overflow:hidden;padding:0 10px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{box-sizing:border-box;display:block;padding:0 10px;white-space:nowrap;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page{order:2;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page .bespoke-marp-presenter-info-page-text{display:inline-block;min-width:120px;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time{color:#999;order:1;text-align:left}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{color:#999;order:3;text-align:right}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer:hover{cursor:pointer}}@media print{.bespoke-marp-presenter-info-container,.bespoke-marp-presenter-next-container,.bespoke-marp-presenter-note-container{display:none}}</style><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap');@import 'custom.css';div#\:\$p > svg > foreignObject > section{width:1280px;height:720px;box-sizing:border-box;overflow:hidden;position:relative;scroll-snap-align:center center;-webkit-text-size-adjust:100%;text-size-adjust:100%}div#\:\$p > svg > foreignObject > section::after{bottom:0;content:attr(data-marpit-pagination);padding:inherit;pointer-events:none;position:absolute;right:0}div#\:\$p > svg > foreignObject > section:not([data-marpit-pagination])::after{display:none}div#\:\$p > svg > foreignObject > section :is(h1, marp-h1){font-size:2em;margin-block:0.67em}div#\:\$p > svg > foreignObject > section video::-webkit-media-controls{will-change:transform}@page {size:1280px 720px;margin:0}@media print{html, body{background-color:#fff;margin:0;page-break-inside:avoid;break-inside:avoid-page}div#\:\$p > svg > foreignObject > section{page-break-before:always;break-before:page}div#\:\$p > svg > foreignObject > section, div#\:\$p > svg > foreignObject > section *{-webkit-print-color-adjust:exact!important;animation-delay:0s!important;animation-duration:0s!important;color-adjust:exact!important;print-color-adjust:exact!important;transition:none!important}div#\:\$p > svg[data-marpit-svg]{display:block;height:100vh;width:100vw}}div#\:\$p > svg > foreignObject > :where(section){container-type:size}div#\:\$p > svg > foreignObject > section mjx-container[jax="SVG"]{direction:ltr}div#\:\$p > svg > foreignObject > section mjx-container[jax="SVG"] > svg{overflow:visible;min-height:1px;min-width:1px}div#\:\$p > svg > foreignObject > section mjx-container[jax="SVG"] > svg a{fill:blue;stroke:blue}div#\:\$p > svg > foreignObject > section mjx-container[jax="SVG"][display="true"]{display:block;text-align:center;margin:1em 0}div#\:\$p > svg > foreignObject > section mjx-container[jax="SVG"][display="true"][width="full"]{display:flex}div#\:\$p > svg > foreignObject > section mjx-container[jax="SVG"][justify="left"]{text-align:left}div#\:\$p > svg > foreignObject > section mjx-container[jax="SVG"][justify="right"]{text-align:right}div#\:\$p > svg > foreignObject > section g[data-mml-node="merror"] > g{fill:red;stroke:red}div#\:\$p > svg > foreignObject > section g[data-mml-node="merror"] > rect[data-background]{fill:yellow;stroke:none}div#\:\$p > svg > foreignObject > section g[data-mml-node="mtable"] > line[data-line], div#\:\$p > svg > foreignObject > section svg[data-table] > g > line[data-line]{stroke-width:70px;fill:none}div#\:\$p > svg > foreignObject > section g[data-mml-node="mtable"] > rect[data-frame], div#\:\$p > svg > foreignObject > section svg[data-table] > g > rect[data-frame]{stroke-width:70px;fill:none}div#\:\$p > svg > foreignObject > section g[data-mml-node="mtable"] > .mjx-dashed, div#\:\$p > svg > foreignObject > section svg[data-table] > g > .mjx-dashed{stroke-dasharray:140}div#\:\$p > svg > foreignObject > section g[data-mml-node="mtable"] > .mjx-dotted, div#\:\$p > svg > foreignObject > section svg[data-table] > g > .mjx-dotted{stroke-linecap:round;stroke-dasharray:0,140}div#\:\$p > svg > foreignObject > section g[data-mml-node="mtable"] > g > svg{overflow:visible}div#\:\$p > svg > foreignObject > section [jax="SVG"] mjx-tool{display:inline-block;position:relative;width:0;height:0}div#\:\$p > svg > foreignObject > section [jax="SVG"] mjx-tool > mjx-tip{position:absolute;top:0;left:0}div#\:\$p > svg > foreignObject > section mjx-tool > mjx-tip{display:inline-block;padding:.2em;border:1px solid #888;font-size:70%;background-color:#F8F8F8;color:black;box-shadow:2px 2px 5px #AAAAAA}div#\:\$p > svg > foreignObject > section g[data-mml-node="maction"][data-toggle]{cursor:pointer}div#\:\$p > svg > foreignObject > section mjx-status{display:block;position:fixed;left:1em;bottom:1em;min-width:25%;padding:.2em .4em;border:1px solid #888;font-size:90%;background-color:#F8F8F8;color:black}div#\:\$p > svg > foreignObject > section foreignObject[data-mjx-xml]{font-family:initial;line-height:normal;overflow:visible}div#\:\$p > svg > foreignObject > section mjx-container[jax="SVG"] path[data-c], div#\:\$p > svg > foreignObject > section mjx-container[jax="SVG"] use[data-c]{stroke-width:3}@media print{div#\:\$p > svg > foreignObject > section mjx-container[jax=SVG] path[data-c],div#\:\$p > svg > foreignObject > section mjx-container[jax=SVG] use[data-c]{stroke-width:0}}div#\:\$p > svg > foreignObject > section img[data-marp-twemoji]{background:transparent;height:1em;margin:0 .05em 0 .1em;vertical-align:-.1em;width:1em}div#\:\$p > svg > foreignObject > section{--focus-outlineColor:light-dark(#0969da, #1f6feb);--fgColor-default:light-dark(#1f2328, #f0f6fc);--fgColor-muted:light-dark(#59636e, #9198a1);--fgColor-accent:light-dark(#0969da, #4493f8);--fgColor-success:light-dark(#1a7f37, #3fb950);--fgColor-attention:light-dark(#9a6700, #d29922);--fgColor-danger:light-dark(#d1242f, #f85149);--fgColor-done:light-dark(#8250df, #ab7df8);--bgColor-default:light-dark(#fff, #0d1117);--bgColor-muted:light-dark(#f6f8fa, #151b23);--bgColor-neutral-muted:light-dark(#818b981f, #656c7633);--bgColor-attention-muted:light-dark(#fff8c5, #bb800926);--borderColor-default:light-dark(#d1d9e0, #3d444d);--borderColor-muted:light-dark(#d1d9e0b3, #3d444db3);--borderColor-neutral-muted:light-dark(#d1d9e0b3, #3d444db3);--borderColor-accent-emphasis:light-dark(#0969da, #1f6feb);--borderColor-success-emphasis:light-dark(#1a7f37, #238636);--borderColor-attention-emphasis:light-dark(#9a6700, #9e6a03);--borderColor-danger-emphasis:light-dark(#cf222e, #da3633);--borderColor-done-emphasis:light-dark(#8250df, #8957e5);--color-prettylights-syntax-comment:light-dark(#59636e, #9198a1);--color-prettylights-syntax-constant:light-dark(#0550ae, #79c0ff);--color-prettylights-syntax-constant-other-reference-link:light-dark(#0a3069, #a5d6ff);--color-prettylights-syntax-entity:light-dark(#6639ba, #d2a8ff);--color-prettylights-syntax-storage-modifier-import:light-dark(#1f2328, #f0f6fc);--color-prettylights-syntax-entity-tag:light-dark(#0550ae, #7ee787);--color-prettylights-syntax-keyword:light-dark(#cf222e, #ff7b72);--color-prettylights-syntax-string:light-dark(#0a3069, #a5d6ff);--color-prettylights-syntax-variable:light-dark(#953800, #ffa657);--color-prettylights-syntax-brackethighlighter-unmatched:light-dark(#82071e, #f85149);--color-prettylights-syntax-brackethighlighter-angle:light-dark(#59636e, #9198a1);--color-prettylights-syntax-invalid-illegal-text:light-dark(#f6f8fa, #f0f6fc);--color-prettylights-syntax-invalid-illegal-bg:light-dark(#82071e, #8e1519);--color-prettylights-syntax-carriage-return-text:light-dark(#f6f8fa, #f0f6fc);--color-prettylights-syntax-carriage-return-bg:light-dark(#cf222e, #b62324);--color-prettylights-syntax-string-regexp:light-dark(#116329, #7ee787);--color-prettylights-syntax-markup-list:light-dark(#3b2300, #f2cc60);--color-prettylights-syntax-markup-heading:light-dark(#0550ae, #1f6feb);--color-prettylights-syntax-markup-italic:light-dark(#1f2328, #f0f6fc);--color-prettylights-syntax-markup-bold:light-dark(#1f2328, #f0f6fc);--color-prettylights-syntax-markup-deleted-text:light-dark(#82071e, #ffdcd7);--color-prettylights-syntax-markup-deleted-bg:light-dark(#ffebe9, #67060c);--color-prettylights-syntax-markup-inserted-text:light-dark(#116329, #aff5b4);--color-prettylights-syntax-markup-inserted-bg:light-dark(#dafbe1, #033a16);--color-prettylights-syntax-markup-changed-text:light-dark(#953800, #ffdfb6);--color-prettylights-syntax-markup-changed-bg:light-dark(#ffd8b5, #5a1e02);--color-prettylights-syntax-markup-ignored-text:light-dark(#d1d9e0, #f0f6fc);--color-prettylights-syntax-markup-ignored-bg:light-dark(#0550ae, #1158c7);--color-prettylights-syntax-meta-diff-range:light-dark(#8250df, #d2a8ff);--color-prettylights-syntax-sublimelinter-gutter-mark:light-dark(#818b98, #3d444d);--base-size-4:calc(var(--marpit-root-font-size, 1rem) * 0.25);--base-size-8:calc(var(--marpit-root-font-size, 1rem) * 0.5);--base-size-16:calc(var(--marpit-root-font-size, 1rem) * 1);--base-size-24:calc(var(--marpit-root-font-size, 1rem) * 1.5);--base-size-40:calc(var(--marpit-root-font-size, 1rem) * 2.5);--base-text-weight-normal:400;--base-text-weight-medium:500;--base-text-weight-semibold:600;--fontStack-monospace:ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;--fgColor-accent:Highlight;}/*!
  * Marp default theme.
  *
  * @theme default
@@ -11,7 +11,7 @@
 </style></head><body><div class="bespoke-marp-osc"><button data-bespoke-marp-osc="prev" tabindex="-1" title="Previous slide">Previous slide</button><span data-bespoke-marp-osc="page"></span><button data-bespoke-marp-osc="next" tabindex="-1" title="Next slide">Next slide</button><button data-bespoke-marp-osc="fullscreen" tabindex="-1" title="Toggle fullscreen (f)">Toggle fullscreen</button><button data-bespoke-marp-osc="presenter" tabindex="-1" title="Open presenter view (p)">Open presenter view</button></div><div id=":$p"><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="1" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="1" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
 <h1 id="week-2-data-validation">Week 2: Data Validation</h1>
 <p><strong>CS 203: Software Tools and Techniques for AI</strong></p>
 <p>Prof. Nipun Batra<br />
@@ -20,1175 +20,195 @@ IIT Gandhinagar</p>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="2" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="continuing-the-netflix-story">Continuing the Netflix Story</h1>
-<p><strong>Last week</strong>: We collected movie data from OMDb API</p>
-<p><strong>The data we have</strong>:</p>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="the-data-quality-crisis">The Data Quality Crisis</h1>
+<p><strong>Reality Check</strong>:</p>
 <ul>
-<li>50+ movies in JSON format</li>
-<li>Features: title, year, genre, rating, director, etc.</li>
-<li>Saved in <code>movies_raw.json</code> and <code>movies.csv</code></li>
+<li>You collected 1,000 movies from OMDb.</li>
+<li>You try to train a model.</li>
+<li><strong>Crash!</strong> <code>ValueError: could not convert string to float: 'N/A'</code></li>
 </ul>
-<p><strong>This week</strong>: Before we can train a model, we need to validate and clean this data</p>
-<p><strong>The problem</strong>: Real-world data is messy!</p>
+<p><strong>Common Issues</strong>:</p>
+<ol>
+<li><strong>Missing Data</strong>: <code>NULL</code>, <code>NaN</code>, <code>&quot;&quot;</code>, <code>&quot;N/A&quot;</code>, <code>&quot;-&quot;</code>.</li>
+<li><strong>Type Mismatches</strong>: Rating <code>&quot;8.5&quot;</code> (string) instead of <code>8.5</code> (float).</li>
+<li><strong>Outliers</strong>: A movie from year <code>20250</code> (typo).</li>
+<li><strong>Drift</strong>: Last month's data format <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.486ex;" xmlns="http://www.w3.org/2000/svg" width="1.76ex" height="2.106ex" role="img" focusable="false" viewBox="0 -716 778 931"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="2260" d="M166 -215T159 -215T147 -212T141 -204T139 -197Q139 -190 144 -183L306 133H70Q56 140 56 153Q56 168 72 173H327L406 327H72Q56 332 56 347Q56 360 70 367H426Q597 702 602 707Q605 716 618 716Q625 716 630 712T636 703T638 696Q638 692 471 367H707Q722 359 722 347Q722 336 708 328L451 327L371 173H708Q722 163 722 153Q722 140 707 133H351Q175 -210 170 -212Q166 -215 159 -215Z"></path></g></g></g></svg></mjx-container> today's data format.</li>
+</ol>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="3" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="the-reality-of-data-quality">The Reality of Data Quality</h1>
-<p><strong>Question</strong>: Is our collected data ready for machine learning?</p>
-<p><strong>Answer</strong>: Almost certainly not!</p>
-<p><strong>Common issues we'll find</strong>:</p>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="the-validation-pipeline">The Validation Pipeline</h1>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-mermaid">graph LR
+    A[Raw Data] --&gt; B[Inspection];
+    B --&gt; C[Schema Validation];
+    C --&gt; D[Cleaning];
+    D --&gt; E[Drift Detection];
+    E --&gt; F[Verified Dataset];
+    style F fill:#9f9,stroke:#333
+</code></pre>
+<p><strong>Tools</strong>:</p>
 <ul>
-<li>Missing values (some movies lack box office data)</li>
-<li>Wrong data types (ratings as strings instead of numbers)</li>
-<li>Inconsistent formats (runtime: &quot;148 min&quot; vs &quot;148&quot;)</li>
-<li>Duplicates (same movie collected twice)</li>
-<li>Outliers (impossible values)</li>
+<li><strong>Inspect</strong>: <code>jq</code> (JSON), <code>csvkit</code> (CSV).</li>
+<li><strong>Schema</strong>: <code>Pydantic</code> (Row-level), <code>Pandera</code> (Batch-level).</li>
+<li><strong>Clean</strong>: <code>pandas</code>.</li>
 </ul>
-<p><strong>Today's goal</strong>: Detect, validate, and fix these issues</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="4" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="the-data-validation-pipeline">The Data Validation Pipeline</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>RAW DATA → INSPECT → VALIDATE → CLEAN → VERIFIED DATA
-</code></pre>
-<p><strong>Week 2 (Today)</strong>:</p>
-<ol>
-<li><strong>Inspect</strong>: Use command-line tools (jq, csvkit)</li>
-<li><strong>Validate</strong>: Define schemas with Pydantic</li>
-<li><strong>Clean</strong>: Fix issues with pandas</li>
-<li><strong>Verify</strong>: Confirm data quality</li>
-</ol>
-<p><strong>Output</strong>: Clean, validated dataset ready for ML</p>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="part-1-inspection-cli-tools">Part 1: Inspection (CLI Tools)</h1>
+<p>Look at your data <em>before</em> loading it into Python.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="5" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="todays-agenda">Today's Agenda</h1>
-<ol>
-<li><strong>Understanding Data Quality</strong> (what can go wrong)</li>
-<li><strong>Tool #1: jq</strong> (inspect and filter JSON)</li>
-<li><strong>Tool #2: csvkit</strong> (analyze CSV files)</li>
-<li><strong>Tool #3: Pydantic</strong> (schema validation)</li>
-<li><strong>Tool #4: pandas</strong> (data cleaning)</li>
-<li><strong>Best Practices</strong> (validation pipelines)</li>
-</ol>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="jq-json-power-tool">jq: JSON Power Tool</h1>
+<p><strong>Find Broken Records</strong>:<br />
+Movies where <code>BoxOffice</code> is missing (&quot;N/A&quot;).</p>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies.json | jq <span class="hljs-string">&#x27;.[] | select(.BoxOffice == &quot;N/A&quot;) | .Title&#x27;</span>
+</code></pre>
+<p><strong>Check Distribution</strong>:<br />
+Count movies by Year.</p>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies.json | jq <span class="hljs-string">&#x27;.[].Year&#x27;</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c
+</code></pre>
+<p><strong>Quick Sanity Check</strong>:<br />
+Are there any ratings &gt; 10?</p>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies.json | jq <span class="hljs-string">&#x27;.[] | select(.imdbRating | tonumber &gt; 10)&#x27;</span>
+</code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="6" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="part-1-understanding-data-quality">Part 1: Understanding Data Quality</h1>
-<p>What makes data &quot;good&quot; for machine learning?</p>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="csvkit-sql-for-csvs">csvkit: SQL for CSVs</h1>
+<p><strong>Statistics (<code>csvstat</code>)</strong>:<br />
+Gives mean, median, null count, unique values.</p>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvstat movies.csv
+</code></pre>
+<p><strong>Query (<code>csvsql</code>)</strong>:<br />
+Run SQL directly on CSV!</p>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvsql --query <span class="hljs-string">&quot;SELECT Title FROM movies WHERE Rating &gt; 9&quot;</span> movies.csv
+</code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="7" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="characteristics-of-good-data">Characteristics of Good Data</h1>
-<p><strong>1. Completeness</strong>:</p>
-<ul>
-<li>All required fields are present</li>
-<li>Missing values are minimal and documented</li>
-</ul>
-<p><strong>2. Accuracy</strong>:</p>
-<ul>
-<li>Values are correct and match reality</li>
-<li>No typos or data entry errors</li>
-</ul>
-<p><strong>3. Consistency</strong>:</p>
-<ul>
-<li>Same format across all records</li>
-<li>Units are standardized</li>
-</ul>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="part-2-schema-validation-pydantic">Part 2: Schema Validation (Pydantic)</h1>
+<p><strong>The Contract</strong>: Define what valid data <em>looks</em> like.</p>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field, validator
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Optional</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Movie</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    title: <span class="hljs-built_in">str</span>
+    year: <span class="hljs-built_in">int</span> = Field(gt=<span class="hljs-number">1888</span>, lt=<span class="hljs-number">2030</span>) <span class="hljs-comment"># Constraints</span>
+    rating: <span class="hljs-built_in">float</span> = Field(ge=<span class="hljs-number">0</span>, le=<span class="hljs-number">10</span>)
+    genre: <span class="hljs-built_in">str</span>
+    
+    <span class="hljs-comment"># Custom Validator</span>
+<span class="hljs-meta">    @validator(<span class="hljs-params"><span class="hljs-string">&#x27;genre&#x27;</span></span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">genre_must_be_valid</span>(<span class="hljs-params">cls, v</span>):
+        allowed = {<span class="hljs-string">&#x27;Action&#x27;</span>, <span class="hljs-string">&#x27;Comedy&#x27;</span>, <span class="hljs-string">&#x27;Drama&#x27;</span>}
+        <span class="hljs-keyword">if</span> v <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> allowed:
+            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">f&quot;Unknown genre: <span class="hljs-subst">{v}</span>&quot;</span>)
+        <span class="hljs-keyword">return</span> v
+</code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="8" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="characteristics-of-good-data-continued">Characteristics of Good Data (continued)</h1>
-<p><strong>4. Validity</strong>:</p>
-<ul>
-<li>Values are within acceptable ranges</li>
-<li>Data types match expectations</li>
-</ul>
-<p><strong>5. Uniqueness</strong>:</p>
-<ul>
-<li>No duplicate records</li>
-<li>Clear primary keys</li>
-</ul>
-<p><strong>6. Timeliness</strong>:</p>
-<ul>
-<li>Data is current and up-to-date</li>
-<li>Timestamps are accurate</li>
-</ul>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="why-pydantic">Why Pydantic?</h1>
+<ol>
+<li><strong>Type Coercion</strong>: Converts <code>&quot;2010&quot;</code> (str) -&gt; <code>2010</code> (int) automatically.</li>
+<li><strong>Early Failure</strong>: Errors catch invalid data immediately.</li>
+<li><strong>Documentation</strong>: The code <em>is</em> the documentation of your data format.</li>
+</ol>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">try</span>:
+    <span class="hljs-comment"># This will fail (Year out of bounds)</span>
+    m = Movie(title=<span class="hljs-string">&quot;Future&quot;</span>, year=<span class="hljs-number">3000</span>, rating=<span class="hljs-number">5.0</span>, genre=<span class="hljs-string">&quot;Action&quot;</span>)
+<span class="hljs-keyword">except</span> ValueError <span class="hljs-keyword">as</span> e:
+    <span class="hljs-built_in">print</span>(e) 
+    <span class="hljs-comment"># Output: 1 validation error for Movie</span>
+    <span class="hljs-comment"># year: ensure this value is less than 2030</span>
+</code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="9" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="data-quality-issues-in-our-movie-dataset">Data Quality Issues in Our Movie Dataset</h1>
-<p>Let me show examples from our actual data:</p>
-<p><strong>Issue 1: Missing Values</strong></p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">&quot;Title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Inception&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;BoxOffice&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;N/A&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;Metascore&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;N/A&quot;</span>
-<span class="hljs-punctuation">}</span>
-</code></pre>
-<p><strong>Issue 2: String Numbers</strong></p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">&quot;imdbRating&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;8.8&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;Year&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2010&quot;</span>
-<span class="hljs-punctuation">}</span>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="part-3-cleaning-with-pandas">Part 3: Cleaning with Pandas</h1>
+<p><strong>Handling Missing Data</strong>:</p>
+<ol>
+<li><strong>Drop</strong>: If label is missing, drop row. <code>df.dropna(subset=['rating'])</code></li>
+<li><strong>Impute</strong>: If feature is missing, fill with mean/median. <code>df.fillna(df.mean())</code></li>
+<li><strong>Flag</strong>: Create a boolean column <code>is_missing</code>.</li>
+</ol>
+<p><strong>Type Conversion</strong>:</p>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Force numeric, turn errors (&#x27;N/A&#x27;) into NaN</span>
+df[<span class="hljs-string">&#x27;rating&#x27;</span>] = pd.to_numeric(df[<span class="hljs-string">&#x27;rating&#x27;</span>], errors=<span class="hljs-string">&#x27;coerce&#x27;</span>)
 </code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="10" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="data-quality-issues-continued">Data Quality Issues (continued)</h1>
-<p><strong>Issue 3: Inconsistent Formats</strong></p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">&quot;Runtime&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;148 min&quot;</span>
-<span class="hljs-punctuation">}</span>
-vs
-<span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">&quot;Runtime&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;90 minutes&quot;</span>
-<span class="hljs-punctuation">}</span>
-</code></pre>
-<p><strong>Issue 4: Comma-Separated Strings</strong></p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">&quot;Genre&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Action, Sci-Fi, Thriller&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;Actors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Leonardo DiCaprio, Joseph Gordon-Levitt&quot;</span>
-<span class="hljs-punctuation">}</span>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="advanced-batch-validation-pandera">Advanced: Batch Validation (Pandera)</h1>
+<p><strong>Pydantic</strong> checks one object at a time.<br />
+<strong>Pandera</strong> checks the entire DataFrame (statistical checks).</p>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> pandera <span class="hljs-keyword">as</span> pa
+
+schema = pa.DataFrameSchema({
+    <span class="hljs-string">&quot;rating&quot;</span>: pa.Column(<span class="hljs-built_in">float</span>, checks=[
+        pa.Check.ge(<span class="hljs-number">0</span>),
+        pa.Check.le(<span class="hljs-number">10</span>),
+        <span class="hljs-comment"># Mean rating should be reasonable</span>
+        pa.Check.mean_in_range(<span class="hljs-number">5</span>, <span class="hljs-number">9</span>) 
+    ]),
+    <span class="hljs-string">&quot;year&quot;</span>: pa.Column(<span class="hljs-built_in">int</span>, checks=pa.Check.gt(<span class="hljs-number">1900</span>)),
+})
+
+schema.validate(df)
 </code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="11" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="impact-on-machine-learning">Impact on Machine Learning</h1>
-<p><strong>Why these issues matter</strong>:</p>
-<p><strong>Missing values</strong>:</p>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="part-4-data-drift">Part 4: Data Drift</h1>
+<p><strong>The Silent Killer</strong>.<br />
+Data valid today might be invalid tomorrow <em>statistically</em>.</p>
 <ul>
-<li>Can't compute features</li>
-<li>Models may crash or give wrong predictions</li>
+<li><strong>Schema Drift</strong>: Source API changes field name (<code>imdbRating</code> -&gt; <code>rating</code>).</li>
+<li><strong>Data Drift</strong>: Input distribution changes (e.g., users start reviewing only bad movies).</li>
+<li><strong>Concept Drift</strong>: The relationship between X and Y changes (e.g., &quot;Horror&quot; movies become popular in Summer).</li>
 </ul>
-<p><strong>Wrong types</strong>:</p>
+<p><strong>Detection</strong>:</p>
 <ul>
-<li>Mathematical operations fail</li>
-<li>&quot;8.8&quot; + &quot;7.5&quot; = &quot;8.87.5&quot; (string concatenation!)</li>
-</ul>
-<p><strong>Inconsistent formats</strong>:</p>
-<ul>
-<li>Feature extraction breaks</li>
-<li>&quot;148 min&quot; parsed differently than &quot;90 minutes&quot;</li>
+<li>Compare training data stats vs production data stats.</li>
+<li>Tools: <strong>Evidently AI</strong>, <strong>Alibi Detect</strong> (Covered in Week 14).</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="12" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="part-2-jq---json-validation">Part 2: jq - JSON Validation</h1>
-<p>Command-line JSON processor</p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="13" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="what-is-jq">What is jq?</h1>
-<p><strong>jq</strong>: Lightweight command-line JSON processor</p>
-<p><strong>Why use it?</strong></p>
-<ul>
-<li>Quickly inspect JSON structure</li>
-<li>Filter and transform data</li>
-<li>Validate JSON syntax</li>
-<li>Extract specific fields</li>
-<li>Count records, find unique values</li>
-</ul>
-<p><strong>Installation</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-comment"># Mac</span>
-brew install jq
-
-<span class="hljs-comment"># Linux</span>
-<span class="hljs-built_in">sudo</span> apt-get install jq
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="14" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="basic-jq-usage">Basic jq Usage</h1>
-<p><strong>Pretty-print JSON</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq
-</code></pre>
-<p><strong>Get number of movies</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;length&#x27;</span>
-<span class="hljs-comment"># Output: 52</span>
-</code></pre>
-<p><strong>Extract single field</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[0].Title&#x27;</span>
-<span class="hljs-comment"># Output: &quot;Inception&quot;</span>
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="15" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="inspecting-our-movie-data">Inspecting Our Movie Data</h1>
-<p><strong>Get all titles</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[].Title&#x27;</span>
-</code></pre>
-<p><strong>Get titles and ratings</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[] | {title: .Title, rating: .imdbRating}&#x27;</span>
-</code></pre>
-<p><strong>Count movies by year</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[].Year&#x27;</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="16" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="finding-data-quality-issues-with-jq">Finding Data Quality Issues with jq</h1>
-<p><strong>Find movies with missing box office</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[] | select(.BoxOffice == &quot;N/A&quot;) | .Title&#x27;</span>
-</code></pre>
-<p><strong>Find movies with no Metascore</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[] | select(.Metascore == &quot;N/A&quot;) | .Title&#x27;</span>
-</code></pre>
-<p><strong>Check for missing fields</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[] | select(.Genre == null or .Genre == &quot;&quot;)&#x27;</span>
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="17" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="filtering-with-jq">Filtering with jq</h1>
-<p><strong>Movies rated above 8.0</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[] | select(.imdbRating | tonumber &gt; 8.0) | .Title&#x27;</span>
-</code></pre>
-<p><strong>Movies from 2010s</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[] | select(.Year | tonumber &gt;= 2010 and tonumber &lt; 2020)&#x27;</span>
-</code></pre>
-<p><strong>Action movies only</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[] | select(.Genre | contains(&quot;Action&quot;))&#x27;</span>
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="18" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="statistics-with-jq">Statistics with jq</h1>
-<p><strong>Average rating</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;[.[].imdbRating | tonumber] | add/length&#x27;</span>
-</code></pre>
-<p><strong>Min and max year</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;[.[].Year | tonumber] | min, max&#x27;</span>
-</code></pre>
-<p><strong>Count by genre</strong> (first genre only):</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-built_in">cat</span> movies_raw.json | jq <span class="hljs-string">&#x27;.[].Genre&#x27;</span> | <span class="hljs-built_in">cut</span> -d<span class="hljs-string">&#x27;,&#x27;</span> -f1 | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="19" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="part-3-csvkit---csv-analysis">Part 3: csvkit - CSV Analysis</h1>
-<p>Swiss Army knife for CSV files</p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="20" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="what-is-csvkit">What is csvkit?</h1>
-<p><strong>csvkit</strong>: Suite of command-line tools for working with CSV</p>
-<p><strong>Why use it?</strong></p>
-<ul>
-<li>Inspect CSV structure and statistics</li>
-<li>Convert between formats</li>
-<li>Query CSVs like databases</li>
-<li>Clean and validate data</li>
-</ul>
-<p><strong>Installation</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">pip install csvkit
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="21" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="csvkit-tools">csvkit Tools</h1>
-<p><strong>Main tools</strong>:</p>
-<ul>
-<li><code>csvstat</code>: Summary statistics</li>
-<li><code>csvlook</code>: Pretty-print CSV</li>
-<li><code>csvcut</code>: Select columns</li>
-<li><code>csvgrep</code>: Filter rows</li>
-<li><code>csvsort</code>: Sort by column</li>
-<li><code>csvjoin</code>: Join CSV files</li>
-<li><code>csvstack</code>: Concatenate CSVs</li>
-</ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="22" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="inspecting-csv-with-csvlook">Inspecting CSV with csvlook</h1>
-<p><strong>View first few rows</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvlook movies.csv | <span class="hljs-built_in">head</span> -20
-</code></pre>
-<p><strong>Pretty table output</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>| title      | year | rating | genre                |
-| ---------- | ---- | ------ | -------------------- |
-| Inception  | 2010 | 8.8    | Action, Sci-Fi       |
-| The Matrix | 1999 | 8.7    | Action, Sci-Fi       |
-</code></pre>
-<p><strong>Much more readable than raw CSV!</strong></p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="23" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="summary-statistics-with-csvstat">Summary Statistics with csvstat</h1>
-<p><strong>Get statistics for all columns</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvstat movies.csv
-</code></pre>
-<p><strong>Output includes</strong>:</p>
-<ul>
-<li>Number of rows and columns</li>
-<li>Data types detected</li>
-<li>Unique values count</li>
-<li>Min, max, mean (for numbers)</li>
-<li>Most common values</li>
-<li>Missing values count</li>
-</ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="24" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="csvstat-example-output">csvstat Example Output</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>1. title
-   Type of data:          Text
-   Contains null values:  False
-   Unique values:         52
-   Longest value:         45 characters
-   Most common values:    Inception (1x)
-
-2. rating
-   Type of data:          Number
-   Contains null values:  True
-   Unique values:         48
-   Min:                   7.5
-   Max:                   9.3
-   Mean:                  8.12
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="25" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="filtering-with-csvgrep">Filtering with csvgrep</h1>
-<p><strong>Movies rated above 8.5</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvgrep -c rating -r <span class="hljs-string">&quot;^[89]\.&quot;</span> movies.csv
-</code></pre>
-<p><strong>Movies from 2010</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvgrep -c year -m 2010 movies.csv
-</code></pre>
-<p><strong>Action movies</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvgrep -c genre -m <span class="hljs-string">&quot;Action&quot;</span> movies.csv
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="26" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="selecting-columns-with-csvcut">Selecting Columns with csvcut</h1>
-<p><strong>Get only title and rating</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvcut -c title,rating movies.csv
-</code></pre>
-<p><strong>Get columns 1, 3, and 5</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvcut -c 1,3,5 movies.csv
-</code></pre>
-<p><strong>List all column names</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvcut -n movies.csv
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="27" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="sorting-with-csvsort">Sorting with csvsort</h1>
-<p><strong>Sort by rating (descending)</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvsort -c rating -r movies.csv
-</code></pre>
-<p><strong>Sort by year, then rating</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvsort -c year,rating movies.csv
-</code></pre>
-<p><strong>Save sorted output</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvsort -c rating -r movies.csv &gt; movies_sorted.csv
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="28" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="finding-issues-with-csvkit">Finding Issues with csvkit</h1>
-<p><strong>Check for missing values</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvstat movies.csv | grep <span class="hljs-string">&quot;Contains null&quot;</span>
-</code></pre>
-<p><strong>Find duplicate titles</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvcut -c title movies.csv | <span class="hljs-built_in">tail</span> -n +2 | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -d
-</code></pre>
-<p><strong>Check data types</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">csvstat -c rating movies.csv
-<span class="hljs-comment"># Should be Number, not Text!</span>
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="29" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="part-4-pydantic---schema-validation">Part 4: Pydantic - Schema Validation</h1>
-<p>Type-safe data validation in Python</p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="30" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="what-is-pydantic">What is Pydantic?</h1>
-<p><strong>Pydantic</strong>: Python library for data validation using type hints</p>
-<p><strong>Why use it?</strong></p>
-<ul>
-<li>Define expected data structure</li>
-<li>Automatically validate incoming data</li>
-<li>Convert types when possible</li>
-<li>Raise clear errors for invalid data</li>
-<li>Generate JSON schemas</li>
-</ul>
-<p><strong>Installation</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">pip install pydantic
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="31" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="defining-a-movie-schema">Defining a Movie Schema</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
-<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Optional</span>
-
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">Movie</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
-    title: <span class="hljs-built_in">str</span>
-    year: <span class="hljs-built_in">int</span>
-    genre: <span class="hljs-built_in">str</span>
-    director: <span class="hljs-built_in">str</span>
-    rating: <span class="hljs-built_in">float</span> = Field(ge=<span class="hljs-number">0</span>, le=<span class="hljs-number">10</span>)
-    votes: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">int</span>] = <span class="hljs-literal">None</span>
-    runtime: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">str</span>] = <span class="hljs-literal">None</span>
-    box_office: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">str</span>] = <span class="hljs-literal">None</span>
-</code></pre>
-<p><strong>This schema defines</strong>:</p>
-<ul>
-<li>Required vs optional fields</li>
-<li>Data types for each field</li>
-<li>Constraints (rating between 0-10)</li>
-</ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="32" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="using-the-schema">Using the Schema</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Valid movie</span>
-movie_data = {
-    <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;Inception&quot;</span>,
-    <span class="hljs-string">&quot;year&quot;</span>: <span class="hljs-number">2010</span>,
-    <span class="hljs-string">&quot;genre&quot;</span>: <span class="hljs-string">&quot;Action, Sci-Fi&quot;</span>,
-    <span class="hljs-string">&quot;director&quot;</span>: <span class="hljs-string">&quot;Christopher Nolan&quot;</span>,
-    <span class="hljs-string">&quot;rating&quot;</span>: <span class="hljs-number">8.8</span>
-}
-
-movie = Movie(**movie_data)
-<span class="hljs-built_in">print</span>(movie.title)  <span class="hljs-comment"># &quot;Inception&quot;</span>
-<span class="hljs-built_in">print</span>(movie.rating)  <span class="hljs-comment"># 8.8</span>
-</code></pre>
-<p><strong>Pydantic automatically validates!</strong></p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="33" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="validation-errors">Validation Errors</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Invalid: rating out of range</span>
-bad_movie = {
-    <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;Bad Movie&quot;</span>,
-    <span class="hljs-string">&quot;year&quot;</span>: <span class="hljs-number">2020</span>,
-    <span class="hljs-string">&quot;genre&quot;</span>: <span class="hljs-string">&quot;Drama&quot;</span>,
-    <span class="hljs-string">&quot;director&quot;</span>: <span class="hljs-string">&quot;Someone&quot;</span>,
-    <span class="hljs-string">&quot;rating&quot;</span>: <span class="hljs-number">15.0</span>  <span class="hljs-comment"># Invalid!</span>
-}
-
-<span class="hljs-keyword">try</span>:
-    movie = Movie(**bad_movie)
-<span class="hljs-keyword">except</span> ValidationError <span class="hljs-keyword">as</span> e:
-    <span class="hljs-built_in">print</span>(e)
-</code></pre>
-<p><strong>Output</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>rating: ensure this value is less than or equal to 10
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="34" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="type-conversion">Type Conversion</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Pydantic converts types when possible</span>
-movie_data = {
-    <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;Inception&quot;</span>,
-    <span class="hljs-string">&quot;year&quot;</span>: <span class="hljs-string">&quot;2010&quot;</span>,      <span class="hljs-comment"># String -&gt; int</span>
-    <span class="hljs-string">&quot;genre&quot;</span>: <span class="hljs-string">&quot;Action&quot;</span>,
-    <span class="hljs-string">&quot;director&quot;</span>: <span class="hljs-string">&quot;Nolan&quot;</span>,
-    <span class="hljs-string">&quot;rating&quot;</span>: <span class="hljs-string">&quot;8.8&quot;</span>      <span class="hljs-comment"># String -&gt; float</span>
-}
-
-movie = Movie(**movie_data)
-<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(movie.year))    <span class="hljs-comment"># &lt;class &#x27;int&#x27;&gt;</span>
-<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(movie.rating))  <span class="hljs-comment"># &lt;class &#x27;float&#x27;&gt;</span>
-</code></pre>
-<p><strong>Automatic type coercion!</strong></p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="35" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="custom-validators">Custom Validators</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> validator
-
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">Movie</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
-    title: <span class="hljs-built_in">str</span>
-    year: <span class="hljs-built_in">int</span>
-    rating: <span class="hljs-built_in">float</span>
-
-<span class="hljs-meta">    @validator(<span class="hljs-params"><span class="hljs-string">&#x27;year&#x27;</span></span>)</span>
-    <span class="hljs-keyword">def</span> <span class="hljs-title function_">year_must_be_reasonable</span>(<span class="hljs-params">cls, v</span>):
-        <span class="hljs-keyword">if</span> v &lt; <span class="hljs-number">1888</span> <span class="hljs-keyword">or</span> v &gt; <span class="hljs-number">2030</span>:
-            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&#x27;invalid year&#x27;</span>)
-        <span class="hljs-keyword">return</span> v
-
-<span class="hljs-meta">    @validator(<span class="hljs-params"><span class="hljs-string">&#x27;title&#x27;</span></span>)</span>
-    <span class="hljs-keyword">def</span> <span class="hljs-title function_">title_must_not_be_empty</span>(<span class="hljs-params">cls, v</span>):
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> v <span class="hljs-keyword">or</span> v.strip() == <span class="hljs-string">&#x27;&#x27;</span>:
-            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&#x27;title cannot be empty&#x27;</span>)
-        <span class="hljs-keyword">return</span> v
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="36" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="36" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="validating-our-movie-dataset">Validating Our Movie Dataset</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> json
-<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>
-<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> ValidationError
-
-<span class="hljs-comment"># Load raw data</span>
-<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;movies_raw.json&#x27;</span>) <span class="hljs-keyword">as</span> f:
-    movies_data = json.load(f)
-
-<span class="hljs-comment"># Validate each movie</span>
-valid_movies = []
-errors = []
-
-<span class="hljs-keyword">for</span> i, movie_data <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(movies_data):
-    <span class="hljs-keyword">try</span>:
-        movie = Movie(**movie_data)
-        valid_movies.append(movie)
-    <span class="hljs-keyword">except</span> ValidationError <span class="hljs-keyword">as</span> e:
-        errors.append({
-            <span class="hljs-string">&#x27;index&#x27;</span>: i,
-            <span class="hljs-string">&#x27;title&#x27;</span>: movie_data.get(<span class="hljs-string">&#x27;Title&#x27;</span>),
-            <span class="hljs-string">&#x27;errors&#x27;</span>: e.errors()
-        })
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="37" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="37" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="handling-validation-errors">Handling Validation Errors</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Report errors</span>
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Valid movies: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(valid_movies)}</span>&quot;</span>)
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Invalid movies: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(errors)}</span>&quot;</span>)
-
-<span class="hljs-comment"># Show first few errors</span>
-<span class="hljs-keyword">for</span> error <span class="hljs-keyword">in</span> errors[:<span class="hljs-number">3</span>]:
-    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\nMovie: <span class="hljs-subst">{error[<span class="hljs-string">&#x27;title&#x27;</span>]}</span>&quot;</span>)
-    <span class="hljs-keyword">for</span> err <span class="hljs-keyword">in</span> error[<span class="hljs-string">&#x27;errors&#x27;</span>]:
-        field = err[<span class="hljs-string">&#x27;loc&#x27;</span>][<span class="hljs-number">0</span>]
-        message = err[<span class="hljs-string">&#x27;msg&#x27;</span>]
-        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  <span class="hljs-subst">{field}</span>: <span class="hljs-subst">{message}</span>&quot;</span>)
-</code></pre>
-<p><strong>Output</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>Valid movies: 48
-Invalid movies: 4
-
-Movie: Some Movie
-  rating: field required
-  year: value is not a valid integer
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="38" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="38" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="part-5-pandas---data-cleaning">Part 5: pandas - Data Cleaning</h1>
-<p>Powerful data manipulation library</p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="39" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="39" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="why-pandas-for-validation">Why pandas for Validation?</h1>
-<p><strong>pandas</strong>: Python library for data analysis</p>
-<p><strong>Use cases</strong>:</p>
-<ul>
-<li>Load and inspect data</li>
-<li>Handle missing values</li>
-<li>Convert data types</li>
-<li>Remove duplicates</li>
-<li>Detect outliers</li>
-<li>Compute statistics</li>
-</ul>
-<p><strong>Already installed</strong> (part of common ML stack)</p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="40" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="40" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="loading-our-movie-data">Loading Our Movie Data</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
-
-<span class="hljs-comment"># Load from CSV</span>
-df = pd.read_csv(<span class="hljs-string">&#x27;movies.csv&#x27;</span>)
-
-<span class="hljs-comment"># Or from JSON</span>
-<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;movies_raw.json&#x27;</span>) <span class="hljs-keyword">as</span> f:
-    movies_data = json.load(f)
-df = pd.DataFrame(movies_data)
-
-<span class="hljs-comment"># Basic info</span>
-<span class="hljs-built_in">print</span>(df.shape)      <span class="hljs-comment"># (52, 13)</span>
-<span class="hljs-built_in">print</span>(df.columns)    <span class="hljs-comment"># List of columns</span>
-<span class="hljs-built_in">print</span>(df.head())     <span class="hljs-comment"># First 5 rows</span>
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="41" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="41" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="inspecting-data-quality">Inspecting Data Quality</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Check data types</span>
-<span class="hljs-built_in">print</span>(df.dtypes)
-
-<span class="hljs-comment"># Check for missing values</span>
-<span class="hljs-built_in">print</span>(df.isnull().<span class="hljs-built_in">sum</span>())
-
-<span class="hljs-comment"># Get summary statistics</span>
-<span class="hljs-built_in">print</span>(df.describe())
-
-<span class="hljs-comment"># Check for duplicates</span>
-<span class="hljs-built_in">print</span>(df.duplicated().<span class="hljs-built_in">sum</span>())
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="42" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="42" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="example-missing-values">Example: Missing Values</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Count missing per column</span>
-missing = df.isnull().<span class="hljs-built_in">sum</span>()
-<span class="hljs-built_in">print</span>(missing[missing &gt; <span class="hljs-number">0</span>])
-</code></pre>
-<p><strong>Output</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>box_office    15
-metascore     8
-awards        3
-</code></pre>
-<p><strong>Interpretation</strong>:</p>
-<ul>
-<li>15 movies missing box office data</li>
-<li>8 movies missing metascore</li>
-<li>3 movies missing awards</li>
-</ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="43" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="43" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="handling-missing-values">Handling Missing Values</h1>
-<p><strong>Strategy 1: Drop rows with missing critical fields</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Drop if rating is missing</span>
-df_clean = df.dropna(subset=[<span class="hljs-string">&#x27;rating&#x27;</span>])
-</code></pre>
-<p><strong>Strategy 2: Fill with defaults</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Fill missing box_office with 0</span>
-df[<span class="hljs-string">&#x27;box_office&#x27;</span>] = df[<span class="hljs-string">&#x27;box_office&#x27;</span>].fillna(<span class="hljs-number">0</span>)
-</code></pre>
-<p><strong>Strategy 3: Drop columns with too many missing</strong>:</p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Drop if &gt; 50% missing</span>
-threshold = <span class="hljs-built_in">len</span>(df) * <span class="hljs-number">0.5</span>
-df_clean = df.dropna(thresh=threshold, axis=<span class="hljs-number">1</span>)
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="44" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="44" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="type-conversion-1">Type Conversion</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Check current types</span>
-<span class="hljs-built_in">print</span>(df[<span class="hljs-string">&#x27;rating&#x27;</span>].dtype)  <span class="hljs-comment"># object (string!)</span>
-
-<span class="hljs-comment"># Convert to numeric</span>
-df[<span class="hljs-string">&#x27;rating&#x27;</span>] = pd.to_numeric(df[<span class="hljs-string">&#x27;rating&#x27;</span>], errors=<span class="hljs-string">&#x27;coerce&#x27;</span>)
-df[<span class="hljs-string">&#x27;year&#x27;</span>] = pd.to_numeric(df[<span class="hljs-string">&#x27;year&#x27;</span>], errors=<span class="hljs-string">&#x27;coerce&#x27;</span>)
-
-<span class="hljs-comment"># Convert to int</span>
-df[<span class="hljs-string">&#x27;votes&#x27;</span>] = df[<span class="hljs-string">&#x27;votes&#x27;</span>].<span class="hljs-built_in">str</span>.replace(<span class="hljs-string">&#x27;,&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>).astype(<span class="hljs-built_in">int</span>)
-
-<span class="hljs-comment"># Check again</span>
-<span class="hljs-built_in">print</span>(df[<span class="hljs-string">&#x27;rating&#x27;</span>].dtype)  <span class="hljs-comment"># float64</span>
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="45" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="45" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="cleaning-string-data">Cleaning String Data</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Extract runtime as integer</span>
-df[<span class="hljs-string">&#x27;runtime_minutes&#x27;</span>] = (
-    df[<span class="hljs-string">&#x27;runtime&#x27;</span>]
-    .<span class="hljs-built_in">str</span>.extract(<span class="hljs-string">r&#x27;(\d+)&#x27;</span>)[<span class="hljs-number">0</span>]
-    .astype(<span class="hljs-built_in">int</span>)
-)
-
-<span class="hljs-comment"># Before: &quot;148 min&quot;</span>
-<span class="hljs-comment"># After:  148</span>
-
-<span class="hljs-comment"># Clean box office (remove $ and commas)</span>
-df[<span class="hljs-string">&#x27;box_office_clean&#x27;</span>] = (
-    df[<span class="hljs-string">&#x27;box_office&#x27;</span>]
-    .<span class="hljs-built_in">str</span>.replace(<span class="hljs-string">&#x27;$&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)
-    .<span class="hljs-built_in">str</span>.replace(<span class="hljs-string">&#x27;,&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)
-    .astype(<span class="hljs-built_in">float</span>)
-)
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="46" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="46" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="removing-duplicates">Removing Duplicates</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Check for duplicate titles</span>
-duplicates = df[df.duplicated(subset=[<span class="hljs-string">&#x27;title&#x27;</span>], keep=<span class="hljs-literal">False</span>)]
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Found <span class="hljs-subst">{<span class="hljs-built_in">len</span>(duplicates)}</span> duplicate titles&quot;</span>)
-
-<span class="hljs-comment"># Remove duplicates (keep first)</span>
-df_clean = df.drop_duplicates(subset=[<span class="hljs-string">&#x27;title&#x27;</span>], keep=<span class="hljs-string">&#x27;first&#x27;</span>)
-
-<span class="hljs-comment"># Or keep the one with more data</span>
-df_clean = df.sort_values(<span class="hljs-string">&#x27;rating&#x27;</span>, ascending=<span class="hljs-literal">False</span>)
-df_clean = df_clean.drop_duplicates(subset=[<span class="hljs-string">&#x27;title&#x27;</span>], keep=<span class="hljs-string">&#x27;first&#x27;</span>)
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="47" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="47" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="detecting-outliers">Detecting Outliers</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Check rating distribution</span>
-<span class="hljs-built_in">print</span>(df[<span class="hljs-string">&#x27;rating&#x27;</span>].describe())
-
-<span class="hljs-comment"># Find potential outliers (&gt; 3 std deviations)</span>
-mean = df[<span class="hljs-string">&#x27;rating&#x27;</span>].mean()
-std = df[<span class="hljs-string">&#x27;rating&#x27;</span>].std()
-
-outliers = df[
-    (df[<span class="hljs-string">&#x27;rating&#x27;</span>] &lt; mean - <span class="hljs-number">3</span>*std) |
-    (df[<span class="hljs-string">&#x27;rating&#x27;</span>] &gt; mean + <span class="hljs-number">3</span>*std)
-]
-
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Found <span class="hljs-subst">{<span class="hljs-built_in">len</span>(outliers)}</span> outliers&quot;</span>)
-<span class="hljs-built_in">print</span>(outliers[[<span class="hljs-string">&#x27;title&#x27;</span>, <span class="hljs-string">&#x27;rating&#x27;</span>]])
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="48" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="48" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="validating-value-ranges">Validating Value Ranges</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Check if ratings are in valid range</span>
-invalid_ratings = df[
-    (df[<span class="hljs-string">&#x27;rating&#x27;</span>] &lt; <span class="hljs-number">0</span>) | (df[<span class="hljs-string">&#x27;rating&#x27;</span>] &gt; <span class="hljs-number">10</span>)
-]
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Invalid ratings: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(invalid_ratings)}</span>&quot;</span>)
-
-<span class="hljs-comment"># Check if years are reasonable</span>
-invalid_years = df[
-    (df[<span class="hljs-string">&#x27;year&#x27;</span>] &lt; <span class="hljs-number">1888</span>) | (df[<span class="hljs-string">&#x27;year&#x27;</span>] &gt; <span class="hljs-number">2030</span>)
-]
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Invalid years: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(invalid_years)}</span>&quot;</span>)
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="49" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="49" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="complete-cleaning-pipeline">Complete Cleaning Pipeline</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">clean_movie_data</span>(<span class="hljs-params">df</span>):
-    <span class="hljs-comment"># 1. Remove duplicates</span>
-    df = df.drop_duplicates(subset=[<span class="hljs-string">&#x27;title&#x27;</span>])
-
-    <span class="hljs-comment"># 2. Convert types</span>
-    df[<span class="hljs-string">&#x27;rating&#x27;</span>] = pd.to_numeric(df[<span class="hljs-string">&#x27;rating&#x27;</span>], errors=<span class="hljs-string">&#x27;coerce&#x27;</span>)
-    df[<span class="hljs-string">&#x27;year&#x27;</span>] = pd.to_numeric(df[<span class="hljs-string">&#x27;year&#x27;</span>], errors=<span class="hljs-string">&#x27;coerce&#x27;</span>)
-
-    <span class="hljs-comment"># 3. Drop rows with missing critical fields</span>
-    df = df.dropna(subset=[<span class="hljs-string">&#x27;title&#x27;</span>, <span class="hljs-string">&#x27;year&#x27;</span>, <span class="hljs-string">&#x27;rating&#x27;</span>])
-
-    <span class="hljs-comment"># 4. Validate ranges</span>
-    df = df[
-        (df[<span class="hljs-string">&#x27;rating&#x27;</span>] &gt;= <span class="hljs-number">0</span>) &amp; (df[<span class="hljs-string">&#x27;rating&#x27;</span>] &lt;= <span class="hljs-number">10</span>) &amp;
-        (df[<span class="hljs-string">&#x27;year&#x27;</span>] &gt;= <span class="hljs-number">1888</span>) &amp; (df[<span class="hljs-string">&#x27;year&#x27;</span>] &lt;= <span class="hljs-number">2030</span>)
-    ]
-
-    <span class="hljs-comment"># 5. Clean string columns</span>
-    df[<span class="hljs-string">&#x27;runtime_min&#x27;</span>] = df[<span class="hljs-string">&#x27;runtime&#x27;</span>].<span class="hljs-built_in">str</span>.extract(<span class="hljs-string">r&#x27;(\d+)&#x27;</span>)[<span class="hljs-number">0</span>]
-
-    <span class="hljs-keyword">return</span> df
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="50" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="50" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="running-the-pipeline">Running the Pipeline</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Load raw data</span>
-df_raw = pd.read_csv(<span class="hljs-string">&#x27;movies_raw.csv&#x27;</span>)
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Raw data: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(df_raw)}</span> movies&quot;</span>)
-
-<span class="hljs-comment"># Clean</span>
-df_clean = clean_movie_data(df_raw)
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Clean data: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(df_clean)}</span> movies&quot;</span>)
-
-<span class="hljs-comment"># Validate</span>
-<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\nData quality report:&quot;</span>)
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Missing values:\n<span class="hljs-subst">{df_clean.isnull().<span class="hljs-built_in">sum</span>()}</span>&quot;</span>)
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\nDuplicates: <span class="hljs-subst">{df_clean.duplicated().<span class="hljs-built_in">sum</span>()}</span>&quot;</span>)
-<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\nData types:\n<span class="hljs-subst">{df_clean.dtypes}</span>&quot;</span>)
-
-<span class="hljs-comment"># Save</span>
-df_clean.to_csv(<span class="hljs-string">&#x27;movies_clean.csv&#x27;</span>, index=<span class="hljs-literal">False</span>)
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="51" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="51" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="part-6-building-a-validation-pipeline">Part 6: Building a Validation Pipeline</h1>
-<p>Putting it all together</p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="52" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="52" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="validation-pipeline-architecture">Validation Pipeline Architecture</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>1. RAW DATA (movies_raw.json)
-   ↓
-2. SCHEMA VALIDATION (Pydantic)
-   ↓ (filter invalid records)
-3. TYPE CONVERSION (pandas)
-   ↓
-4. MISSING VALUE HANDLING (pandas)
-   ↓
-5. DUPLICATE REMOVAL (pandas)
-   ↓
-6. OUTLIER DETECTION (pandas)
-   ↓
-7. CLEAN DATA (movies_clean.csv)
-   ↓
-8. VALIDATION REPORT (report.txt)
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="53" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="53" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="step-1-schema-validation">Step 1: Schema Validation</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, ValidationError
-<span class="hljs-keyword">import</span> json
-
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">Movie</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
-    title: <span class="hljs-built_in">str</span>
-    year: <span class="hljs-built_in">int</span>
-    rating: <span class="hljs-built_in">float</span>
-    genre: <span class="hljs-built_in">str</span>
-    director: <span class="hljs-built_in">str</span>
-
-<span class="hljs-comment"># Load and validate</span>
-<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;movies_raw.json&#x27;</span>) <span class="hljs-keyword">as</span> f:
-    raw_data = json.load(f)
-
-valid = []
-invalid = []
-
-<span class="hljs-keyword">for</span> movie <span class="hljs-keyword">in</span> raw_data:
-    <span class="hljs-keyword">try</span>:
-        m = Movie(**movie)
-        valid.append(m.<span class="hljs-built_in">dict</span>())
-    <span class="hljs-keyword">except</span> ValidationError:
-        invalid.append(movie)
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="54" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="54" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="step-2-data-cleaning">Step 2: Data Cleaning</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
-
-<span class="hljs-comment"># Convert to DataFrame</span>
-df = pd.DataFrame(valid)
-
-<span class="hljs-comment"># Clean</span>
-df[<span class="hljs-string">&#x27;rating&#x27;</span>] = pd.to_numeric(df[<span class="hljs-string">&#x27;rating&#x27;</span>], errors=<span class="hljs-string">&#x27;coerce&#x27;</span>)
-df[<span class="hljs-string">&#x27;year&#x27;</span>] = pd.to_numeric(df[<span class="hljs-string">&#x27;year&#x27;</span>], errors=<span class="hljs-string">&#x27;coerce&#x27;</span>)
-
-<span class="hljs-comment"># Remove duplicates</span>
-df = df.drop_duplicates(subset=[<span class="hljs-string">&#x27;title&#x27;</span>])
-
-<span class="hljs-comment"># Handle missing</span>
-df = df.dropna(subset=[<span class="hljs-string">&#x27;rating&#x27;</span>, <span class="hljs-string">&#x27;year&#x27;</span>])
-
-<span class="hljs-comment"># Validate ranges</span>
-df = df[(df[<span class="hljs-string">&#x27;rating&#x27;</span>] &gt;= <span class="hljs-number">0</span>) &amp; (df[<span class="hljs-string">&#x27;rating&#x27;</span>] &lt;= <span class="hljs-number">10</span>)]
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="55" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="55" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="step-3-generate-report">Step 3: Generate Report</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_validation_report</span>(<span class="hljs-params">raw, clean, invalid</span>):
-    report = []
-
-    report.append(<span class="hljs-string">&quot;DATA VALIDATION REPORT&quot;</span>)
-    report.append(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">50</span>)
-    report.append(<span class="hljs-string">f&quot;Input records: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(raw)}</span>&quot;</span>)
-    report.append(<span class="hljs-string">f&quot;Schema failures: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(invalid)}</span>&quot;</span>)
-    report.append(<span class="hljs-string">f&quot;Output records: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(clean)}</span>&quot;</span>)
-    report.append(<span class="hljs-string">f&quot;Records dropped: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(raw) - <span class="hljs-built_in">len</span>(clean)}</span>&quot;</span>)
-    report.append(<span class="hljs-string">&quot;&quot;</span>)
-
-    report.append(<span class="hljs-string">&quot;Data Quality Metrics:&quot;</span>)
-    report.append(<span class="hljs-string">f&quot;  Completeness: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(clean)/<span class="hljs-built_in">len</span>(raw)*<span class="hljs-number">100</span>:<span class="hljs-number">.1</span>f}</span>%&quot;</span>)
-    report.append(<span class="hljs-string">f&quot;  Duplicates removed: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(raw) - <span class="hljs-built_in">len</span>(clean.drop_duplicates())}</span>&quot;</span>)
-
-    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;\n&quot;</span>.join(report)
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="56" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="56" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="complete-validation-script">Complete Validation Script</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># validate_movies.py</span>
-<span class="hljs-keyword">import</span> json
-<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
-<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, ValidationError
-
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">Movie</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
-    title: <span class="hljs-built_in">str</span>
-    year: <span class="hljs-built_in">int</span>
-    rating: <span class="hljs-built_in">float</span>
-    genre: <span class="hljs-built_in">str</span>
-
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">validate_and_clean</span>(<span class="hljs-params">input_file, output_file</span>):
-    <span class="hljs-comment"># Load</span>
-    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(input_file) <span class="hljs-keyword">as</span> f:
-        raw = json.load(f)
-
-    <span class="hljs-comment"># Validate with Pydantic</span>
-    valid = []
-    <span class="hljs-keyword">for</span> movie <span class="hljs-keyword">in</span> raw:
-        <span class="hljs-keyword">try</span>:
-            valid.append(Movie(**movie).<span class="hljs-built_in">dict</span>())
-        <span class="hljs-keyword">except</span> ValidationError:
-            <span class="hljs-keyword">pass</span>
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="57" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="57" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="complete-script-continued">Complete Script (continued)</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">    <span class="hljs-comment"># Clean with pandas</span>
-    df = pd.DataFrame(valid)
-    df[<span class="hljs-string">&#x27;rating&#x27;</span>] = pd.to_numeric(df[<span class="hljs-string">&#x27;rating&#x27;</span>], errors=<span class="hljs-string">&#x27;coerce&#x27;</span>)
-    df = df.dropna()
-    df = df.drop_duplicates()
-
-    <span class="hljs-comment"># Save</span>
-    df.to_csv(output_file, index=<span class="hljs-literal">False</span>)
-
-    <span class="hljs-comment"># Report</span>
-    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Validated <span class="hljs-subst">{<span class="hljs-built_in">len</span>(df)}</span>/<span class="hljs-subst">{<span class="hljs-built_in">len</span>(raw)}</span> movies&quot;</span>)
-    <span class="hljs-keyword">return</span> df
-
-<span class="hljs-comment"># Run</span>
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
-    df = validate_and_clean(<span class="hljs-string">&#x27;movies_raw.json&#x27;</span>, <span class="hljs-string">&#x27;movies_clean.csv&#x27;</span>)
-</code></pre>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="58" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="58" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="best-practices">Best Practices</h1>
-<p><strong>1. Validate early</strong>:</p>
-<ul>
-<li>Check data as soon as you collect it</li>
-<li>Catch issues before they propagate</li>
-</ul>
-<p><strong>2. Be explicit</strong>:</p>
-<ul>
-<li>Define schemas clearly</li>
-<li>Document validation rules</li>
-</ul>
-<p><strong>3. Log everything</strong>:</p>
-<ul>
-<li>Record what was rejected and why</li>
-<li>Generate validation reports</li>
-</ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="59" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="59" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="best-practices-continued">Best Practices (continued)</h1>
-<p><strong>4. Fail gracefully</strong>:</p>
-<ul>
-<li>Don't crash on bad data</li>
-<li>Handle errors and continue</li>
-</ul>
-<p><strong>5. Preserve raw data</strong>:</p>
-<ul>
-<li>Keep original files</li>
-<li>Cleaning is separate step</li>
-</ul>
-<p><strong>6. Automate</strong>:</p>
-<ul>
-<li>Make validation repeatable</li>
-<li>Run on every new data batch</li>
-</ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="60" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="60" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="summary-validation-workflow">Summary: Validation Workflow</h1>
-<p>For our Netflix movie dataset:</p>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="12">
+<h1 id="summary-the-checklist">Summary: The Checklist</h1>
+<p>Before training a model, ask:</p>
 <ol>
-<li><strong>Inspect</strong>: Use jq and csvkit to explore</li>
-<li><strong>Define schema</strong>: Create Pydantic models</li>
-<li><strong>Validate</strong>: Check against schema</li>
-<li><strong>Clean</strong>: Fix issues with pandas</li>
-<li><strong>Report</strong>: Document data quality</li>
-<li><strong>Save</strong>: Export clean dataset</li>
+<li>[ ] <strong>Schema</strong>: Do all fields exist with correct types? (Pydantic)</li>
+<li>[ ] <strong>Nulls</strong>: How are missing values handled?</li>
+<li>[ ] <strong>Ranges</strong>: Are numbers within physical bounds? (Age &gt; 0)</li>
+<li>[ ] <strong>Duplicates</strong>: Are primary keys unique?</li>
+<li>[ ] <strong>Stats</strong>: Does the distribution look normal? (Pandera)</li>
 </ol>
-<p><strong>Output</strong>: Validated <code>movies_clean.csv</code> ready for feature engineering</p>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="61" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="61" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="next-steps">Next Steps</h1>
-<p><strong>Week 3</strong>: Data Labeling</p>
-<ul>
-<li>Annotation tasks for vision and text</li>
-<li>Using Label Studio</li>
-<li>Inter-annotator agreement</li>
-<li>Building high-quality training data</li>
-</ul>
-<p><strong>Homework</strong>:</p>
-<ul>
-<li>Validate your Week 1 movie dataset</li>
-<li>Fix all data quality issues</li>
-<li>Generate a validation report</li>
-<li>Prepare for Week 3 labeling exercises</li>
-</ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="62" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="62" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="key-takeaways">Key Takeaways</h1>
-<ol>
-<li>
-<p><strong>Data validation is critical</strong>: Bad data = bad models</p>
-</li>
-<li>
-<p><strong>Use multiple tools</strong>: jq for quick checks, Pydantic for schemas, pandas for cleaning</p>
-</li>
-<li>
-<p><strong>Automate validation</strong>: Build repeatable pipelines</p>
-</li>
-<li>
-<p><strong>Document everything</strong>: Track what was changed and why</p>
-</li>
-<li>
-<p><strong>Preserve raw data</strong>: Never overwrite originals</p>
-</li>
-<li>
-<p><strong>Validate continuously</strong>: Check data at every pipeline stage</p>
-</li>
-</ol>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="63" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="63" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="resources">Resources</h1>
-<p><strong>Command-line tools</strong>:</p>
-<ul>
-<li>jq: <a href="https://stedolan.github.io/jq/">https://stedolan.github.io/jq/</a></li>
-<li>csvkit: <a href="https://csvkit.readthedocs.io/">https://csvkit.readthedocs.io/</a></li>
-</ul>
-<p><strong>Python libraries</strong>:</p>
-<ul>
-<li>Pydantic: <a href="https://pydantic-docs.helpmanual.io/">https://pydantic-docs.helpmanual.io/</a></li>
-<li>pandas: <a href="https://pandas.pydata.org/">https://pandas.pydata.org/</a></li>
-</ul>
-<p><strong>Additional reading</strong>:</p>
-<ul>
-<li>Data validation patterns</li>
-<li>Schema design best practices</li>
-</ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="64" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="64" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="64">
-<h1 id="questions">Questions?</h1>
-<p><strong>Next class</strong>: Lab session - hands-on data validation with your movie dataset</p>
+<p><strong>Lab</strong>: You will build a script that takes a raw JSON dump and produces a clean, validated CSV ready for training.</p>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code></code></pre>
 </section>
 <script>!function(){"use strict";const t={h1:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:()=>HTMLSpanElement},pre:{proto:()=>HTMLElement,style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},e="data-marp-auto-scaling-wrapper",i="data-marp-auto-scaling-svg",n="data-marp-auto-scaling-container";class s extends HTMLElement{container;containerSize;containerObserver;svg;svgComputedStyle;svgPreserveAspectRatio="xMinYMid meet";wrapper;wrapperSize;wrapperObserver;constructor(){super();const t=t=>([e])=>{const{width:i,height:n}=e.contentRect;this[t]={width:i,height:n},this.updateSVGRect()};this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(t("containerSize")),this.wrapperObserver=new ResizeObserver((...e)=>{t("wrapperSize")(...e),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){this.shadowRoot.innerHTML=`\n<style>\n  svg[${i}] { display: block; width: 100%; height: auto; vertical-align: top; }\n  span[${n}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }\n</style>\n<div ${e}>\n  <svg part="svg" ${i}>\n    <foreignObject><span ${n}><slot></slot></span></foreignObject>\n  </svg>\n</div>\n    `.split(/\n\s*/).join(""),this.wrapper=this.shadowRoot.querySelector(`div[${e}]`)??void 0;const t=this.svg;this.svg=this.wrapper?.querySelector(`svg[${i}]`)??void 0,this.svg!==t&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=this.svg?.querySelector(`span[${n}]`)??void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:t}=this;t&&(t.style.display="inline",requestAnimationFrame(()=>{t.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(t){const e=()=>{const i=(()=>{const e=t.getPropertyValue("--preserve-aspect-ratio");if(e)return e.trim();return`x${(({textAlign:t,direction:e})=>{if(t.endsWith("left"))return"Min";if(t.endsWith("right"))return"Max";if("start"===t||"end"===t){let i="rtl"===e;return"end"===t&&(i=!i),i?"Max":"Min"}return"Mid"})(t)}YMid meet`})();i!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=i,this.updateSVGRect()),t===this.svgComputedStyle&&requestAnimationFrame(e)};e()}updateSVGRect(){let t=Math.ceil(this.containerSize?.width??0);const e=Math.ceil(this.containerSize?.height??0);void 0!==this.dataset.downscaleOnly&&(t=Math.max(t,this.wrapperSize?.width??0));const i=this.svg?.querySelector(":scope > foreignObject");if(i?.setAttribute("width",`${t}`),i?.setAttribute("height",`${e}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${t} ${e}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=t<=0||e<=0?"0":""),this.container){const t=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=t.startsWith("xmid")||t.startsWith("xmax")?"auto":"0",this.container.style.marginRight=t.startsWith("xmi")?"auto":"0"}}}const r=(t,{attrs:e={},style:i})=>class extends t{constructor(...t){super(...t);for(const[t,i]of Object.entries(e))this.hasAttribute(t)||this.setAttribute(t,i);this._shadow()}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_shadow(){if(!this.shadowRoot)try{this.attachShadow({mode:"open"})}catch(t){if(!(t instanceof Error&&"NotSupportedError"===t.name))throw t}return this.shadowRoot}_update(){const t=this._shadow();if(t){const e=i?`<style>:host { ${i} }</style>`:"";let n="<slot></slot>";const{autoScaling:s}=this.dataset;if(void 0!==s){n=`<marp-auto-scaling exportparts="svg:auto-scaling" ${"downscale-only"===s?"data-downscale-only":""}>${n}</marp-auto-scaling>`}t.innerHTML=e+n}}};let o;const a=Symbol(),l=()=>o??(o=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is"),o);let c;const d="marpitSVGPolyfill:setZoomFactor,",h=Symbol(),g=Symbol();const p=()=>{const t="Apple Computer, Inc."===navigator.vendor,e=t?[v]:[],i={then:e=>(t?(async()=>{if(void 0===c){const t=document.createElement("canvas");t.width=10,t.height=10;const e=t.getContext("2d"),i=new Image(10,10),n=new Promise(t=>{i.addEventListener("load",()=>t())});i.crossOrigin="anonymous",i.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await n,e.drawImage(i,0,0),c=e.getImageData(5,5,1,1).data[3]<128}return c})().then(t=>{null==e||e(t?[v]:[])}):null==e||e([]),i)};return Object.assign(e,i)};let m,u;function v(t){const e="object"==typeof t&&t.target||document,i="object"==typeof t?t.zoom:t;window[g]||(Object.defineProperty(window,g,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:t,origin:e})=>{if(e===window.origin)try{if(t&&"string"==typeof t&&t.startsWith(d)){const[,e]=t.split(","),i=Number.parseFloat(e);Number.isNaN(i)||(u=i)}}catch(t){console.error(t)}}));let n=!1;Array.from(e.querySelectorAll("svg[data-marpit-svg]"),t=>{var e,s,r,o;t.style.transform||(t.style.transform="translateZ(0)");const a=i||u||t.currentScale||1;m!==a&&(m=a,n=a);const l=t.getBoundingClientRect(),{length:c}=t.children;for(let i=0;i<c;i+=1){const n=t.children[i];if(n.getScreenCTM){const t=n.getScreenCTM();if(t){const i=null!==(s=null===(e=n.x)||void 0===e?void 0:e.baseVal.value)&&void 0!==s?s:0,c=null!==(o=null===(r=n.y)||void 0===r?void 0:r.baseVal.value)&&void 0!==o?o:0,d=n.children.length;for(let e=0;e<d;e+=1){const s=n.children[e];if("SECTION"===s.tagName){const{style:e}=s;e.transformOrigin||(e.transformOrigin=`${-i}px ${-c}px`),e.transform=`scale(${a}) matrix(${t.a}, ${t.b}, ${t.c}, ${t.d}, ${t.e-l.left}, ${t.f-l.top}) translateZ(0.0001px)`;break}}}}}}),!1!==n&&Array.from(e.querySelectorAll("iframe"),({contentWindow:t})=>{null==t||t.postMessage(`${d}${n}`,"null"===window.origin?"*":window.origin)})}function w({once:t=!1,target:e=document}={}){const i=function(t=document){if(t[h])return t[h];let e=!0;const i=()=>{e=!1,delete t[h]};Object.defineProperty(t,h,{configurable:!0,value:i});let n=[],s=!1;(async()=>{try{n=await p()}finally{s=!0}})();const r=()=>{for(const e of n)e({target:t});s&&0===n.length||e&&window.requestAnimationFrame(r)};return r(),i}(e);return t?(i(),()=>{}):i}m=1,u=void 0;const b=Symbol(),y=(e=document)=>{if("undefined"==typeof window)throw new Error("Marp Core's browser script is valid only in browser context.");if(((e=document)=>{const i=window[a];i||customElements.define("marp-auto-scaling",s);for(const n of Object.keys(t)){const s=`marp-${n}`,o=t[n].proto();l()&&o!==HTMLElement?i||customElements.define(s,r(o,{style:t[n].style}),{extends:n}):(i||customElements.define(s,r(HTMLElement,t[n])),e.querySelectorAll(`${n}[is="${s}"]`).forEach(t=>{t.outerHTML=t.outerHTML.replace(new RegExp(`^<${n}`,"i"),`<${s}`).replace(new RegExp(`</${n}>$`,"i"),`</${s}>`)}))}window[a]=!0})(e),e[b])return e[b];const i=w({target:e}),n=()=>{i(),delete e[b]},o=Object.assign(n,{cleanup:n,update:()=>y(e)});return Object.defineProperty(e,b,{configurable:!0,value:o}),o},f=document.currentScript;y(f?f.getRootNode():document)}();
 </script></foreignObject></svg></div><script>/*!! License: https://unpkg.com/@marp-team/marp-cli@4.2.3/lib/bespoke.js.LICENSE.txt */
