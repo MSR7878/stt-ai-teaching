@@ -34,12 +34,118 @@ Prof. Nipun Batra, IIT Gandhinagar
 
 ---
 
+# The DevOps Culture
+
+**Traditional**: Development throws code over the wall to Operations
+**DevOps**: Developers own deployment and monitoring
+
+**Key principles**:
+1. **Automation**: Manual work is error-prone
+2. **Version everything**: Code, config, infrastructure
+3. **Continuous feedback**: Fast iteration cycles
+4. **Collaboration**: Break down silos
+5. **Monitoring**: Know when things break
+
+**MLOps = DevOps + Data + Models**
+
+---
+
+# CI vs CD vs CD
+
+**Continuous Integration (CI)**:
+- Automatically merge code frequently (daily)
+- Run automated tests on every commit
+- **Goal**: Catch bugs early
+
+**Continuous Delivery**:
+- Code is always deployable
+- Manual approval needed for production
+- **Goal**: Reduce deployment risk
+
+**Continuous Deployment**:
+- Every change automatically goes to production
+- Zero human intervention
+- **Goal**: Maximum speed
+
+---
+
+# Git Fundamentals Review
+
+**Three areas**:
+1. **Working Directory**: Your local files
+2. **Staging Area**: Changes ready to commit
+3. **Repository**: Committed history
+
+**Basic workflow**:
+```bash
+git add file.py        # Working → Staging
+git commit -m "msg"    # Staging → Repository
+git push origin main   # Repository → Remote
+```
+
+**Why it matters for CI/CD**: Git is the trigger for automation.
+
+---
+
+# Branching Strategies
+
+**Feature Branch Workflow**:
+```bash
+git checkout -b feature/add-auth
+# Make changes
+git commit -m "Add authentication"
+git push origin feature/add-auth
+# Create PR → Review → Merge
+```
+
+**Benefits**:
+- Isolate features
+- Easy code review
+- Revert if needed
+
+**Branch protection**: Require PR reviews, passing tests before merge.
+
+---
+
+# Gitflow vs Trunk-Based
+
+| Aspect | Gitflow | Trunk-Based |
+| :--- | :--- | :--- |
+| **Branches** | main, develop, feature/* | main only |
+| **Release** | release/* branches | Tags on main |
+| **Complexity** | High | Low |
+| **Best for** | Scheduled releases | Continuous deployment |
+
+**Modern trend**: Trunk-based with feature flags.
+
+---
+
+# Pull Request Best Practices
+
+**Good PR**:
+1. **Small**: < 400 lines changed
+2. **Focused**: One feature/bug fix
+3. **Tested**: All tests pass
+4. **Documented**: Clear description
+
+**Review checklist**:
+- Code style consistent?
+- Tests added/updated?
+- No hardcoded secrets?
+- Performance implications?
+
+**Automate**: Use bots for formatting, test coverage checks.
+
+---
+
 # GitHub Automation Ecosystem
 
 1.  **Git**: Version control (branches, merges).
 2.  **GitHub API**: Programmatic access to repos (Issues, PRs).
 3.  **GitHub Actions**: Serverless compute to run workflows.
 4.  **Webhooks**: Event-driven triggers.
+5.  **GitHub Apps**: Reusable automation packages
+6.  **GitHub Copilot**: AI pair programming
 
 ---
 
@@ -128,6 +234,74 @@ jobs:
 
 ---
 
+# GitHub Actions: Triggers
+
+**Event types**:
+```yaml
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight
+  workflow_dispatch:     # Manual trigger
+  release:
+    types: [published]
+```
+
+**Conditional execution**:
+```yaml
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    # Only runs on main branch
+```
+
+---
+
+# Caching Dependencies
+
+**Speed up builds by caching**:
+
+```yaml
+- name: Cache pip packages
+  uses: actions/cache@v3
+  with:
+    path: ~/.cache/pip
+    key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+    restore-keys: |
+      ${{ runner.os }}-pip-
+
+- name: Install dependencies
+  run: pip install -r requirements.txt
+```
+
+**Typical speedup**: 2-5 minutes → 30 seconds.
+
+---
+
+# Artifacts and Outputs
+
+**Save build artifacts**:
+```yaml
+- name: Upload test results
+  uses: actions/upload-artifact@v3
+  with:
+    name: pytest-results
+    path: test-results/
+
+- name: Upload model
+  uses: actions/upload-artifact@v3
+  with:
+    name: trained-model
+    path: model.pkl
+```
+
+**Download in later jobs** or from GitHub UI.
+
+---
+
 # CI/CD for ML
 
 **ML is harder than standard software.**
@@ -144,6 +318,112 @@ strategy:
     python-version: ["3.9", "3.10", "3.11"]
     os: [ubuntu-latest, windows-latest]
 ```
+
+---
+
+# ML-Specific CI Checks
+
+**Data validation**:
+```yaml
+- name: Validate data schema
+  run: |
+    python -m pytest tests/test_data_schema.py
+
+- name: Check for data drift
+  run: |
+    python scripts/detect_drift.py
+```
+
+**Model performance gates**:
+```yaml
+- name: Train and evaluate
+  run: |
+    python train.py
+    python evaluate.py
+
+- name: Check accuracy threshold
+  run: |
+    accuracy=$(cat metrics.json | jq '.accuracy')
+    if (( $(echo "$accuracy < 0.85" | bc -l) )); then
+      echo "Model accuracy too low!"
+      exit 1
+    fi
+```
+
+---
+
+# Docker Integration
+
+**Build and push Docker images**:
+```yaml
+- name: Build Docker image
+  run: docker build -t myapp:${{ github.sha }} .
+
+- name: Push to registry
+  run: |
+    echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+    docker push myapp:${{ github.sha }}
+```
+
+**Benefits**:
+- Consistent environment
+- Easy deployment
+- Reproducible builds
+
+---
+
+# Deployment Strategies
+
+**Blue-Green Deployment**:
+- Two identical environments (blue, green)
+- Deploy to inactive, then switch traffic
+- **Rollback**: Just switch back
+
+**Canary Deployment**:
+- Deploy to small % of users first
+- Monitor metrics
+- Gradually increase if healthy
+
+**Rolling Deployment**:
+- Update instances one by one
+- Always some instances serving traffic
+
+---
+
+# GitHub Environments
+
+**Separate configs for dev/staging/prod**:
+
+```yaml
+jobs:
+  deploy:
+    environment:
+      name: production
+      url: https://myapp.com
+    steps:
+      - name: Deploy
+        run: ./deploy.sh
+```
+
+**Environment protection rules**:
+- Require reviewers
+- Wait timer before deployment
+- Deployment branches (only main)
+
+---
+
+# Monitoring CI/CD Pipelines
+
+**Key metrics**:
+1. **Build time**: How long does CI take?
+2. **Success rate**: % of builds passing
+3. **Mean time to recovery**: How fast do you fix broken builds?
+4. **Deployment frequency**: How often do you deploy?
+
+**Tools**:
+- GitHub Actions insights
+- Custom metrics (Prometheus + Grafana)
+- Alerts (Slack, email)
 
 ---
 

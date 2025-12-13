@@ -310,25 +310,544 @@ def read_items():
 
 ---
 
+# Error Handling in FastAPI
+
+**Custom exceptions for better error messages:**
+
+```python
+from fastapi import HTTPException
+
+@app.get("/items/{item_id}")
+def read_item(item_id: int):
+    if item_id not in database:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Item {item_id} not found",
+            headers={"X-Error": "ItemNotFound"}
+        )
+    return database[item_id]
+```
+
+**Custom exception handlers:**
+```python
+from fastapi.responses import JSONResponse
+
+class ModelNotLoadedError(Exception):
+    pass
+
+@app.exception_handler(ModelNotLoadedError)
+async def model_exception_handler(request, exc):
+    return JSONResponse(
+        status_code=503,
+        content={"error": "Model not available"}
+    )
+```
+
+---
+
+# Input Validation Best Practices
+
+**Use Pydantic validators for complex rules:**
+
+```python
+from pydantic import BaseModel, validator, Field
+
+class PredictionInput(BaseModel):
+    age: int = Field(gt=0, lt=120, description="Age in years")
+    income: float = Field(gt=0)
+    credit_score: int = Field(ge=300, le=850)
+
+    @validator('income')
+    def income_realistic(cls, v):
+        if v > 10_000_000:  # $10M annual income
+            raise ValueError('Income seems unrealistic')
+        return v
+
+    @validator('credit_score')
+    def validate_credit(cls, v):
+        if v < 300 or v > 850:
+            raise ValueError('Credit score out of valid range')
+        return v
+```
+
+---
+
+# Response Models
+
+**Control what data is returned:**
+
+```python
+class User(BaseModel):
+    username: str
+    email: str
+    password: str  # Sensitive!
+
+class UserResponse(BaseModel):
+    username: str
+    email: str
+    # Password excluded
+
+@app.post("/users/", response_model=UserResponse)
+def create_user(user: User):
+    # Save user with password
+    save_to_db(user)
+    # Return without password
+    return user
+```
+
+**Benefits**: Automatic filtering, validation of outputs.
+
+---
+
+# API Versioning Strategies
+
+**Why version?**
+- Maintain backward compatibility
+- Allow gradual migrations
+- Support multiple clients
+
+**URL versioning**:
+```python
+@app.post("/v1/predict")
+def predict_v1(data: InputV1):
+    return old_model.predict(data)
+
+@app.post("/v2/predict")
+def predict_v2(data: InputV2):
+    return new_model.predict(data)
+```
+
+**Header versioning**:
+```python
+@app.post("/predict")
+def predict(data: Input, version: str = Header("v1")):
+    if version == "v1":
+        return old_model.predict(data)
+    return new_model.predict(data)
+```
+
+---
+
+# CORS (Cross-Origin Resource Sharing)
+
+**Problem**: Browsers block requests from different domains by default.
+
+**Solution**: Enable CORS for web apps to call your API.
+
+```python
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production: specific domains
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+**Production**: Replace `["*"]` with specific origins:
+```python
+allow_origins=["https://myapp.com", "https://dashboard.myapp.com"]
+```
+
+---
+
+# Rate Limiting
+
+**Protect your API from abuse:**
+
+```python
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+@app.get("/predict")
+@limiter.limit("10/minute")  # Max 10 requests per minute per IP
+async def predict(request: Request):
+    return {"prediction": model.predict(input)}
+```
+
+**Why needed**:
+- Prevent DoS attacks
+- Manage GPU/CPU usage
+- Fair resource allocation
+
+---
+
+# Logging and Monitoring
+
+**Structured logging for production:**
+
+```python
+import logging
+from datetime import datetime
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+@app.post("/predict")
+def predict(input_data: PredictionInput):
+    start_time = datetime.now()
+
+    logger.info(f"Prediction request received: {input_data}")
+
+    try:
+        result = model.predict(input_data)
+
+        latency = (datetime.now() - start_time).total_seconds()
+        logger.info(f"Prediction successful, latency: {latency}s")
+
+        return {"prediction": result}
+
+    except Exception as e:
+        logger.error(f"Prediction failed: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Prediction failed")
+```
+
+---
+
+# Health Check Endpoint
+
+**Essential for deployment and monitoring:**
+
+```python
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy",
+        "model_loaded": model is not None,
+        "version": "1.0.0",
+        "timestamp": datetime.now().isoformat()
+    }
+
+@app.get("/readiness")
+def readiness_check():
+    # More thorough check
+    if model is None:
+        raise HTTPException(status_code=503, detail="Model not loaded")
+
+    # Test model
+    try:
+        test_input = [[1.0, 2.0, 3.0, 4.0]]
+        _ = model.predict(test_input)
+        return {"status": "ready"}
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Model unhealthy: {e}")
+```
+
+**Difference**: Health = basic check, Readiness = can serve traffic.
+
+---
+
+# Security Best Practices
+
+**1. API Key Authentication:**
+```python
+from fastapi.security import APIKeyHeader
+
+API_KEY = "your-secret-key"
+api_key_header = APIKeyHeader(name="X-API-Key")
+
+def verify_api_key(api_key: str = Depends(api_key_header)):
+    if api_key != API_KEY:
+        raise HTTPException(status_code=403, detail="Invalid API Key")
+
+@app.post("/predict", dependencies=[Depends(verify_api_key)])
+def predict(data: Input):
+    return model.predict(data)
+```
+
+**2. Input sanitization:**
+- Validate all inputs with Pydantic
+- Set maximum lengths for strings
+- Reject suspicious patterns
+
+**3. HTTPS only:**
+- Use TLS certificates in production
+- Redirect HTTP to HTTPS
+
+---
+
+# Request/Response Examples
+
+**Document API with examples:**
+
+```python
+class PredictionInput(BaseModel):
+    features: List[float] = Field(
+        ...,
+        example=[5.1, 3.5, 1.4, 0.2],
+        description="Iris measurements"
+    )
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "features": [5.1, 3.5, 1.4, 0.2]
+            }
+        }
+
+@app.post("/predict", response_model=PredictionOutput)
+def predict(input: PredictionInput):
+    """
+    Predict iris species from measurements.
+
+    - **features**: List of 4 floats [sepal_length, sepal_width, petal_length, petal_width]
+    - **Returns**: Predicted species and confidence
+    """
+    return model.predict(input)
+```
+
+Shows in Swagger UI with examples!
+
+---
+
+# Background Tasks
+
+**For non-blocking operations:**
+
+```python
+from fastapi import BackgroundTasks
+
+def log_prediction(input_data: dict, prediction: dict):
+    # Save to database
+    db.save_prediction(input_data, prediction)
+
+@app.post("/predict")
+def predict(input: Input, background_tasks: BackgroundTasks):
+    result = model.predict(input)
+
+    # Log asynchronously
+    background_tasks.add_task(log_prediction, input.dict(), result)
+
+    return result
+```
+
+**Use cases**: Logging, sending emails, updating analytics.
+
+---
+
+# File Uploads (Images/Audio)
+
+**Handling multipart form data:**
+
+```python
+from fastapi import File, UploadFile
+import numpy as np
+from PIL import Image
+import io
+
+@app.post("/classify-image")
+async def classify_image(file: UploadFile = File(...)):
+    # Validate file type
+    if file.content_type not in ["image/jpeg", "image/png"]:
+        raise HTTPException(400, "Invalid file type")
+
+    # Read and process
+    contents = await file.read()
+    image = Image.open(io.BytesIO(contents))
+
+    # Preprocess
+    image = image.resize((224, 224))
+    img_array = np.array(image) / 255.0
+
+    # Predict
+    prediction = model.predict(np.expand_dims(img_array, 0))
+
+    return {
+        "filename": file.filename,
+        "class": int(prediction[0]),
+        "confidence": float(prediction[0])
+    }
+```
+
+---
+
+# Streaming Responses
+
+**For large datasets or LLM outputs:**
+
+```python
+from fastapi.responses import StreamingResponse
+import time
+
+def generate_text():
+    prompt = "Once upon a time"
+    for token in llm.generate(prompt):
+        yield f"data: {token}\n\n"
+        time.sleep(0.1)
+
+@app.get("/generate")
+async def stream():
+    return StreamingResponse(
+        generate_text(),
+        media_type="text/event-stream"
+    )
+```
+
+**Client receives tokens as they're generated** (Server-Sent Events).
+
+---
+
+# Deployment Considerations
+
+**Production checklist**:
+
+1. **Logging**: Structured logs (JSON format)
+2. **Error handling**: Catch all exceptions
+3. **Validation**: Strict Pydantic models
+4. **Security**: API keys, rate limiting, HTTPS
+5. **Monitoring**: Health checks, metrics
+6. **Documentation**: Auto-generated + custom
+7. **Testing**: Unit tests, integration tests
+8. **Performance**: Caching, async where possible
+9. **Versioning**: API versioning strategy
+10. **CORS**: Configured for your frontend
+
+---
+
+# Production Servers
+
+**Development server** (`fastapi dev`):
+- Auto-reload on code changes
+- Detailed error messages
+- **NOT for production**
+
+**Production servers**:
+
+**Uvicorn** (ASGI server):
+```bash
+uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
+```
+
+**Gunicorn + Uvicorn workers** (better):
+```bash
+gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker
+```
+
+**Docker**:
+```dockerfile
+FROM python:3.10
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
+```
+
+---
+
 # Best Practices for ML APIs
 
-1.  **Batching**: If high traffic, batch requests before sending to GPU.
-2.  **Validation**: Strict Pydantic models preventing bad inputs.
-3.  **Versioning**: `/v1/predict`, `/v2/predict`.
-4.  **Logging**: Log inputs (for drift detection) and latencies.
-5.  **Health Check**: `/health` endpoint for monitoring tools.
+1.  **Batching**: Batch requests for GPU efficiency
+2.  **Validation**: Strict Pydantic models
+3.  **Versioning**: `/v1/predict`, `/v2/predict`
+4.  **Logging**: Log inputs for drift detection
+5.  **Health checks**: `/health` and `/readiness`
+6.  **Error handling**: Graceful failures with clear messages
+7.  **Documentation**: Use Pydantic examples
+8.  **Testing**: Comprehensive test coverage
+9.  **Security**: API keys, rate limiting
+10. **Monitoring**: Track latency, throughput, errors
+
+---
+
+# Performance Optimization
+
+**Model loading**:
+- Load once at startup (global variable)
+- Use `@app.on_event("startup")`
+
+**Caching**:
+```python
+from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def expensive_preprocessing(input_text: str):
+    return process(input_text)
+```
+
+**Async for I/O-bound tasks**:
+```python
+@app.get("/data")
+async def get_data():
+    result = await fetch_from_database()
+    return result
+```
+
+**Connection pooling** for databases.
+
+---
+
+# API Documentation Best Practices
+
+**Auto-generated docs** (Swagger UI):
+- Available at `/docs`
+- Interactive testing
+- Shows request/response schemas
+
+**ReDoc** (alternative view):
+- Available at `/redoc`
+- More readable for humans
+
+**Custom descriptions**:
+```python
+app = FastAPI(
+    title="ML Prediction API",
+    description="API for serving machine learning models",
+    version="1.0.0",
+    docs_url="/documentation",
+    redoc_url="/redoc"
+)
+```
+
+---
+
+# Comparison: FastAPI vs Alternatives
+
+| Feature | FastAPI | Flask | Django REST |
+| :--- | :---: | :---: | :---: |
+| **Performance** | Very High | Medium | Medium |
+| **Async Support** | Native | Partial | Limited |
+| **Type Validation** | Automatic | Manual | Manual |
+| **Auto Docs** | Yes | No | Partial |
+| **Learning Curve** | Easy | Easy | Steep |
+| **Best For** | ML APIs, Modern apps | Simple apps | Full stack |
+
+**FastAPI** is ideal for ML model serving.
+
+---
+
+# Summary
+
+**Key concepts**:
+1. FastAPI = Modern, fast, type-safe Python web framework
+2. Pydantic = Automatic validation and documentation
+3. Async = Handle concurrent requests efficiently
+4. Testing = TestClient for automated verification
+5. Production = Health checks, logging, security
+
+**ML-specific patterns**:
+- Load model once at startup
+- Validate inputs strictly
+- Log all predictions
+- Handle errors gracefully
+- Provide health endpoints
 
 ---
 
 # Lab Preview
 
 **Today you will:**
-1.  Build a "Unit Converter" API (warmup).
-2.  **Serve a Scikit-Learn Model**:
-    - Train a simple model.
-    - Save it (`joblib`).
-    - Build a `/predict` endpoint.
-3.  **Input Validation**: Ensure robust inputs.
-4.  **Test**: Write a test case for your API.
+1.  Build Hello World API
+2.  Add input validation with Pydantic
+3.  **Serve a Scikit-Learn model**
+4.  Implement error handling
+5.  Add health check endpoint
+6.  Write comprehensive tests
+7.  Deploy locally with production server
 
-Let's build!
+Let's build production-ready ML APIs!
