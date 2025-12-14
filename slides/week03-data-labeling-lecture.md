@@ -29,18 +29,1266 @@ Prof. Nipun Batra, IIT Gandhinagar
 
 ---
 
-# Types of Annotation
+# Types of Annotation: Overview
 
-**Computer Vision**:
-1.  **Classification**: "Cat" vs "Dog".
-2.  **Bounding Box**: Object Detection ($x, y, w, h$).
-3.  **Polygon**: Segmentation (pixel-precise).
-4.  **Keypoints**: Pose estimation (skeleton).
+**By Modality**:
+- **Text**: Classification, NER, QA, Summarization
+- **Images**: Classification, Detection, Segmentation, Keypoints
+- **Audio**: Transcription, Speaker ID, Event Detection
+- **Video**: Action Recognition, Tracking, Temporal Segmentation
+- **Multimodal**: Image Captioning, VQA, Audio-Visual
 
-**NLP**:
-1.  **Text Classification**: Sentiment, Intent.
-2.  **NER (Named Entity Recognition)**: Highlighting spans (Person, Org).
-3.  **Seq2Seq**: Translation, Summarization.
+**By Task Complexity**:
+- **Simple**: Binary classification (spam/not spam)
+- **Medium**: Multi-class, bounding boxes
+- **Complex**: Segmentation, relationship extraction
+- **Very Complex**: Dense video annotation, medical imaging
+
+---
+
+# Annotation Taxonomy
+
+![Labeling Task Types](../figures/week03_annotation_taxonomy.png)
+
+**We'll cover**:
+1. Text annotation tasks (6 types)
+2. Image annotation tasks (5 types)
+3. Audio annotation tasks (4 types)
+4. Video annotation tasks (3 types)
+5. Metrics for each task type
+
+---
+
+# Text Annotation: Classification
+
+**Task**: Assign one or more labels to entire text.
+
+**Examples**:
+```python
+# Binary Classification
+{"text": "This movie was terrible!", "label": "NEGATIVE"}
+
+# Multi-class Classification
+{"text": "Can I reset my password?", "label": "ACCOUNT_SUPPORT"}
+
+# Multi-label Classification
+{"text": "Great phone with poor battery",
+ "labels": ["ELECTRONICS", "POSITIVE_FEATURE", "NEGATIVE_FEATURE"]}
+```
+
+**Annotation Interface**:
+- Radio buttons (single-label)
+- Checkboxes (multi-label)
+- Dropdown (many classes)
+
+---
+
+# Text Classification: Metrics
+
+**Inter-Annotator Agreement**:
+- **Cohen's Kappa**: Binary/multi-class
+- **Fleiss' Kappa**: Multiple annotators
+- **Krippendorff's Alpha**: General case
+
+**Model Evaluation**:
+```python
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Metrics per class
+print(classification_report(y_true, y_pred,
+                           labels=['POSITIVE', 'NEGATIVE', 'NEUTRAL']))
+
+# Confusion matrix
+cm = confusion_matrix(y_true, y_pred)
+# Shows which classes are confused
+```
+
+**Key Metrics**: Accuracy, Precision, Recall, F1-Score
+**Challenge**: Class imbalance (use weighted F1)
+
+---
+
+# Text Annotation: Named Entity Recognition (NER)
+
+**Task**: Identify and classify spans of text.
+
+**Example**:
+```
+Text: "Apple CEO Tim Cook announced iPhone 15 in Cupertino on Sep 12."
+
+Entities:
+- "Apple" [0:5] → ORGANIZATION
+- "Tim Cook" [10:18] → PERSON
+- "iPhone 15" [29:38] → PRODUCT
+- "Cupertino" [42:51] → LOCATION
+- "Sep 12" [55:61] → DATE
+```
+
+**Label Format** (JSON):
+```json
+{
+  "text": "Apple CEO Tim Cook...",
+  "entities": [
+    {"start": 0, "end": 5, "label": "ORG"},
+    {"start": 10, "end": 18, "label": "PERSON"}
+  ]
+}
+```
+
+---
+
+# NER: Annotation Challenges
+
+**1. Boundary Ambiguity**:
+```
+"New York City Mayor"
+Should we tag "New York" or "New York City"?
+```
+
+**2. Nested Entities**:
+```
+"MIT AI Lab director"
+- "MIT AI Lab" → ORGANIZATION
+- "MIT" → ORGANIZATION (nested)
+```
+
+**3. Discontinuous Entities**:
+```
+"Pick the phone up"
+→ "Pick ... up" is a phrasal verb
+```
+
+**Solution**: Clear guidelines with examples
+```markdown
+# NER Guidelines
+- Include determiners: "the United Nations" (full span)
+- Longest match: "New York City" not "New York"
+- No nesting: Choose outermost entity
+```
+
+---
+
+# NER: Metrics
+
+**Span-Level Metrics** (exact match):
+```python
+from seqeval.metrics import classification_report
+
+# Format: List of token-level tags
+y_true = [['B-PER', 'I-PER', 'O', 'B-LOC']]
+y_pred = [['B-PER', 'I-PER', 'O', 'O']]
+
+print(classification_report(y_true, y_pred))
+# Output: Precision, Recall, F1 per entity type
+```
+
+**Token-Level vs Span-Level**:
+- **Token-Level**: Each word tagged correctly (lenient)
+- **Span-Level**: Entire entity span must match (strict)
+
+**Example**:
+```
+True:  [B-PER I-PER]    ("Tim Cook")
+Pred:  [B-PER O]        ("Tim")
+Token accuracy: 50%  |  Span accuracy: 0%
+```
+
+---
+
+# Text Annotation: Relation Extraction
+
+**Task**: Identify relationships between entities.
+
+**Example**:
+```
+Text: "Steve Jobs founded Apple in 1976."
+
+Entities:
+- "Steve Jobs" → PERSON
+- "Apple" → ORGANIZATION
+- "1976" → DATE
+
+Relations:
+- ("Steve Jobs", FOUNDED, "Apple")
+- ("Apple", FOUNDED_IN, "1976")
+```
+
+**Annotation Process**:
+1. First pass: Mark entities (NER)
+2. Second pass: Draw relations between entities
+
+**Applications**: Knowledge graphs, question answering, fact extraction
+
+---
+
+# Relation Extraction: Metrics
+
+**Evaluation**:
+```python
+# Relation is correct if:
+# 1. Both entities are correct (exact span match)
+# 2. Relation type is correct
+
+def evaluate_relations(gold, pred):
+    tp = 0  # True positives
+    fp = 0  # False positives
+    fn = 0  # False negatives
+
+    for rel in pred:
+        if rel in gold:
+            tp += 1
+        else:
+            fp += 1
+
+    fn = len(gold) - tp
+
+    precision = tp / (tp + fp) if (tp + fp) > 0 else 0
+    recall = tp / (tp + fn) if (tp + fn) > 0 else 0
+    f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
+
+    return precision, recall, f1
+```
+
+---
+
+# Text Annotation: Question Answering
+
+**Task**: Find answer span in passage given question.
+
+**Example** (SQuAD format):
+```json
+{
+  "context": "The Apollo program landed 12 astronauts on the Moon between 1969 and 1972.",
+  "question": "When did the Apollo program land astronauts?",
+  "answers": [
+    {"text": "between 1969 and 1972", "answer_start": 54}
+  ]
+}
+```
+
+**Challenges**:
+- **Extractive QA**: Answer is substring of context
+- **Abstractive QA**: Answer must be generated
+- **Unanswerable**: Question has no answer in context
+
+**Annotation**: Highlight text span, handle "no answer"
+
+---
+
+# QA Annotation: Metrics
+
+**Extractive QA Metrics**:
+
+**Exact Match (EM)**:
+```python
+def exact_match(pred, gold):
+    """Strict: pred must exactly match at least one gold answer."""
+    return int(normalize(pred) in [normalize(g) for g in gold])
+
+def normalize(text):
+    """Remove articles, punctuation, fix whitespace."""
+    return ' '.join(text.lower().split())
+```
+
+**F1 Score** (token overlap):
+```python
+def f1_score(pred, gold):
+    """Partial credit for word overlap."""
+    pred_tokens = normalize(pred).split()
+    gold_tokens = normalize(gold).split()
+
+    common = set(pred_tokens) & set(gold_tokens)
+    if len(common) == 0:
+        return 0
+
+    precision = len(common) / len(pred_tokens)
+    recall = len(common) / len(gold_tokens)
+    return 2 * precision * recall / (precision + recall)
+```
+
+---
+
+# Text Annotation: Sentiment Analysis
+
+**Task**: Classify opinion/emotion in text.
+
+**Levels of Granularity**:
+
+**1. Document-Level**:
+```python
+{"text": "This phone is amazing!", "sentiment": "POSITIVE"}
+```
+
+**2. Sentence-Level**:
+```python
+{
+  "text": "Great camera. Poor battery.",
+  "sentences": [
+    {"text": "Great camera.", "sentiment": "POSITIVE"},
+    {"text": "Poor battery.", "sentiment": "NEGATIVE"}
+  ]
+}
+```
+
+**3. Aspect-Based** (ABSA):
+```python
+{
+  "text": "Great camera but poor battery",
+  "aspects": [
+    {"aspect": "camera", "sentiment": "POSITIVE"},
+    {"aspect": "battery", "sentiment": "NEGATIVE"}
+  ]
+}
+```
+
+---
+
+# Sentiment Analysis: Guidelines
+
+**Common Issues**:
+
+**1. Sarcasm**:
+```
+"Yeah, great service... 2 hour wait!"
+Literal: POSITIVE  |  Actual: NEGATIVE
+```
+
+**2. Mixed Sentiment**:
+```
+"Good product, terrible delivery"
+→ Label as MIXED or separate aspects
+```
+
+**3. Neutral vs No Opinion**:
+```
+"The phone is blue"  → NEUTRAL (factual)
+"I don't care"       → NEUTRAL (no opinion)
+```
+
+**Annotation Guidelines**:
+```markdown
+# Sentiment Labeling Rules
+1. Consider context (sarcasm, tone)
+2. MIXED: Explicit positive AND negative
+3. NEUTRAL: Factual statements, no emotion
+4. Ignore comparisons without clear sentiment
+```
+
+---
+
+# Text Annotation: Text Summarization
+
+**Task**: Create concise summary of document.
+
+**Types**:
+- **Extractive**: Select important sentences
+- **Abstractive**: Write new summary
+
+**Annotation Format** (extractive):
+```json
+{
+  "document": "Long article with multiple paragraphs...",
+  "summary_sentences": [0, 3, 7, 12],  # Sentence indices
+  "rationale": "These sentences contain key points"
+}
+```
+
+**Annotation Format** (abstractive):
+```json
+{
+  "document": "Long article...",
+  "summary": "Concise 2-3 sentence summary written by human",
+  "length_constraint": "max 100 words"
+}
+```
+
+---
+
+# Summarization: Quality Metrics
+
+**Automatic Metrics**:
+
+**ROUGE** (Recall-Oriented Understudy for Gisting Evaluation):
+```python
+from rouge import Rouge
+
+rouge = Rouge()
+scores = rouge.get_scores(
+    hyps=["the cat sat on the mat"],
+    refs=["cat on mat"]
+)
+
+# Output: ROUGE-1, ROUGE-2, ROUGE-L
+# Measures n-gram overlap
+```
+
+**Human Evaluation Criteria**:
+1. **Relevance**: Contains important information
+2. **Coherence**: Sentences flow logically
+3. **Consistency**: No contradictions with source
+4. **Fluency**: Grammatically correct
+5. **Coverage**: Captures main points
+
+**IAA**: Moderate (κ ≈ 0.4-0.6) due to subjectivity
+
+---
+
+# Image Annotation: Classification
+
+**Task**: Assign label(s) to entire image.
+
+**Examples**:
+
+**Single-Label**:
+```json
+{"image": "cat.jpg", "label": "CAT"}
+```
+
+**Multi-Label**:
+```json
+{
+  "image": "outdoor_scene.jpg",
+  "labels": ["OUTDOOR", "PEOPLE", "DAYTIME", "URBAN"]
+}
+```
+
+**Fine-Grained**:
+```json
+{
+  "image": "dog.jpg",
+  "breed": "GOLDEN_RETRIEVER",
+  "category": "DOG"
+}
+```
+
+**Tools**: Label Studio, CVAT, Labelbox
+**Speed**: 50-200 images/hour (depends on # classes)
+
+---
+
+# Image Classification: Metrics
+
+**Inter-Annotator Agreement**:
+```python
+from sklearn.metrics import cohen_kappa_score
+
+# Two annotators label 100 images
+annotator1 = ['cat', 'dog', 'cat', ...]  # 100 labels
+annotator2 = ['cat', 'cat', 'cat', ...]  # 100 labels
+
+kappa = cohen_kappa_score(annotator1, annotator2)
+print(f"Cohen's Kappa: {kappa:.3f}")
+
+# Interpretation:
+# > 0.8: Excellent agreement
+# 0.6-0.8: Substantial agreement
+# < 0.6: Need to improve guidelines
+```
+
+**Model Metrics**: Accuracy, Top-5 Accuracy, Confusion Matrix
+**Calibration**: Are model confidences reliable?
+
+---
+
+# Image Annotation: Object Detection
+
+**Task**: Locate and classify objects with bounding boxes.
+
+**Annotation Format**:
+```json
+{
+  "image": "street.jpg",
+  "width": 1920,
+  "height": 1080,
+  "objects": [
+    {
+      "class": "car",
+      "bbox": [100, 200, 400, 500],  # [x, y, width, height]
+      "confidence": 1.0
+    },
+    {
+      "class": "person",
+      "bbox": [800, 150, 120, 350]
+    }
+  ]
+}
+```
+
+**Annotation Considerations**:
+- **Occlusion**: Label partially visible objects?
+- **Truncation**: Object cut off by image boundary?
+- **Crowd**: Many small objects (e.g., crowd of people)
+
+---
+
+# Object Detection: Common Issues
+
+**1. Bounding Box Tightness**:
+```
+Too Loose:  [    |--object--|     ]  ❌
+Too Tight:  [--object--]            ❌  (cuts off parts)
+Just Right: [  |--object--|  ]      ✅  (small margin)
+```
+
+**2. Overlapping Objects**:
+```
+Person behind car - label both?
+→ Yes, even if heavily occluded (>20% visible)
+```
+
+**3. Ambiguous Objects**:
+```
+Reflection in mirror?  → Depends on task
+Toy car vs real car?   → Specify in guidelines
+```
+
+**Quality Control**:
+```python
+def validate_bbox(bbox, img_width, img_height):
+    x, y, w, h = bbox
+    # Check if bbox is within image bounds
+    assert 0 <= x < img_width
+    assert 0 <= y < img_height
+    assert x + w <= img_width
+    assert y + h <= img_height
+    # Check minimum size (avoid tiny boxes)
+    assert w >= 10 and h >= 10
+```
+
+---
+
+# Object Detection: Metrics
+
+**Intersection over Union (IoU)**:
+```python
+def iou(box1, box2):
+    """Compute IoU between two boxes [x, y, w, h]."""
+    x1, y1, w1, h1 = box1
+    x2, y2, w2, h2 = box2
+
+    # Intersection area
+    xi = max(x1, x2)
+    yi = max(y1, y2)
+    wi = max(0, min(x1 + w1, x2 + w2) - xi)
+    hi = max(0, min(y1 + h1, y2 + h2) - yi)
+    intersection = wi * hi
+
+    # Union area
+    union = w1 * h1 + w2 * h2 - intersection
+
+    return intersection / union if union > 0 else 0
+
+# Example
+box1 = [100, 100, 50, 50]  # Ground truth
+box2 = [110, 110, 50, 50]  # Prediction
+print(f"IoU: {iou(box1, box2):.2f}")  # ~0.68
+```
+
+**IAA for Detection**: Mean IoU > 0.7 considered good
+
+---
+
+# Object Detection: mAP Metric
+
+**mean Average Precision (mAP)**:
+
+**Steps**:
+1. For each class, compute Average Precision (AP)
+2. Average AP across all classes → mAP
+
+**AP Calculation**:
+```python
+# For each predicted box:
+# - If IoU > threshold (e.g., 0.5) → True Positive
+# - Otherwise → False Positive
+# Plot Precision-Recall curve, compute area under curve
+
+from sklearn.metrics import average_precision_score
+
+# Sort predictions by confidence
+predictions_sorted = sorted(predictions, key=lambda x: x['confidence'], reverse=True)
+
+# Compute precision-recall at each threshold
+precisions, recalls = compute_pr_curve(predictions_sorted, ground_truth)
+
+# AP = Area under PR curve
+ap = average_precision_score(recalls, precisions)
+```
+
+**Common Thresholds**: mAP@0.5, mAP@0.75, mAP@[0.5:0.95]
+
+---
+
+# Image Annotation: Semantic Segmentation
+
+**Task**: Classify every pixel in image.
+
+**Example**:
+```
+Input:  RGB image (1920×1080×3)
+Output: Label mask (1920×1080) where each pixel ∈ {0, 1, 2, ...}
+
+Pixel values:
+0 → Background
+1 → Person
+2 → Car
+3 → Road
+...
+```
+
+**Annotation Format**:
+```json
+{
+  "image": "street.jpg",
+  "segmentation_mask": "street_mask.png",  # Each pixel is class ID
+  "classes": {
+    "0": "background",
+    "1": "person",
+    "2": "car",
+    "3": "road"
+  }
+}
+```
+
+---
+
+# Semantic Segmentation: Tools & Speed
+
+**Annotation Tools**:
+- **Polygon Tool**: Draw polygon around object
+- **Brush Tool**: Paint over pixels
+- **Magic Wand**: Auto-select similar pixels
+- **SAM (Segment Anything)**: AI-assisted segmentation
+
+**Annotation Time**:
+```
+Simple object (car):      2-5 minutes
+Complex object (person):  5-10 minutes
+Full street scene:        30-60 minutes
+Medical scan:             1-4 hours (high precision required)
+```
+
+**Speed-up Techniques**:
+1. **Pre-segmentation**: Use model predictions, human corrects
+2. **Active learning**: Segment uncertain regions only
+3. **Interpolation**: Label keyframes, interpolate between
+
+---
+
+# Semantic Segmentation: Metrics
+
+**Pixel Accuracy**:
+```python
+correct_pixels = (pred_mask == true_mask).sum()
+total_pixels = pred_mask.size
+accuracy = correct_pixels / total_pixels
+```
+**Problem**: Dominated by large classes (e.g., background)
+
+**Intersection over Union (IoU)** per class:
+```python
+def iou_per_class(pred, true, class_id):
+    pred_mask = (pred == class_id)
+    true_mask = (true == class_id)
+
+    intersection = (pred_mask & true_mask).sum()
+    union = (pred_mask | true_mask).sum()
+
+    return intersection / union if union > 0 else 0
+
+# Mean IoU across all classes
+ious = [iou_per_class(pred, true, c) for c in range(num_classes)]
+mean_iou = np.mean(ious)
+```
+
+**Typical Values**: mIoU > 0.7 is good, > 0.8 is excellent
+
+---
+
+# Image Annotation: Instance Segmentation
+
+**Task**: Segment and identify each object instance.
+
+**Difference from Semantic Segmentation**:
+```
+Semantic: All "person" pixels labeled as 1
+Instance: Person #1 → 1, Person #2 → 2, Person #3 → 3
+```
+
+**Annotation Format** (COCO style):
+```json
+{
+  "image": "crowd.jpg",
+  "annotations": [
+    {
+      "id": 1,
+      "category_id": 1,  # Person
+      "segmentation": [[x1, y1, x2, y2, ...]],  # Polygon points
+      "bbox": [100, 200, 50, 80],
+      "area": 4000
+    }
+  ]
+}
+```
+
+**Applications**: Counting objects, tracking, robotics
+
+---
+
+# Instance Segmentation: Metrics
+
+**Mask AP (Average Precision)**:
+- Similar to object detection mAP
+- But uses mask IoU instead of bbox IoU
+
+```python
+def mask_iou(mask1, mask2):
+    """Compute IoU between two binary masks."""
+    intersection = np.logical_and(mask1, mask2).sum()
+    union = np.logical_or(mask1, mask2).sum()
+    return intersection / union if union > 0 else 0
+
+# Match predicted instances to ground truth
+# Using Hungarian algorithm (bipartite matching)
+from scipy.optimize import linear_sum_assignment
+
+# Compute cost matrix (1 - IoU for each pred-gt pair)
+cost_matrix = np.zeros((len(pred_instances), len(gt_instances)))
+for i, pred in enumerate(pred_instances):
+    for j, gt in enumerate(gt_instances):
+        cost_matrix[i, j] = 1 - mask_iou(pred, gt)
+
+# Find optimal matching
+pred_idx, gt_idx = linear_sum_assignment(cost_matrix)
+```
+
+---
+
+# Image Annotation: Keypoint Detection
+
+**Task**: Locate specific points on objects (e.g., body joints, facial landmarks).
+
+**Example** (Human Pose):
+```json
+{
+  "image": "person.jpg",
+  "keypoints": [
+    {"name": "nose", "x": 120, "y": 80, "visible": 1},
+    {"name": "left_eye", "x": 110, "y": 75, "visible": 1},
+    {"name": "right_eye", "x": 130, "y": 75, "visible": 1},
+    {"name": "left_shoulder", "x": 100, "y": 150, "visible": 1},
+    {"name": "right_shoulder", "x": 140, "y": 150, "visible": 0}  # occluded
+  ],
+  "skeleton": [[0, 1], [0, 2], [0, 3], [0, 4]]  # Connections
+}
+```
+
+**Visibility Flags**:
+- `0`: Not visible (occluded)
+- `1`: Visible
+- `2`: Not in image
+
+---
+
+# Keypoint Detection: Metrics
+
+**Object Keypoint Similarity (OKS)**:
+```python
+def oks(pred_kpts, gt_kpts, bbox_area, kpt_sigmas):
+    """
+    Similar to IoU but for keypoints.
+
+    Args:
+        pred_kpts: Predicted keypoints [(x, y, v), ...]
+        gt_kpts: Ground truth keypoints [(x, y, v), ...]
+        bbox_area: Bounding box area (for normalization)
+        kpt_sigmas: Per-keypoint standard deviation (how precise to be)
+    """
+    distances = []
+    for (px, py, pv), (gx, gy, gv), sigma in zip(pred_kpts, gt_kpts, kpt_sigmas):
+        if gv == 0:  # Skip if not labeled
+            continue
+
+        # Euclidean distance
+        d = np.sqrt((px - gx)**2 + (py - gy)**2)
+
+        # Normalized by bbox size and keypoint precision
+        distances.append(np.exp(-(d**2) / (2 * bbox_area * sigma**2)))
+
+    return np.mean(distances) if distances else 0
+```
+
+**Threshold**: OKS > 0.5 considered correct
+
+---
+
+# Audio Annotation: Speech Transcription
+
+**Task**: Convert speech to text.
+
+**Annotation Format**:
+```json
+{
+  "audio": "interview.wav",
+  "duration": 120.5,
+  "transcription": [
+    {
+      "start": 0.0,
+      "end": 3.2,
+      "speaker": "A",
+      "text": "Hello, how are you?"
+    },
+    {
+      "start": 3.5,
+      "end": 5.8,
+      "speaker": "B",
+      "text": "I'm doing well, thank you."
+    }
+  ]
+}
+```
+
+**Annotation Guidelines**:
+- **Verbatim**: Include filler words (um, uh) or clean?
+- **Punctuation**: Add proper punctuation
+- **Inaudible**: Mark with `[inaudible]` or `[?]`
+- **Background**: Note background sounds `[laughter]`, `[music]`
+
+---
+
+# Speech Transcription: Challenges
+
+**1. Speaker Diarization**:
+```
+"Who is speaking when?"
+→ Label each segment with speaker ID
+```
+
+**2. Overlapping Speech**:
+```
+[0.0-2.0] Speaker A: "I think that—"
+[1.5-3.0] Speaker B: "No wait, listen..."
+→ Overlap at 1.5-2.0
+```
+
+**3. Accents & Dialects**:
+```
+Non-standard pronunciation → Transcribe what was said, not standard form
+Example: "gonna" vs "going to"
+```
+
+**4. Code-Switching**:
+```
+"Let's meet mañana for lunch"
+→ Mark language: "Let's meet <es>mañana</es> for lunch"
+```
+
+---
+
+# Speech Transcription: Metrics
+
+**Word Error Rate (WER)**:
+```python
+from jiwer import wer
+
+reference = "hello world how are you"
+hypothesis = "hello word how you"
+
+error_rate = wer(reference, hypothesis)
+print(f"WER: {error_rate:.2%}")  # 40% (2 errors / 5 words)
+
+# WER = (Substitutions + Deletions + Insertions) / Total Words
+```
+
+**Character Error Rate (CER)**:
+- Similar to WER but at character level
+- Better for languages without clear word boundaries
+
+**IAA for Transcription**:
+- **High agreement**: WER < 5% between annotators
+- **Moderate**: WER 5-15%
+- **Low**: WER > 15% (need clearer guidelines)
+
+---
+
+# Audio Annotation: Sound Event Detection
+
+**Task**: Identify and timestamp sound events.
+
+**Example** (Smart home):
+```json
+{
+  "audio": "home_audio.wav",
+  "events": [
+    {"start": 2.3, "end": 3.1, "label": "door_slam"},
+    {"start": 5.0, "end": 8.2, "label": "dog_bark"},
+    {"start": 10.5, "end": 11.0, "label": "glass_break"},
+    {"start": 15.0, "end": 45.0, "label": "music", "overlap": true}
+  ]
+}
+```
+
+**Applications**:
+- **Surveillance**: Gunshot, glass break, scream
+- **Healthcare**: Cough, snore, breathing anomaly
+- **Environment**: Bird species, vehicle type
+
+---
+
+# Sound Event Detection: Metrics
+
+**Event-Based Metrics**:
+
+**1. Onset/Offset tolerance**:
+```python
+def event_based_f1(pred_events, true_events, tolerance=0.2):
+    """
+    Allow tolerance in start/end times.
+
+    Args:
+        tolerance: Allowed time difference (seconds)
+    """
+    tp = 0
+    for pred in pred_events:
+        for true in true_events:
+            # Check label match
+            if pred['label'] != true['label']:
+                continue
+
+            # Check temporal overlap within tolerance
+            if (abs(pred['start'] - true['start']) < tolerance and
+                abs(pred['end'] - true['end']) < tolerance):
+                tp += 1
+                break
+
+    precision = tp / len(pred_events) if pred_events else 0
+    recall = tp / len(true_events) if true_events else 0
+    f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
+
+    return f1
+```
+
+---
+
+# Audio Annotation: Speaker Recognition
+
+**Task**: Identify who is speaking.
+
+**Types**:
+
+**1. Speaker Identification** (closed-set):
+```json
+{
+  "audio": "meeting.wav",
+  "speakers": ["Alice", "Bob", "Charlie"],
+  "segments": [
+    {"start": 0, "end": 5, "speaker": "Alice"},
+    {"start": 5, "end": 12, "speaker": "Bob"}
+  ]
+}
+```
+
+**2. Speaker Verification** (is this person X?):
+```json
+{
+  "audio": "voice_sample.wav",
+  "claimed_speaker": "Alice",
+  "is_match": true  # Boolean
+}
+```
+
+**Metrics**: Accuracy, Equal Error Rate (EER)
+
+---
+
+# Audio Annotation: Emotion Recognition
+
+**Task**: Classify emotion in speech.
+
+**Labels** (common taxonomy):
+```python
+emotions = [
+    "neutral",
+    "happy",
+    "sad",
+    "angry",
+    "fearful",
+    "surprised",
+    "disgusted"
+]
+```
+
+**Annotation Format**:
+```json
+{
+  "audio": "utterance.wav",
+  "text": "I can't believe this happened!",
+  "emotion": "angry",
+  "arousal": 7,  # 1-9 scale (calm to excited)
+  "valence": 2   # 1-9 scale (negative to positive)
+}
+```
+
+**Challenge**: Subjectivity → Low IAA (κ ≈ 0.4-0.6)
+
+---
+
+# Video Annotation: Action Recognition
+
+**Task**: Classify actions in video clips.
+
+**Annotation Format**:
+```json
+{
+  "video": "sports.mp4",
+  "fps": 30,
+  "actions": [
+    {
+      "start_frame": 0,
+      "end_frame": 90,  # 3 seconds at 30fps
+      "label": "running"
+    },
+    {
+      "start_frame": 90,
+      "end_frame": 150,
+      "label": "jumping"
+    }
+  ]
+}
+```
+
+**Types**:
+- **Clip-level**: Entire clip = one action
+- **Temporal**: Start/end frames for each action
+- **Dense**: Label every frame
+
+---
+
+# Video Annotation: Object Tracking
+
+**Task**: Follow objects across frames.
+
+**Annotation Format** (MOT - Multiple Object Tracking):
+```json
+{
+  "video": "traffic.mp4",
+  "tracks": [
+    {
+      "track_id": 1,
+      "category": "car",
+      "bboxes": [
+        {"frame": 0, "bbox": [100, 200, 50, 80]},
+        {"frame": 1, "bbox": [105, 202, 50, 80]},
+        {"frame": 2, "bbox": [110, 204, 50, 80]}
+      ]
+    },
+    {
+      "track_id": 2,
+      "category": "person",
+      "bboxes": [...]
+    }
+  ]
+}
+```
+
+**Challenges**: Occlusion, re-identification after disappearance
+
+---
+
+# Video Tracking: Metrics
+
+**CLEAR MOT Metrics**:
+
+**1. MOTA (Multiple Object Tracking Accuracy)**:
+```python
+MOTA = 1 - (FP + FN + IDSW) / GT
+
+where:
+- FP: False positives (wrong detections)
+- FN: False negatives (missed objects)
+- IDSW: ID switches (track lost then found with new ID)
+- GT: Total ground truth objects
+```
+
+**2. MOTP (Multiple Object Tracking Precision)**:
+```python
+MOTP = Σ IoU(matched_pairs) / |matched_pairs|
+# Average IoU of correctly matched detections
+```
+
+**3. IDF1** (ID F1 Score):
+```python
+# Measures how well identities are preserved
+IDF1 = 2 * IDTP / (2 * IDTP + IDFP + IDFN)
+```
+
+---
+
+# Video Annotation: Temporal Segmentation
+
+**Task**: Divide video into meaningful segments.
+
+**Example** (Cooking video):
+```json
+{
+  "video": "cooking_recipe.mp4",
+  "segments": [
+    {"start": 0, "end": 15, "label": "gather_ingredients"},
+    {"start": 15, "end": 45, "label": "chop_vegetables"},
+    {"start": 45, "end": 90, "label": "cook_in_pan"},
+    {"start": 90, "end": 120, "label": "plate_and_serve"}
+  ]
+}
+```
+
+**Applications**:
+- **Sports**: Play-by-play analysis
+- **Surveillance**: Activity monitoring
+- **Medical**: Surgical phase recognition
+
+**Metrics**: Frame-wise accuracy, Segment F1-score
+
+---
+
+# Multimodal Annotation: Image Captioning
+
+**Task**: Generate textual description of image.
+
+**Annotation Format**:
+```json
+{
+  "image": "beach.jpg",
+  "captions": [
+    "A person walking on the beach at sunset",
+    "Someone enjoying a peaceful evening walk by the ocean",
+    "A solitary figure strolls along the sandy shore"
+  ]
+}
+```
+
+**Why Multiple Captions?**
+- Captures different aspects
+- Handles ambiguity
+- Improves model diversity
+
+**Evaluation**: BLEU, METEOR, CIDEr, SPICE
+
+---
+
+# Multimodal Annotation: Visual Question Answering
+
+**Task**: Answer questions about images.
+
+**Example**:
+```json
+{
+  "image": "kitchen.jpg",
+  "qa_pairs": [
+    {"question": "How many people are in the image?", "answer": "2"},
+    {"question": "What color is the refrigerator?", "answer": "white"},
+    {"question": "Are they cooking?", "answer": "yes"}
+  ]
+}
+```
+
+**Answer Types**:
+- **Number**: Counting questions
+- **Yes/No**: Binary questions
+- **Other**: Open-ended ("What is the person holding?")
+
+**Metrics**: Accuracy (exact match), F1 (for multi-word answers)
+
+---
+
+# Annotation Metrics: Summary by Task
+
+| Task | Primary Metric | IAA Metric | Typical IAA |
+|------|---------------|------------|-------------|
+| **Text Classification** | F1-Score | Cohen's κ | 0.7-0.9 |
+| **NER** | Span F1 | Entity-level κ | 0.6-0.8 |
+| **Object Detection** | mAP@0.5 | Mean IoU | > 0.7 |
+| **Segmentation** | mIoU | Pixel agreement | > 0.8 |
+| **Keypoints** | OKS | Mean distance | < 5 pixels |
+| **Speech Transcription** | WER | WER between annotators | < 5% |
+| **Sound Events** | Event F1 | Temporal IoU | > 0.7 |
+| **Action Recognition** | Clip accuracy | Temporal IoU | 0.6-0.8 |
+| **Object Tracking** | MOTA/IDF1 | Track IoU | > 0.6 |
+
+---
+
+# Annotation Speed: Benchmarks
+
+**Text (per hour)**:
+- Classification: 200-500 examples
+- NER: 50-150 sentences
+- Relation extraction: 20-50 documents
+
+**Image (per hour)**:
+- Classification: 100-300 images
+- Bounding boxes: 20-50 images (5-10 objects each)
+- Segmentation: 5-15 images (high complexity)
+
+**Audio (per hour of annotation work)**:
+- Transcription: 15-30 min of audio
+- Event labeling: 30-60 min of audio
+
+**Video (per hour)**:
+- Action clips: 50-100 clips
+- Object tracking: 5-10 min of video
+
+---
+
+# Cost Estimation for Annotation
+
+**Example Project**: Label 10,000 images for object detection
+
+**Scenario 1: In-house team**
+```python
+images = 10000
+time_per_image = 3  # minutes
+hourly_rate = 20  # USD
+
+total_hours = (images * time_per_image) / 60  # 500 hours
+total_cost = total_hours * hourly_rate  # $10,000
+```
+
+**Scenario 2: Crowdsourcing (MTurk)**
+```python
+cost_per_image = 0.50  # USD (cheaper but lower quality)
+redundancy = 3  # annotations per image
+
+total_cost = images * cost_per_image * redundancy  # $15,000
+```
+
+**Scenario 3: Professional service (Scale AI)**
+```python
+cost_per_image = 2.00  # USD (higher quality)
+total_cost = images * cost_per_image  # $20,000
+```
+
+---
+
+# Annotation Best Practices by Modality
+
+**Text**:
+- Provide clear label definitions with examples
+- Handle edge cases explicitly in guidelines
+- Use consensus for ambiguous cases
+
+**Images**:
+- Zoom tools for precise boundaries
+- Grid overlay for alignment
+- Pre-annotation with models to speed up
+
+**Audio**:
+- High-quality headphones required
+- Waveform visualization
+- Playback speed control (0.5x for difficult segments)
+
+**Video**:
+- Keyframe sampling for efficiency
+- Interpolation between keyframes
+- Tracking assistance tools (SAM, optical flow)
 
 ---
 
