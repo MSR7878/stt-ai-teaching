@@ -94,18 +94,18 @@ def generate_transfer_learning():
     dot = Digraph('Transfer Learning', graph_attr={'rankdir': 'TB', 'bgcolor': 'white'})
 
     # Pre-trained backbone
-    dot.node('Backbone', 'Pre-trained Backbone\n(ImageNet weights)\nFROZEN ❄️',
+    dot.node('Backbone', 'Pre-trained Backbone\n(ImageNet weights)\nFROZEN',
              shape='box', style='filled,dashed', fillcolor='lightgray')
 
     # New head
-    dot.node('Head', 'New Classification Head\nTRAINABLE 🔥',
+    dot.node('Head', 'New Classification Head\nTRAINABLE',
              shape='box', style='filled', fillcolor='lightgreen')
 
     # Connection
     dot.edge('Backbone', 'Head', label='features')
 
     # Add legend
-    dot.node('Legend', 'Feature Extraction Mode:\n• Backbone: Frozen (reuse learned features)\n• Head: Trainable (learn task-specific classifier)',
+    dot.node('Legend', 'Feature Extraction Mode:\n* Backbone: Frozen (reuse learned features)\n* Head: Trainable (learn task-specific classifier)',
              shape='note', style='filled', fillcolor='lightyellow')
 
     # Save diagram
