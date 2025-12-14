@@ -114,6 +114,7 @@ Entities:
 - &quot;Cupertino&quot; [42:51] → LOCATION
 - &quot;Sep 12&quot; [55:61] → DATE
 </code></pre>
+<p><img src="../figures/week03_ner_example.png" alt="NER Example" /></p>
 <p><strong>Label Format</strong> (JSON):</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;text&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Apple CEO Tim Cook...&quot;</span><span class="hljs-punctuation">,</span>
@@ -230,6 +231,7 @@ Relations:
   <span class="hljs-punctuation">]</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
+<p><img src="../figures/week03_qa_example.png" alt="QA Example" /></p>
 <p><strong>Challenges</strong>:</p>
 <ul>
 <li><strong>Extractive QA</strong>: Answer is substring of context</li>
@@ -290,6 +292,7 @@ Relations:
   ]
 }
 </code></pre>
+<p><img src="../figures/week03_sentiment_example.png" alt="Aspect-Based Sentiment Example" /></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-paginate="true" data-theme="default" data-style="@import &quot;custom.css&quot;;" lang="en-IN" data-marpit-pagination="15" style="--paginate:true;--theme:default;--style:@import &quot;custom.css&quot;;;" data-marpit-pagination-total="85">
 <h1 id="sentiment-analysis-guidelines">Sentiment Analysis: Guidelines</h1>
@@ -408,6 +411,7 @@ kappa = cohen_kappa_score(annotator1, annotator2)
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-paginate="true" data-theme="default" data-style="@import &quot;custom.css&quot;;" lang="en-IN" data-marpit-pagination="20" style="--paginate:true;--theme:default;--style:@import &quot;custom.css&quot;;;" data-marpit-pagination-total="85">
 <h1 id="image-annotation-object-detection">Image Annotation: Object Detection</h1>
 <p><strong>Task</strong>: Locate and classify objects with bounding boxes.</p>
+<p><img src="../figures/week03_object_detection_example.png" alt="Object Detection Example" /></p>
 <p><strong>Annotation Format</strong>:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;image&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;street.jpg&quot;</span><span class="hljs-punctuation">,</span>
@@ -463,6 +467,7 @@ Toy car vs real car?   → Specify in guidelines
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-paginate="true" data-theme="default" data-style="@import &quot;custom.css&quot;;" lang="en-IN" data-marpit-pagination="22" style="--paginate:true;--theme:default;--style:@import &quot;custom.css&quot;;;" data-marpit-pagination-total="85">
 <h1 id="object-detection-metrics">Object Detection: Metrics</h1>
 <p><strong>Intersection over Union (IoU)</strong>:</p>
+<p><img src="../figures/week03_iou_visualization.png" alt="IoU Visualization" /></p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">iou</span>(<span class="hljs-params">box1, box2</span>):
     <span class="hljs-string">&quot;&quot;&quot;Compute IoU between two boxes [x, y, w, h].&quot;&quot;&quot;</span>
     x1, y1, w1, h1 = box1
@@ -528,6 +533,7 @@ Pixel values:
 3 → Road
 ...
 </code></pre>
+<p><img src="../figures/week03_segmentation_comparison.png" alt="Semantic vs Instance Segmentation" /></p>
 <p><strong>Annotation Format</strong>:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;image&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;street.jpg&quot;</span><span class="hljs-punctuation">,</span>
@@ -640,6 +646,7 @@ pred_idx, gt_idx = linear_sum_assignment(cost_matrix)
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-paginate="true" data-theme="default" data-style="@import &quot;custom.css&quot;;" lang="en-IN" data-marpit-pagination="29" style="--paginate:true;--theme:default;--style:@import &quot;custom.css&quot;;;" data-marpit-pagination-total="85">
 <h1 id="image-annotation-keypoint-detection">Image Annotation: Keypoint Detection</h1>
 <p><strong>Task</strong>: Locate specific points on objects (e.g., body joints, facial landmarks).</p>
+<p><img src="../figures/week03_keypoint_example.png" alt="Keypoint Detection Example" /></p>
 <p><strong>Example</strong> (Human Pose):</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;image&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;person.jpg&quot;</span><span class="hljs-punctuation">,</span>
@@ -767,6 +774,7 @@ error_rate = wer(reference, hypothesis)
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-paginate="true" data-theme="default" data-style="@import &quot;custom.css&quot;;" lang="en-IN" data-marpit-pagination="34" style="--paginate:true;--theme:default;--style:@import &quot;custom.css&quot;;;" data-marpit-pagination-total="85">
 <h1 id="audio-annotation-sound-event-detection">Audio Annotation: Sound Event Detection</h1>
 <p><strong>Task</strong>: Identify and timestamp sound events.</p>
+<p><img src="../figures/week03_audio_annotation_example.png" alt="Audio Annotation Example" /></p>
 <p><strong>Example</strong> (Smart home):</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;audio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;home_audio.wav&quot;</span><span class="hljs-punctuation">,</span>
@@ -895,6 +903,7 @@ error_rate = wer(reference, hypothesis)
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="39" data-paginate="true" data-theme="default" data-style="@import &quot;custom.css&quot;;" lang="en-IN" data-marpit-pagination="39" style="--paginate:true;--theme:default;--style:@import &quot;custom.css&quot;;;" data-marpit-pagination-total="85">
 <h1 id="video-annotation-object-tracking">Video Annotation: Object Tracking</h1>
 <p><strong>Task</strong>: Follow objects across frames.</p>
+<p><img src="../figures/week03_video_tracking_example.png" alt="Video Tracking Example" /></p>
 <p><strong>Annotation Format</strong> (MOT - Multiple Object Tracking):</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;video&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;traffic.mp4&quot;</span><span class="hljs-punctuation">,</span>

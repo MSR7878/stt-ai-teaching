@@ -124,6 +124,8 @@ Entities:
 - "Sep 12" [55:61] → DATE
 ```
 
+![NER Example](../figures/week03_ner_example.png)
+
 **Label Format** (JSON):
 ```json
 {
@@ -266,6 +268,8 @@ def evaluate_relations(gold, pred):
 }
 ```
 
+![QA Example](../figures/week03_qa_example.png)
+
 **Challenges**:
 - **Extractive QA**: Answer is substring of context
 - **Abstractive QA**: Answer must be generated
@@ -340,6 +344,8 @@ def f1_score(pred, gold):
   ]
 }
 ```
+
+![Aspect-Based Sentiment Example](../figures/week03_sentiment_example.png)
 
 ---
 
@@ -494,6 +500,8 @@ print(f"Cohen's Kappa: {kappa:.3f}")
 
 **Task**: Locate and classify objects with bounding boxes.
 
+![Object Detection Example](../figures/week03_object_detection_example.png)
+
 **Annotation Format**:
 ```json
 {
@@ -560,6 +568,9 @@ def validate_bbox(bbox, img_width, img_height):
 # Object Detection: Metrics
 
 **Intersection over Union (IoU)**:
+
+![IoU Visualization](../figures/week03_iou_visualization.png)
+
 ```python
 def iou(box1, box2):
     """Compute IoU between two boxes [x, y, w, h]."""
@@ -635,6 +646,8 @@ Pixel values:
 3 → Road
 ...
 ```
+
+![Semantic vs Instance Segmentation](../figures/week03_segmentation_comparison.png)
 
 **Annotation Format**:
 ```json
@@ -767,6 +780,8 @@ pred_idx, gt_idx = linear_sum_assignment(cost_matrix)
 # Image Annotation: Keypoint Detection
 
 **Task**: Locate specific points on objects (e.g., body joints, facial landmarks).
+
+![Keypoint Detection Example](../figures/week03_keypoint_example.png)
 
 **Example** (Human Pose):
 ```json
@@ -914,6 +929,8 @@ print(f"WER: {error_rate:.2%}")  # 40% (2 errors / 5 words)
 # Audio Annotation: Sound Event Detection
 
 **Task**: Identify and timestamp sound events.
+
+![Audio Annotation Example](../figures/week03_audio_annotation_example.png)
 
 **Example** (Smart home):
 ```json
@@ -1067,6 +1084,8 @@ emotions = [
 # Video Annotation: Object Tracking
 
 **Task**: Follow objects across frames.
+
+![Video Tracking Example](../figures/week03_video_tracking_example.png)
 
 **Annotation Format** (MOT - Multiple Object Tracking):
 ```json
