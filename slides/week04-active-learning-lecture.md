@@ -88,6 +88,9 @@ Prof. Nipun Batra, IIT Gandhinagar
 4. **Update**: Retrain model with new labels
 5. **Repeat**: Until performance target or budget reached
 
+---
+# Active Learning Cycle
+
 **Key components:**
 - **Learner**: ML model being trained
 - **Query Strategy**: How to select examples
@@ -95,11 +98,16 @@ Prof. Nipun Batra, IIT Gandhinagar
 - **Pool**: Unlabeled data to select from
 
 ---
-
 # Query Strategies: Comparison
 
+<style>
+table {
+  font-size: 0.80em;
+}
+</style>
+
 | Strategy | Approach | Pros | Cons | Best For |
-|----------|----------|------|------|----------|
+|---------|----------|------|------|---------|
 | **Uncertainty Sampling** | Pick most uncertain examples | Simple, fast, effective | May cluster in decision boundary | Most tasks (default choice) |
 | **Query-by-Committee** | Pick where models disagree | Robust, diverse | Requires training multiple models | When you can afford ensembles |
 | **Expected Model Change** | Pick examples that change model most | Adaptive | Computationally expensive | When labels are very expensive |
@@ -152,12 +160,26 @@ where $\hat{y} = \arg\max_y P_\theta(y|x)$ is the predicted class
 - Measures how uncertain the model is about its top prediction
 - Range: [0, 1]
 - High value = low confidence = select for labeling
+---
 
-## Example
-
+**Example 1:**
 Probabilities: $P(y|x) = [0.6, 0.3, 0.1]$
 
 $$U_{LC}(x) = 1 - 0.6 = 0.4$$
+
+
+**Example 2:** 
+Probabilities: $P(y|x) = [0.95, 0.03, 0.02]$
+
+$$U_{LC}(x) = 1 - 0.95 = 0.05$$
+
+
+**Example 3:**  
+Probabilities: $P(y|x) = [0.4, 0.35, 0.25]$
+
+$$U_{LC}(x) = 1 - 0.4 = 0.6$$
+
+**Which is most certain and most uncertain?**
 
 ---
 
@@ -174,6 +196,7 @@ where:
 Then uncertainty is:
 $$U_{M}^{inv}(x) = 1 - U_M(x)$$
 
+---
 ## Interpretation
 
 - Small margin = model is confused between top 2 classes
@@ -184,7 +207,6 @@ $$U_{M}^{inv}(x) = 1 - U_M(x)$$
 
 # Margin Sampling: Example
 
-## Scenario
 
 **Example A**: $P(y|x) = [0.51, 0.49, 0.00]$
 $$U_M(A) = 0.51 - 0.49 = 0.02 \quad \text{(very small margin)}$$
@@ -215,6 +237,7 @@ $$H(P_\theta(y|x)) = -\sum_{y=1}^{C} P_\theta(y|x) \log P_\theta(y|x)$$
 - Maximum when all classes equally likely
 - Most theoretically principled measure
 
+---
 ## Properties
 
 For $C$ classes:
@@ -242,26 +265,24 @@ $$H = -0.5\log(0.5) - 0.5\log(0.5) = 0.693$$
 ---
 
 # Entropy: Multi-Class Example
+**3-Class Classification ($C = 3$)**
 
-## 3-Class Classification ($C = 3$)
-
-**Example A** (confident):
-$$P(y|x) = [0.8, 0.15, 0.05]$$
+**Example A** (confident): $P(y|x) = [0.8, 0.15, 0.05]$
 $$H_A = -(0.8 \log 0.8 + 0.15 \log 0.15 + 0.05 \log 0.05) = 0.849$$
 
-**Example B** (uncertain):
-$$P(y|x) = [0.4, 0.35, 0.25]$$
+**Example B** (uncertain): $P(y|x) = [0.4, 0.35, 0.25]$
 $$H_B = -(0.4 \log 0.4 + 0.35 \log 0.35 + 0.25 \log 0.25) = 1.571$$
 
-**Example C** (maximum uncertainty):
-$$P(y|x) = [0.33, 0.33, 0.33]$$
-$$H_C = -3 \times (0.33 \log 0.33) = 1.585 \approx \log(3) = 1.099$$
+**Example C** (max uncertainty): $P(y|x) = [0.33, 0.33, 0.33]$
+$$H_C = -3 \times (0.33 \log 0.33) = 1.585 $$
 
 **Selection**: $H_C > H_B > H_A$ → Example C most uncertain
+
 
 ---
 
 # Comparing Uncertainty Measures
+<div style="font-size:1.5em;">
 
 | Measure | Formula | Best For | Limitations |
 |---------|---------|----------|-------------|
@@ -269,6 +290,10 @@ $$H_C = -3 \times (0.33 \log 0.33) = 1.585 \approx \log(3) = 1.099$$
 | **Margin** | $P(\hat{y}_1\|x) - P(\hat{y}_2\|x)$ | Binary/multiclass | Only considers top 2 |
 | **Entropy** | $-\sum_y P(y\|x) \log P(y\|x)$ | Full distribution | More computation |
 
+</div>
+
+
+---
 ## Example Comparison
 
 $P(y|x) = [0.6, 0.3, 0.05, 0.05]$
@@ -283,34 +308,16 @@ All identify this as moderately uncertain
 
 # Uncertainty Sampling - Code
 
-# Uncertainty Sampling - Code
-
 **Basic implementation:**
 
-```python
-from sklearn.linear_model import LogisticRegression
-import numpy as np
-
-def uncertainty_sampling(model, X_unlabeled, n_samples=10):
-    # Get prediction probabilities
-    probs = model.predict_proba(X_unlabeled)
-
-    # Calculate uncertainty (1 - max probability)
-    uncertainties = 1 - np.max(probs, axis=1)
-
-    # Select top uncertain samples
-    indices = np.argsort(uncertainties)[-n_samples:]
-
-    return indices
-
-# Usage
-model = LogisticRegression()
-model.fit(X_labeled, y_labeled)
-
-# Get indices of most uncertain samples
-query_indices = uncertainty_sampling(model, X_unlabeled, n_samples=20)
-X_to_label = X_unlabeled[query_indices]
-```
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
 ---
 
@@ -337,6 +344,9 @@ $$D_{VE}(x) = -\sum_{y=1}^{C} \frac{V(y)}{M} \log \frac{V(y)}{M}$$
 
 where $V(y)$ = number of committee members voting for class $y$
 
+---
+
+
 ## Example
 
 Committee of 5 models, binary classification:
@@ -353,7 +363,6 @@ $$D_{VE}(x) = -\left(\frac{3}{5}\log\frac{3}{5} + \frac{2}{5}\log\frac{2}{5}\rig
 
 # QBC Disagreement Measure 2: Consensus Entropy
 
-## Formula
 
 Average prediction distribution across committee:
 
@@ -362,6 +371,8 @@ $$P_C(y|x) = \frac{1}{M} \sum_{i=1}^{M} P_{h_i}(y|x)$$
 Then calculate entropy of consensus:
 
 $$D_{CE}(x) = H(P_C(y|x)) = -\sum_{y=1}^{C} P_C(y|x) \log P_C(y|x)$$
+
+---
 
 ## Interpretation
 
@@ -381,6 +392,11 @@ $$D_{CE}(x) = H(P_C(y|x)) = -\sum_{y=1}^{C} P_C(y|x) \log P_C(y|x)$$
 | Model 2 | 0.4 | 0.6 |
 | Model 3 | 0.3 | 0.7 |
 
+## Calculate Consensus Distribution ?
+## Calculate Consensus Entropy ?
+
+---
+
 ## Calculate Consensus Distribution
 
 $$P_C(y=0|x) = \frac{0.9 + 0.4 + 0.3}{3} = 0.533$$
@@ -397,7 +413,6 @@ $$D_{CE}(x) = -(0.533 \log 0.533 + 0.467 \log 0.467) = 0.991$$
 
 # QBC Disagreement Measure 3: KL Divergence
 
-## Formula
 
 Measure divergence of each model from consensus:
 
@@ -406,6 +421,8 @@ $$D_{KL}(x) = \frac{1}{M} \sum_{i=1}^{M} KL(P_{h_i}(y|x) \| P_C(y|x))$$
 where KL divergence is:
 
 $$KL(P \| Q) = \sum_{y} P(y) \log \frac{P(y)}{Q(y)}$$
+
+---
 
 ## Interpretation
 
@@ -427,6 +444,8 @@ $$KL_1 = 0.9 \log\frac{0.9}{0.533} + 0.1 \log\frac{0.1}{0.467} = 0.397$$
 
 $$KL_2 = 0.4 \log\frac{0.4}{0.533} + 0.6 \log\frac{0.6}{0.467} = 0.056$$
 
+---
+
 ## Model 3: $P_{h_3} = [0.3, 0.7]$
 
 $$KL_3 = 0.3 \log\frac{0.3}{0.533} + 0.7 \log\frac{0.7}{0.467} = 0.130$$
@@ -438,43 +457,15 @@ $$D_{KL}(x) = \frac{0.397 + 0.056 + 0.130}{3} = 0.194$$
 
 # Query-by-Committee - Code
 
-# Query-by-Committee - Code
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-```python
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
-from scipy.stats import entropy
-
-def query_by_committee(committee, X_unlabeled, n_samples=10):
-    # Get predictions from all committee members
-    all_probs = []
-    for model in committee:
-        probs = model.predict_proba(X_unlabeled)
-        all_probs.append(probs)
-
-    all_probs = np.array(all_probs)  # Shape: (n_models, n_samples, n_classes)
-
-    # Calculate vote entropy for each sample
-    avg_probs = all_probs.mean(axis=0)
-    disagreements = entropy(avg_probs.T)
-
-    # Select top disagreement samples
-    indices = np.argsort(disagreements)[-n_samples:]
-    return indices
-
-# Create committee
-committee = [
-    RandomForestClassifier(),
-    LogisticRegression(),
-    SVC(probability=True)
-]
-
-for model in committee:
-    model.fit(X_labeled, y_labeled)
-
-query_indices = query_by_committee(committee, X_unlabeled, n_samples=20)
-```
 
 ---
 
@@ -487,7 +478,8 @@ query_indices = query_by_committee(committee, X_unlabeled, n_samples=20)
 - Measure how much model parameters change
 - Select examples causing largest change
 
-**Gradient-based:**
+---
+## Gradient-based:
 ```python
 # For each example x:
 gradient = model.compute_gradient(x)
@@ -511,30 +503,15 @@ impact = ||gradient||  # Magnitude of gradient
 2. **Core-set selection**: Select examples that best represent all data
 3. **Hybrid**: Combine uncertainty + diversity
 
-```python
-from sklearn.cluster import KMeans
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-def diverse_uncertainty_sampling(model, X_unlabeled, n_samples=10):
-    # First, get uncertain examples (2x more than needed)
-    probs = model.predict_proba(X_unlabeled)
-    uncertainties = 1 - np.max(probs, axis=1)
-    uncertain_indices = np.argsort(uncertainties)[-n_samples*2:]
-
-    # Then, cluster and pick one from each cluster
-    X_uncertain = X_unlabeled[uncertain_indices]
-    kmeans = KMeans(n_clusters=n_samples)
-    kmeans.fit(X_uncertain)
-
-    # Select example closest to each cluster center
-    selected = []
-    for i in range(n_samples):
-        cluster_points = np.where(kmeans.labels_ == i)[0]
-        center = kmeans.cluster_centers_[i]
-        distances = np.linalg.norm(X_uncertain[cluster_points] - center, axis=1)
-        selected.append(uncertain_indices[cluster_points[np.argmin(distances)]])
-
-    return np.array(selected)
-```
 
 ---
 
@@ -542,7 +519,6 @@ def diverse_uncertainty_sampling(model, X_unlabeled, n_samples=10):
 
 **Challenge**: How to start with no labeled data?
 
-**Solutions:**
 
 1. **Random Sampling**: Label small random set to bootstrap
    ```python
@@ -564,76 +540,17 @@ def diverse_uncertainty_sampling(model, X_unlabeled, n_samples=10):
 
 ---
 
-# Active Learning Libraries
-
-**1. modAL**
-```python
-from modAL.models import ActiveLearner
-from sklearn.ensemble import RandomForestClassifier
-
-learner = ActiveLearner(
-    estimator=RandomForestClassifier(),
-    query_strategy=uncertainty_sampling,
-    X_training=X_initial,
-    y_training=y_initial
-)
-
-# Query 10 samples
-query_idx, query_instance = learner.query(X_pool, n_instances=10)
-
-# Teach with labels
-learner.teach(X_pool[query_idx], y_pool[query_idx])
-```
-
-**2. alipy**
-**3. libact**
-
----
 
 # Complete Active Learning Example
 
-```python
-from sklearn.datasets import make_classification
-from sklearn.linear_model import LogisticRegression
-import numpy as np
-
-# Generate dataset
-X, y = make_classification(n_samples=1000, n_features=20, n_classes=2)
-
-# Split into initial labeled set and pool
-n_initial = 20
-initial_idx = np.random.choice(len(X), size=n_initial, replace=False)
-X_labeled = X[initial_idx]
-y_labeled = y[initial_idx]
-
-pool_idx = np.setdiff1d(np.arange(len(X)), initial_idx)
-X_pool = X[pool_idx]
-y_pool = y[pool_idx]
-
-# Active learning loop
-model = LogisticRegression()
-accuracies = []
-
-for iteration in range(20):  # 20 iterations
-    # Train model
-    model.fit(X_labeled, y_labeled)
-
-    # Evaluate
-    score = model.score(X_test, y_test)
-    accuracies.append(score)
-    print(f"Iteration {iteration}: Accuracy = {score:.3f}")
-
-    # Query most uncertain samples
-    query_idx = uncertainty_sampling(model, X_pool, n_samples=10)
-
-    # Simulate oracle labeling
-    X_labeled = np.vstack([X_labeled, X_pool[query_idx]])
-    y_labeled = np.hstack([y_labeled, y_pool[query_idx]])
-
-    # Remove from pool
-    X_pool = np.delete(X_pool, query_idx, axis=0)
-    y_pool = np.delete(y_pool, query_idx, axis=0)
-```
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
 ---
 
@@ -658,6 +575,7 @@ def noisy_oracle(y_true, query_indices, error_rate=0.1):
     labels[error_idx] = 1 - labels[error_idx]  # Flip binary labels
     return labels
 ```
+---
 
 **With cost:**
 ```python
@@ -672,25 +590,15 @@ def oracle_with_cost(X_query, y_true, query_indices, cost_per_label=1.0):
 # Measuring Active Learning Performance
 
 **Learning Curve**: Accuracy vs. number of labeled samples
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-```python
-import matplotlib.pyplot as plt
-
-def plot_learning_curve(active_accuracies, random_accuracies, n_queries):
-    plt.figure(figsize=(10, 6))
-
-    x = np.arange(len(active_accuracies)) * n_queries
-
-    plt.plot(x, active_accuracies, 'o-', label='Active Learning')
-    plt.plot(x, random_accuracies, 's-', label='Random Sampling')
-
-    plt.xlabel('Number of Labels')
-    plt.ylabel('Accuracy')
-    plt.title('Active Learning vs Random Sampling')
-    plt.legend()
-    plt.grid(True)
-    plt.show()
-```
 
 **Metrics:**
 - Accuracy at fixed budget
@@ -709,21 +617,15 @@ def plot_learning_curve(active_accuracies, random_accuracies, n_queries):
 4. **Time limit**: Deadline reached
 
 **Automatic stopping:**
-```python
-def should_stop(accuracies, window=3, threshold=0.01):
-    if len(accuracies) < window:
-        return False
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    recent = accuracies[-window:]
-    improvement = max(recent) - min(recent)
-
-    return improvement < threshold
-
-# In active learning loop
-if should_stop(accuracies):
-    print("Stopping: Model has converged")
-    break
-```
 
 ---
 
@@ -734,6 +636,7 @@ if should_stop(accuracies):
 - Training is expensive
 - Uncertainty estimation harder
 
+---
 **Strategies:**
 
 1. **MC Dropout**: Use dropout at inference for uncertainty
@@ -763,16 +666,15 @@ if should_stop(accuracies):
 1. **Top-k uncertain**: Simple, but may select similar examples
 2. **Diverse batch**: Ensure batch covers feature space
 3. **BatchBALD**: Maximize information about model parameters
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-```python
-def batch_uncertainty_sampling(model, X_unlabeled, batch_size=100):
-    probs = model.predict_proba(X_unlabeled)
-    uncertainties = 1 - np.max(probs, axis=1)
-
-    # Select top-k
-    indices = np.argsort(uncertainties)[-batch_size:]
-    return indices
-```
 
 ---
 
@@ -786,6 +688,7 @@ def batch_uncertainty_sampling(model, X_unlabeled, batch_size=100):
 - Custom ML backends
 - Export to various formats
 
+---
 **Workflow:**
 1. Upload unlabeled data to Label Studio
 2. Connect ML model
@@ -802,25 +705,15 @@ def batch_uncertainty_sampling(model, X_unlabeled, batch_size=100):
 
 **Compare labeling costs:**
 
-```python
-def cost_analysis(active_results, random_results, cost_per_label=1.0):
-    target_accuracy = 0.90
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    # Find labels needed for target accuracy
-    active_labels = np.argmax(active_results >= target_accuracy) * 10
-    random_labels = np.argmax(random_results >= target_accuracy) * 10
-
-    active_cost = active_labels * cost_per_label
-    random_cost = random_labels * cost_per_label
-
-    savings = random_cost - active_cost
-    savings_pct = (savings / random_cost) * 100
-
-    print(f"Target Accuracy: {target_accuracy}")
-    print(f"Active Learning: {active_labels} labels (${active_cost})")
-    print(f"Random Sampling: {random_labels} labels (${random_cost})")
-    print(f"Savings: ${savings} ({savings_pct:.1f}%)")
-```
 
 **Typical results**: 50-80% reduction in labeling costs
 
@@ -834,27 +727,14 @@ def cost_analysis(active_results, random_results, cost_per_label=1.0):
 
 **Solution**: Use active learning to select examples from domain B
 
-```python
-# Train initial model on source domain
-model.fit(X_source, y_source)
-
-# Active learning on target domain
-X_pool = X_target  # Unlabeled target domain data
-
-for iteration in range(n_iterations):
-    # Query uncertain examples from target domain
-    query_idx = uncertainty_sampling(model, X_pool, n_samples=batch_size)
-
-    # Label (oracle)
-    y_new = oracle(X_pool[query_idx])
-
-    # Combine source and target domain data
-    X_train = np.vstack([X_source, X_labeled_target])
-    y_train = np.hstack([y_source, y_labeled_target])
-
-    # Retrain
-    model.fit(X_train, y_train)
-```
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
 ---
 
@@ -863,28 +743,16 @@ for iteration in range(n_iterations):
 **Problem**: Rare classes get few queries with standard uncertainty sampling
 
 **Solution**: Class-balanced active learning
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-```python
-def class_balanced_uncertainty_sampling(model, X_unlabeled, n_samples=10):
-    probs = model.predict_proba(X_unlabeled)
-    predicted_classes = np.argmax(probs, axis=1)
-    uncertainties = 1 - np.max(probs, axis=1)
 
-    selected = []
-    samples_per_class = n_samples // len(np.unique(predicted_classes))
-
-    for cls in np.unique(predicted_classes):
-        cls_mask = predicted_classes == cls
-        cls_uncertainties = uncertainties[cls_mask]
-        cls_indices = np.where(cls_mask)[0]
-
-        # Select most uncertain from this class
-        top_k = min(samples_per_class, len(cls_indices))
-        selected_idx = np.argsort(cls_uncertainties)[-top_k:]
-        selected.extend(cls_indices[selected_idx])
-
-    return np.array(selected)
-```
 
 ---
 
@@ -902,6 +770,7 @@ def class_balanced_uncertainty_sampling(model, X_unlabeled, n_samples=10):
 - Querying and retraining takes time
 - Budget for compute, not just labels
 
+---
 **4. Over-querying similar examples**
 - Use diversity-aware strategies
 - Balance uncertainty and diversity
@@ -938,6 +807,7 @@ def class_balanced_uncertainty_sampling(model, X_unlabeled, n_samples=10):
 - **alipy**: Comprehensive active learning toolkit
 - **libact**: C++ based, Python bindings
 
+---
 **Annotation:**
 - **Label Studio**: Web-based with active learning
 - **Prodigy**: Commercial, scriptable
@@ -962,10 +832,16 @@ def class_balanced_uncertainty_sampling(model, X_unlabeled, n_samples=10):
 - Active: 3,000 documents for same recall
 - Savings: $140,000 in lawyer fees
 
+---
 **3. Manufacturing Defect Detection**
 - Random: 1% defect rate, need 10,000 labels
 - Active: Focused on defects, 3,000 labels
 - Result: 67% cost reduction
+
+**4. Autonomous Driving (Object Detection)**
+- Random: 20,000 frames annotated for stable performance
+- Active: 6,000 high-uncertainty frames
+- Result: 70% reduction in annotation effort
 
 ---
 
@@ -997,7 +873,9 @@ def class_balanced_uncertainty_sampling(model, X_unlabeled, n_samples=10):
 4. **Active learning at scale**: Billion-sample pools
 5. **Weak supervision**: Combine with programmatic labeling
 
-**Open problems:**
+---
+
+# Open problems:
 - Theoretical guarantees
 - Better uncertainty estimation
 - Handling label noise
@@ -1018,6 +896,8 @@ def class_balanced_uncertainty_sampling(model, X_unlabeled, n_samples=10):
    - Get labels (oracle or human)
    - Add to training set
    - Retrain model
+
+---
 4. **Evaluate**: Compare to random baseline
 5. **Visualize**: Plot learning curves
 
@@ -1097,6 +977,7 @@ $$P(\theta | \mathcal{D}) = \frac{P(\mathcal{D} | \theta) P(\theta)}{P(\mathcal{
 **Predictive distribution**:
 $$P(y|x, \mathcal{D}) = \int P(y|x, \theta) P(\theta | \mathcal{D}) d\theta$$
 
+---
 **Uncertainty** comes from:
 1. **Aleatoric**: Inherent data noise
 2. **Epistemic**: Model uncertainty (reducible with more data)
@@ -1119,34 +1000,15 @@ $$I(y; \theta | x, \mathcal{D}) = H(y|x, \mathcal{D}) - \mathbb{E}_{P(\theta|\ma
 **Difference** = epistemic uncertainty (what active learning should target)
 
 **Implementation** (with MC Dropout):
-```python
-def bald_acquisition(model, x, n_samples=30):
-    """BALD acquisition function using MC Dropout."""
-    # Enable dropout at inference
-    model.train()
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    # Multiple forward passes
-    predictions = []
-    for _ in range(n_samples):
-        pred = model(x)
-        predictions.append(pred)
-
-    predictions = np.array(predictions)
-
-    # Predictive distribution
-    pred_mean = predictions.mean(axis=0)
-
-    # H(y|x,D) - predictive entropy
-    h_pred = -np.sum(pred_mean * np.log(pred_mean + 1e-10), axis=1)
-
-    # E[H(y|x,theta)] - expected conditional entropy
-    h_cond = -np.mean(np.sum(predictions * np.log(predictions + 1e-10), axis=2), axis=0)
-
-    # Information gain
-    bald_score = h_pred - h_cond
-
-    return bald_score
-```
 
 ---
 
@@ -1162,36 +1024,21 @@ def bald_acquisition(model, x, n_samples=30):
 **Joint Mutual Information**:
 $$I(\{y_1, ..., y_b\}; \theta | \{x_1, ..., x_b\}, \mathcal{D})$$
 
+---
 **Greedy approximation**:
 1. Select $x_1$ with highest BALD score
 2. Select $x_2$ with highest conditional information gain given $x_1$
 3. Repeat for batch size $b$
 
-**Implementation** (simplified):
-```python
-def batch_bald(model, X_unlabeled, batch_size=10, n_samples=30):
-    """Greedy BatchBALD acquisition."""
-    selected = []
-
-    for _ in range(batch_size):
-        if not selected:
-            # First sample: use BALD
-            scores = bald_acquisition(model, X_unlabeled, n_samples)
-        else:
-            # Conditional information gain
-            scores = conditional_information_gain(
-                model, X_unlabeled, X_unlabeled[selected], n_samples
-            )
-
-        # Select highest score
-        idx = np.argmax(scores)
-        selected.append(idx)
-
-        # Remove from pool
-        X_unlabeled = np.delete(X_unlabeled, idx, axis=0)
-
-    return np.array(selected)
-```
+**Implementation** (BatchBALD Acquisition):
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
 ---
 
@@ -1204,6 +1051,19 @@ $$\mathbb{E}_{P(y|x)}[L(\mathcal{D} \cup \{(x,y)\})]$$
 
 where $L(\mathcal{D})$ is loss on validation set given training set $\mathcal{D}$
 
+
+**Implementation**:
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
+
+
+---
 **Algorithm**:
 1. For each unlabeled $x_i$
 2. For each possible label $y$:
@@ -1218,45 +1078,6 @@ $$x^* = \arg\min_{x} \sum_{y} P(y|x) \cdot L(\mathcal{D} \cup \{(x, y)\})$$
 
 ---
 
-# Expected Error Reduction: Implementation
-
-```python
-def expected_error_reduction(model, X_unlabeled, X_val, y_val, n_samples=5):
-    """Approximate expected error reduction."""
-    expected_errors = []
-
-    for x in X_unlabeled:
-        # Get prediction probabilities
-        probs = model.predict_proba([x])[0]
-
-        # For each possible label
-        expected_error = 0
-        for y, prob in enumerate(probs):
-            # Simulate adding (x, y) to training set
-            # (In practice, use gradient approximation instead of retraining)
-
-            # Approximate: train model with new example
-            model_copy = clone(model)
-            X_train_new = np.vstack([X_labeled, [x]])
-            y_train_new = np.hstack([y_labeled, [y]])
-            model_copy.fit(X_train_new, y_train_new)
-
-            # Compute validation error
-            val_error = 1 - model_copy.score(X_val, y_val)
-
-            # Weight by probability
-            expected_error += prob * val_error
-
-        expected_errors.append(expected_error)
-
-    # Select sample with minimum expected error
-    return np.argmin(expected_errors)
-```
-
-**Note**: Very expensive (requires retraining or gradient computation)
-
----
-
 # Version Space and Active Learning
 
 **Version Space**: Set of all hypotheses consistent with training data
@@ -1267,6 +1088,7 @@ $$VS_{\mathcal{D}} = \{h \in \mathcal{H} : h(x) = y \text{ for all } (x, y) \in 
 - Each committee member represents a hypothesis in $VS$
 - Disagreement → large version space → more uncertainty
 
+---
 **Optimal query** (theoretically):
 - Cuts version space in half
 - Maximizes expected reduction in version space size
@@ -1287,6 +1109,7 @@ $$m_{passive} = O\left(\frac{d \log(1/\epsilon)}{\epsilon}\right)$$
 
 where $d$ = VC dimension
 
+---
 **Active learning** label complexity (linear separators):
 $$m_{active} = O\left(d \log^2\left(\frac{1}{\epsilon}\right)\right)$$
 
@@ -1313,37 +1136,14 @@ $$\text{label}(x) = \begin{cases}
 where $\tau$ is threshold
 
 **Adaptive threshold**:
-```python
-class StreamActiveLearner:
-    def __init__(self, model, budget):
-        self.model = model
-        self.budget = budget
-        self.labeled_count = 0
-        self.threshold = 0.5  # Initial threshold
-
-    def process_stream(self, x):
-        """Decide whether to label incoming example."""
-        # Predict uncertainty
-        probs = self.model.predict_proba([x])[0]
-        uncertainty = 1 - np.max(probs)
-
-        # Adaptive threshold
-        remaining_budget = self.budget - self.labeled_count
-        if remaining_budget > 0:
-            # Adjust threshold based on budget
-            self.threshold = np.percentile(
-                self.seen_uncertainties, 100 * (1 - remaining_budget / self.budget)
-            )
-
-            # Label if uncertain enough
-            if uncertainty > self.threshold:
-                label = get_label(x)  # Oracle
-                self.model.partial_fit([x], [label])
-                self.labeled_count += 1
-                return True
-
-        return False
-```
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
 ---
 
@@ -1358,29 +1158,16 @@ class StreamActiveLearner:
 - Most informative for refining boundary
 
 **Synthetic query generation**:
-```python
-def generate_boundary_query(model, X_pool):
-    """Generate query on decision boundary."""
-    # Find two examples from different classes
-    probs = model.predict_proba(X_pool)
-    preds = np.argmax(probs, axis=1)
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    # Find examples close to decision boundary
-    uncertainties = 1 - np.max(probs, axis=1)
-    uncertain_idx = np.argmax(uncertainties)
-    x1 = X_pool[uncertain_idx]
 
-    # Find nearest example from different predicted class
-    other_class = 1 - preds[uncertain_idx]
-    other_class_idx = np.where(preds == other_class)[0]
-    distances = np.linalg.norm(X_pool[other_class_idx] - x1, axis=1)
-    x2 = X_pool[other_class_idx[np.argmin(distances)]]
-
-    # Generate query at midpoint
-    query = (x1 + x2) / 2
-
-    return query
-```
 
 **Challenges**: Synthetic examples may not be realistic or labelable
 
@@ -1392,6 +1179,17 @@ def generate_boundary_query(model, X_pool):
 
 **Example**: Image tagging - "beach", "sunset", "people"
 
+**Implementation**:
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
+
+---
 **Uncertainty measures**:
 
 **1. Min-max uncertainty**:
@@ -1403,20 +1201,7 @@ $$U(x) = \frac{1}{L} \sum_{l=1}^{L} H(P(y_l|x))$$
 **3. Label cardinality uncertainty**:
 $$U(x) = H\left(\sum_{l=1}^{L} P(y_l = 1|x)\right)$$
 
-**Implementation**:
-```python
-def multi_label_uncertainty(model, X_unlabeled):
-    """Uncertainty sampling for multi-label classification."""
-    # Get probabilities for all labels
-    probs = model.predict_proba(X_unlabeled)  # Shape: (n_samples, n_labels)
 
-    # Average entropy across labels
-    entropies = -np.sum(probs * np.log(probs + 1e-10) +
-                        (1-probs) * np.log(1-probs + 1e-10), axis=1) / probs.shape[1]
-
-    # Select highest entropy
-    return np.argsort(entropies)[-10:]
-```
 
 ---
 
@@ -1434,37 +1219,15 @@ def multi_label_uncertainty(model, X_unlabeled):
 $$VOI(f_i, x) = I(y; f_i | x, \mathcal{D})$$
 
 **Joint optimization**:
-```python
-def active_feature_acquisition(model, X_partial, feature_costs):
-    """Select which feature to acquire for which sample."""
-    best_value = -np.inf
-    best_sample = None
-    best_feature = None
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    for i, x in enumerate(X_partial):
-        for j, feature_cost in enumerate(feature_costs):
-            # Estimate value of acquiring feature j for sample i
-            if np.isnan(x[j]):  # Feature not yet acquired
-                # Predict with missing feature
-                uncertainty_before = predict_uncertainty(model, x)
-
-                # Estimate uncertainty after acquiring feature
-                # (using imputation or Monte Carlo)
-                uncertainty_after = estimate_uncertainty_with_feature(model, x, j)
-
-                # Value of information
-                voi = uncertainty_before - uncertainty_after
-
-                # Normalize by cost
-                value = voi / feature_cost
-
-                if value > best_value:
-                    best_value = value
-                    best_sample = i
-                    best_feature = j
-
-    return best_sample, best_feature
-```
 
 ---
 
@@ -1478,20 +1241,21 @@ def active_feature_acquisition(model, X_partial, feature_costs):
 - Label uncertain examples multiple times
 - Use majority vote or probabilistic aggregation
 
+---
 **2. Confidence-weighted sampling**:
-```python
-def noise_robust_sampling(model, X_unlabeled, n_samples=10):
-    """Uncertainty sampling robust to label noise."""
-    probs = model.predict_proba(X_unlabeled)
-    uncertainties = 1 - np.max(probs, axis=1)
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    # Downweight very hard examples (likely noise)
-    # Weight by difficulty
-    difficulty = 1 - np.abs(probs[:, 0] - 0.5)  # How far from 0.5
-    scores = uncertainties * (1 - difficulty)  # Downweight hardest
+- Ask annotators to provide confidence scores
+- Downweight low-confidence labels during training
+- Prioritize high-confidence annotations for model updates
 
-    return np.argsort(scores)[-n_samples:]
-```
 
 **3. Self-consistent active learning**:
 - Track annotator consistency
@@ -1504,31 +1268,19 @@ def noise_robust_sampling(model, X_unlabeled, n_samples=10):
 **Goal**: Robustness to adversarial examples
 
 **Adversarial uncertainty**:
-```python
-def adversarial_active_learning(model, X_unlabeled, epsilon=0.1):
-    """Select examples near adversarial decision boundary."""
-    uncertainties = []
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    for x in X_unlabeled:
-        # Compute gradient
-        x_tensor = torch.tensor(x, requires_grad=True)
-        output = model(x_tensor)
-        loss = -torch.max(output)  # Negative to find worst case
-        loss.backward()
-
-        # Generate adversarial perturbation
-        perturbation = epsilon * torch.sign(x_tensor.grad)
-        x_adv = x_tensor + perturbation
-
-        # Measure uncertainty on adversarial example
-        adv_probs = model(x_adv).detach().numpy()
-        adv_uncertainty = 1 - np.max(adv_probs)
-
-        uncertainties.append(adv_uncertainty)
-
-    # Select most uncertain adversarial examples
-    return np.argsort(uncertainties)[-10:]
-```
+- Create adversarial variants using small input perturbations
+- Evaluate model confidence on adversarial inputs
+- Large confidence drop indicates model vulnerability
+- Query labels for the most adversarially uncertain samples
 
 **Benefit**: Improves robustness to adversarial attacks
 
@@ -1544,38 +1296,15 @@ def adversarial_active_learning(model, X_unlabeled, epsilon=0.1):
 $$\max_{\mathcal{S}} \text{Information}(\mathcal{S}) \quad \text{s.t.} \quad \sum_{x \in \mathcal{S}} c(x) \leq B$$
 
 **Cost-aware acquisition**:
-```python
-def cost_aware_active_learning(model, X_unlabeled, costs, budget):
-    """Active learning with variable annotation costs."""
-    selected = []
-    remaining_budget = budget
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    while remaining_budget > 0:
-        # Get uncertainties
-        probs = model.predict_proba(X_unlabeled)
-        uncertainties = 1 - np.max(probs, axis=1)
-
-        # Compute value = uncertainty / cost
-        values = uncertainties / costs
-
-        # Select highest value that fits budget
-        affordable = costs <= remaining_budget
-        if not affordable.any():
-            break
-
-        values[~affordable] = -np.inf
-        idx = np.argmax(values)
-
-        # Add to selected set
-        selected.append(idx)
-        remaining_budget -= costs[idx]
-
-        # Remove from pool
-        X_unlabeled = np.delete(X_unlabeled, idx, axis=0)
-        costs = np.delete(costs, idx)
-
-    return np.array(selected)
-```
 
 ---
 
@@ -1592,6 +1321,7 @@ where:
 
 **Goal**: Minimize regret
 
+---
 **Upper bound** (for some algorithms):
 $$R(T) = O(\sqrt{T \log T})$$
 
@@ -1618,28 +1348,19 @@ def compute_regret(accuracies, optimal_accuracy):
 **Exploitation**: Query high-value examples (improve specific regions)
 
 **Thompson Sampling** for active learning:
-```python
-class ThompsonSamplingAL:
-    def __init__(self, model, n_models=10):
-        self.models = [clone(model) for _ in range(n_models)]
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    def query(self, X_unlabeled, X_labeled, y_labeled):
-        """Thompson sampling for active learning."""
-        # Train multiple models on bootstrap samples
-        for model in self.models:
-            # Bootstrap sample
-            idx = np.random.choice(len(X_labeled), size=len(X_labeled), replace=True)
-            model.fit(X_labeled[idx], y_labeled[idx])
-
-        # Sample one model
-        sampled_model = np.random.choice(self.models)
-
-        # Query using uncertainty from sampled model
-        probs = sampled_model.predict_proba(X_unlabeled)
-        uncertainties = 1 - np.max(probs, axis=1)
-
-        return np.argmax(uncertainties)
-```
+- Train multiple models via bootstrapping
+- Randomly sample one model
+- Select the most uncertain example under that model
+- Naturally balances exploration and exploitation
 
 **Benefit**: Balances exploration and exploitation naturally
 
@@ -1654,6 +1375,7 @@ class ThompsonSamplingAL:
 - Actions: Label or skip
 - Reward: Information gain
 
+---
 **Upper Confidence Bound (UCB)**:
 $$\text{Score}(x) = \bar{U}(x) + \sqrt{\frac{2 \log t}{n(x)}}$$
 
@@ -1663,48 +1385,15 @@ where:
 - $t$: Current iteration
 
 **Implementation**:
-```python
-class UCBActiveLearner:
-    def __init__(self, model, n_clusters=10):
-        self.model = model
-        self.n_clusters = n_clusters
-        self.cluster_counts = np.zeros(n_clusters)
-        self.cluster_rewards = np.zeros(n_clusters)
-        self.iteration = 0
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    def query(self, X_unlabeled):
-        """UCB-based active learning."""
-        # Cluster unlabeled data
-        kmeans = KMeans(n_clusters=self.n_clusters)
-        clusters = kmeans.fit_predict(X_unlabeled)
-
-        # Compute UCB score for each cluster
-        ucb_scores = np.zeros(self.n_clusters)
-        for c in range(self.n_clusters):
-            if self.cluster_counts[c] == 0:
-                ucb_scores[c] = np.inf  # Prioritize unexplored
-            else:
-                avg_reward = self.cluster_rewards[c] / self.cluster_counts[c]
-                exploration = np.sqrt(2 * np.log(self.iteration + 1) / self.cluster_counts[c])
-                ucb_scores[c] = avg_reward + exploration
-
-        # Select from cluster with highest UCB
-        selected_cluster = np.argmax(ucb_scores)
-        cluster_mask = clusters == selected_cluster
-        cluster_idx = np.where(cluster_mask)[0]
-
-        # From this cluster, select most uncertain
-        probs = self.model.predict_proba(X_unlabeled[cluster_idx])
-        uncertainties = 1 - np.max(probs, axis=1)
-        idx = cluster_idx[np.argmax(uncertainties)]
-
-        # Update counts and rewards
-        self.cluster_counts[selected_cluster] += 1
-        self.cluster_rewards[selected_cluster] += uncertainties.max()
-        self.iteration += 1
-
-        return idx
-```
 
 ---
 
@@ -1719,6 +1408,7 @@ class UCBActiveLearner:
 **1. Sequence entropy**:
 $$H(y|x) = -\sum_{y \in \mathcal{Y}} P(y|x) \log P(y|x)$$
 
+---
 **2. Token-level uncertainty** (for sequences):
 $$U(x) = \frac{1}{|x|} \sum_{t=1}^{|x|} H(y_t | x)$$
 
@@ -1726,26 +1416,16 @@ $$U(x) = \frac{1}{|x|} \sum_{t=1}^{|x|} H(y_t | x)$$
 - Generate top-N predictions
 - Measure diversity among top predictions
 
-```python
-def structured_active_learning(model, X_unlabeled, n_samples=10):
-    """Active learning for sequence labeling."""
-    uncertainties = []
+**Implementation of Structured Active Learning**
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    for x in X_unlabeled:
-        # Get top-k predictions
-        top_k_preds = model.predict_top_k(x, k=5)
-
-        # Measure diversity (entropy over n-best list)
-        pred_probs = model.predict_proba(x)
-
-        # Average token-level entropy
-        token_entropies = -np.sum(pred_probs * np.log(pred_probs + 1e-10), axis=1)
-        avg_entropy = token_entropies.mean()
-
-        uncertainties.append(avg_entropy)
-
-    return np.argsort(uncertainties)[-n_samples:]
-```
 
 ---
 
@@ -1761,28 +1441,15 @@ $$U(x_i, x_j) = |P(x_i \succ x_j) - 0.5|$$
 Pairs close to 0.5 are most uncertain
 
 **Query selection**:
-```python
-def active_learning_for_ranking(model, items):
-    """Active learning for learning-to-rank."""
-    uncertainties = []
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    # Consider all pairs
-    for i, x_i in enumerate(items):
-        for j, x_j in enumerate(items):
-            if i < j:
-                # Predict probability that x_i ranked higher than x_j
-                prob = model.predict_pairwise(x_i, x_j)
-
-                # Uncertainty = closeness to 0.5
-                uncertainty = 1 - 2 * abs(prob - 0.5)
-                uncertainties.append((i, j, uncertainty))
-
-    # Select most uncertain pair
-    uncertainties.sort(key=lambda x: x[2], reverse=True)
-    i, j, _ = uncertainties[0]
-
-    return i, j
-```
 
 **Application**: Search ranking, recommendation systems
 
@@ -1797,50 +1464,15 @@ def active_learning_for_ranking(model, items):
 2. **Cannot-link**: Do $x_i$ and $x_j$ belong to different clusters?
 
 **Constrained K-means**:
-```python
-def active_learning_clustering(X, n_clusters, budget):
-    """Active learning for clustering."""
-    must_link = []
-    cannot_link = []
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    for _ in range(budget):
-        # Initial clustering
-        kmeans = KMeans(n_clusters=n_clusters)
-        clusters = kmeans.fit_predict(X)
-
-        # Find most uncertain pair
-        # (close in feature space but in different clusters)
-        uncertainties = []
-        for i in range(len(X)):
-            for j in range(i+1, len(X)):
-                dist = np.linalg.norm(X[i] - X[j])
-                same_cluster = clusters[i] == clusters[j]
-
-                # Uncertainty = close but different cluster OR far but same cluster
-                if same_cluster:
-                    uncertainty = 1 / (dist + 1)  # Close and same = low uncertainty
-                else:
-                    uncertainty = 1 / (dist + 1)  # Close and different = high uncertainty
-
-                uncertainties.append((i, j, uncertainty))
-
-        # Query most uncertain pair
-        uncertainties.sort(key=lambda x: x[2], reverse=True)
-        i, j, _ = uncertainties[0]
-
-        # Get oracle label
-        same = oracle_same_cluster(X[i], X[j])
-
-        if same:
-            must_link.append((i, j))
-        else:
-            cannot_link.append((i, j))
-
-        # Re-cluster with constraints
-        # (Use constrained K-means implementation)
-
-    return clusters, must_link, cannot_link
-```
 
 ---
 
@@ -1855,49 +1487,15 @@ def active_learning_clustering(X, n_clusters, budget):
 2. For task $T_2$, use knowledge from $T_1$ to initialize
 3. Active learning on $T_2$ with transfer
 
-```python
-class LifelongActiveLearner:
-    def __init__(self, base_model):
-        self.tasks = []
-        self.models = []
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    def learn_task(self, X_pool, y_pool, budget):
-        """Learn new task with active learning."""
-        # Transfer from previous tasks
-        if self.models:
-            # Initialize with previous model
-            model = clone(self.models[-1])
-        else:
-            # First task
-            model = clone(self.base_model)
-
-        # Active learning loop
-        X_labeled = []
-        y_labeled = []
-
-        for _ in range(budget):
-            # Query with uncertainty sampling
-            if X_labeled:
-                model.fit(X_labeled, y_labeled)
-
-            probs = model.predict_proba(X_pool)
-            uncertainties = 1 - np.max(probs, axis=1)
-            idx = np.argmax(uncertainties)
-
-            # Add to labeled set
-            X_labeled.append(X_pool[idx])
-            y_labeled.append(y_pool[idx])
-
-            # Remove from pool
-            X_pool = np.delete(X_pool, idx, axis=0)
-            y_pool = np.delete(y_pool, idx)
-
-        # Store task
-        self.tasks.append((X_labeled, y_labeled))
-        self.models.append(model)
-
-        return model
-```
 
 **Benefit**: Faster learning on new related tasks
 
@@ -1912,44 +1510,15 @@ class LifelongActiveLearner:
 **Challenge**: Balance immediate labeling vs waiting for better example
 
 **Threshold-based online active learning**:
-```python
-class OnlineActiveLearner:
-    def __init__(self, model, budget, stream_size):
-        self.model = model
-        self.budget = budget
-        self.stream_size = stream_size
-        self.labeled_count = 0
-        self.seen_uncertainties = []
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
-    def process_example(self, x, y_true):
-        """Process one example from stream."""
-        # Predict uncertainty
-        if hasattr(self.model, 'predict_proba'):
-            probs = self.model.predict_proba([x])[0]
-            uncertainty = 1 - np.max(probs)
-        else:
-            # Random if model not trained yet
-            uncertainty = 0.5
-
-        self.seen_uncertainties.append(uncertainty)
-
-        # Adaptive threshold based on budget
-        remaining = self.budget - self.labeled_count
-        progress = len(self.seen_uncertainties) / self.stream_size
-
-        # Adjust threshold: stricter early, looser later if budget remains
-        if remaining > 0:
-            target_percentile = 100 * (1 - remaining / self.budget)
-            threshold = np.percentile(self.seen_uncertainties, target_percentile)
-
-            # Label if uncertain enough
-            if uncertainty > threshold:
-                self.model.partial_fit([x], [y_true])
-                self.labeled_count += 1
-                return True
-
-        return False
-```
 
 **Application**: Real-time systems, streaming data
 
@@ -1965,45 +1534,14 @@ class OnlineActiveLearner:
 3. Synchronization: Merge labels and retrain
 
 **Distributed uncertainty sampling**:
-```python
-class DistributedActiveLearner:
-    def __init__(self, model, n_agents):
-        self.global_model = model
-        self.n_agents = n_agents
-        self.agent_models = [clone(model) for _ in range(n_agents)]
-
-    def distributed_query(self, X_pool, n_samples_per_agent):
-        """Query examples for each agent."""
-        all_queries = []
-
-        for agent_id in range(self.n_agents):
-            # Each agent uses global model
-            probs = self.global_model.predict_proba(X_pool)
-            uncertainties = 1 - np.max(probs, axis=1)
-
-            # Select unique samples (avoid overlap with other agents)
-            # Use deterministic partitioning
-            agent_partition = agent_id * n_samples_per_agent
-            sorted_idx = np.argsort(uncertainties)[::-1]
-
-            # Each agent gets different partition of uncertain samples
-            query_idx = sorted_idx[agent_partition:agent_partition + n_samples_per_agent]
-            all_queries.append(query_idx)
-
-        return all_queries
-
-    def aggregate_labels(self, agent_data):
-        """Aggregate labels from all agents and update global model."""
-        X_all = []
-        y_all = []
-
-        for X, y in agent_data:
-            X_all.extend(X)
-            y_all.extend(y)
-
-        # Retrain global model
-        self.global_model.fit(X_all, y_all)
-```
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
 **Benefits**: Parallelization, faster labeling
 
@@ -2021,33 +1559,14 @@ class DistributedActiveLearner:
 - Add noise to queries and labels
 - Preserve privacy while learning
 
-```python
-class PrivacyPreservingActiveLearner:
-    def __init__(self, model, epsilon=1.0):
-        self.model = model
-        self.epsilon = epsilon  # Privacy budget
-
-    def private_uncertainty(self, X_unlabeled):
-        """Compute uncertainty with differential privacy."""
-        # Get uncertainties
-        probs = self.model.predict_proba(X_unlabeled)
-        uncertainties = 1 - np.max(probs, axis=1)
-
-        # Add Laplace noise for privacy
-        sensitivity = 1.0  # Maximum change in uncertainty
-        noise = np.random.laplace(0, sensitivity / self.epsilon, size=len(uncertainties))
-        private_uncertainties = uncertainties + noise
-
-        return private_uncertainties
-
-    def private_query(self, X_unlabeled, n_samples=10):
-        """Select samples with differential privacy."""
-        private_uncertainties = self.private_uncertainty(X_unlabeled)
-
-        # Select top-k
-        indices = np.argsort(private_uncertainties)[-n_samples:]
-        return indices
-```
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
 **Trade-off**: Privacy vs utility
 
@@ -2059,30 +1578,14 @@ class PrivacyPreservingActiveLearner:
 
 **Fair active learning**: Ensure diverse coverage across demographic groups
 
-```python
-def fair_active_learning(model, X_unlabeled, groups, n_samples=10):
-    """Active learning with fairness constraints."""
-    unique_groups = np.unique(groups)
-    samples_per_group = n_samples // len(unique_groups)
-
-    selected = []
-
-    for group in unique_groups:
-        # Get samples from this group
-        group_mask = groups == group
-        X_group = X_unlabeled[group_mask]
-        group_idx = np.where(group_mask)[0]
-
-        # Uncertainty sampling within group
-        probs = model.predict_proba(X_group)
-        uncertainties = 1 - np.max(probs, axis=1)
-
-        # Select top-k from this group
-        top_k_within_group = np.argsort(uncertainties)[-samples_per_group:]
-        selected.extend(group_idx[top_k_within_group])
-
-    return np.array(selected)
-```
+<div style="text-align:center; margin-top:1em;">
+  <a href="https://colab.research.google.com/drive/1vyiCXapO4ygeh8apsldzsq-ZDmRPlfSX?usp=sharing"
+     style="font-size:1.15em; padding:0.45em 0.9em;
+            border:1px solid #444; border-radius:8px;
+            text-decoration:none;">
+    ▶ Open Class Code on Google Colab
+  </a>
+</div>
 
 **Benefits**:
 - Balanced representation
@@ -2104,6 +1607,7 @@ def fair_active_learning(model, X_unlabeled, groups, n_samples=10):
 - Membership query synthesis
 - Exploration-exploitation (Thompson sampling, UCB)
 
+---
 **Specialized Settings**:
 - Multi-label active learning
 - Structured prediction
@@ -2116,6 +1620,7 @@ def fair_active_learning(model, X_unlabeled, groups, n_samples=10):
 - Variable costs
 - Adversarial robustness
 
+---
 **Emerging Directions**:
 - Lifelong active learning
 - Online active learning
