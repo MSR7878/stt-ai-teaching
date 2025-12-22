@@ -22,7 +22,7 @@ IIT Gandhinagar
 # Today's Agenda (90 minutes)
 
 1. **Introduction to LLM APIs** (10 min)
-   - What are LLM APIs? Major providers
+   - What are LLM APIs? Major providers & free options
 
 2. **LLM Fundamentals** (15 min)
    - How LLMs work: transformers, tokens, probabilities
@@ -33,8 +33,9 @@ IIT Gandhinagar
    - Prompt injection vulnerabilities
    - Cost optimization strategies
 
-4. **Gemini API Setup & Text Understanding** (20 min)
-   - Setup, classification, NER, QA
+4. **LLM APIs for Our ML Pipeline** (20 min)
+   - Data labeling (Week 3-4 connection)
+   - Data augmentation (Week 5 connection)
    - Structured outputs
 
 5. **Multimodal Capabilities** (20 min)
@@ -42,6 +43,34 @@ IIT Gandhinagar
 
 6. **Advanced Features** (5 min)
    - Streaming, function calling, grounding
+
+---
+
+# Connection to Previous Weeks
+
+## Our ML Pipeline So Far
+
+```
+Week 1: Collect     Week 2: Validate    Week 3: Label       Week 4: Optimize    Week 5: Augment
+   |                    |                   |                   |                   |
+   v                    v                   v                   v                   v
+[Raw Data] -----> [Clean Data] -----> [Labeled Data] ---> [More Labels] ---> [Augmented]
+   |                    |                   |                   |                   |
+   API/Scraping      Pydantic/jq        Label Studio       Active Learning    Albumentations
+                                                            Snorkel           nlpaug
+```
+
+## How LLMs Supercharge Each Step
+
+| Week | Task | How LLMs Help |
+|------|------|---------------|
+| 1 | Data Collection | Parse unstructured web pages, extract JSON |
+| 2 | Data Validation | Fix malformed data, suggest corrections |
+| 3-4 | Data Labeling | **Auto-label at scale** (10-100x faster) |
+| 5 | Data Augmentation | **Generate paraphrases**, rephrase text |
+| 6+ | Model Development | Zero-shot/few-shot classification |
+
+**Today**: Master LLM APIs to accelerate your entire ML pipeline!
 
 ---
 
@@ -75,12 +104,37 @@ IIT Gandhinagar
 | Meta | Llama 2, 3 | Open source |
 | Mistral | Mixtral, Mistral | Efficient, multilingual |
 
-## Today's Focus: Gemini API
+## Today's Focus: Gemini API + OpenRouter
 
-- Powerful multimodal capabilities
-- Generous free tier
-- Easy Python SDK
-- State-of-the-art performance
+- **Gemini**: Free tier for students (15 RPM), multimodal
+- **OpenRouter**: Gateway to 100+ models, many free!
+
+---
+
+# Free LLM Options for Students
+
+## Option 1: Gemini API (Recommended)
+
+- **Free tier**: 15 requests/minute, 1M tokens/day
+- **Get API key**: [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+- **Models**: Gemini Flash (fast), Gemini Pro (powerful)
+
+## Option 2: OpenRouter (Many Free Models)
+
+- **Free models**: Llama 3.1, Gemma 2, Mistral, Phi-3
+- **Get API key**: [openrouter.ai/keys](https://openrouter.ai/keys)
+- **Unified API**: Same code works for all models
+
+```python
+# OpenRouter - access 100+ models with one API
+import openai
+client = openai.OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key="your-openrouter-key"
+)
+```
+
+**Best practice**: Start with free models, upgrade when needed!
 
 ---
 
