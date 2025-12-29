@@ -142,6 +142,27 @@ training_epochs = 100
 
 ---
 
+# The Overfitting Insight
+
+<div class="insight">
+
+**Overfitting happens when the model memorizes instead of learning.** If you show the exact same images every epoch, the model can just memorize "image #42 = cat". Augmentation forces the model to learn *what makes a cat a cat*, not just memorize training images.
+
+</div>
+
+```
+Without Augmentation:           With Augmentation:
+Epoch 1: [img1, img2, img3]    Epoch 1: [img1_v1, img2_v3, img3_v2]
+Epoch 2: [img1, img2, img3]    Epoch 2: [img1_v4, img2_v1, img3_v7]
+Epoch 3: [img1, img2, img3]    Epoch 3: [img1_v2, img2_v5, img3_v4]
+       ↓                              ↓
+Model memorizes exact pixels    Model learns general patterns
+```
+
+**Augmentation = Forcing the model to generalize**
+
+---
+
 # Data Augmentation vs Data Collection
 
 **Data Collection:**

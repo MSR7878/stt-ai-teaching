@@ -183,6 +183,28 @@ model.fit(df[['Year', 'Rating']].dropna(), y.dropna())
 
 ---
 
+# The Cost of Skipping Validation
+
+<div class="insight">
+
+**The 1-10-100 Rule**: It costs $1 to verify data at entry, $10 to fix it later, and $100 to recover from bad decisions made with bad data.
+
+</div>
+
+**Where do problems get discovered?**
+
+| Stage | Discovery Cost | Example |
+|-------|---------------|---------|
+| **Data Entry** | $1 | Validation rejects bad input |
+| **Processing** | $10 | ETL pipeline fails |
+| **Analysis** | $50 | Analyst spots anomaly in report |
+| **Production** | $100+ | Model makes bad predictions |
+| **Business Impact** | $1000+ | Wrong decisions based on flawed data |
+
+**Earlier is always cheaper.**
+
+---
+
 # Today's Mission
 
 **Transform messy raw data into clean, validated data.**
@@ -698,6 +720,30 @@ $ cat movies.json
 ```
 
 **Solution**: `jq` - a lightweight JSON processor.
+
+---
+
+# The jq Mental Model
+
+<div class="insight">
+
+**Think of jq as a pipeline**: Data flows in, gets transformed, flows out. Each filter transforms the data for the next filter.
+
+</div>
+
+```
+Input JSON  -->  Filter 1  -->  Filter 2  -->  Filter 3  -->  Output
+    .            .movies       .[0]          .title         "Inception"
+ (whole doc)   (get field)   (first elem)  (get title)
+```
+
+**Key concepts:**
+- `.` = current data (identity)
+- `|` = pipe to next filter
+- `[]` = iterate over array
+- `.field` = access object field
+
+**jq is like SQL for JSON** - query and transform in one line.
 
 ---
 
@@ -1476,6 +1522,28 @@ $ csvcut -c rating movies.csv | sort | uniq -c | sort -rn | head
 
 ---
 
+# Schema: The Blueprint Analogy
+
+<div class="insight">
+
+**Think of a schema like a building blueprint**: Before construction begins, everyone agrees on what the building should look like. The blueprint defines rooms, dimensions, materials - and the building must match.
+
+</div>
+
+**Without blueprint (schema):**
+- Builder guesses what's needed
+- Inspector can't verify if it's correct
+- Different workers make inconsistent decisions
+- Problems discovered when building collapses
+
+**With blueprint (schema):**
+- Clear expectations documented upfront
+- Automatic verification at each step
+- Everyone builds the same thing
+- Problems caught before they become disasters
+
+---
+
 # Why Schemas Matter
 
 **Without schema:**
@@ -1776,6 +1844,31 @@ print(movie.year)   # 2010 (as int, not string!)
 ```
 
 **Key insight**: Just define a class with type hints. Pydantic does the rest.
+
+---
+
+# Pydantic: The Bouncer Analogy
+
+<div class="insight">
+
+**Think of Pydantic like a nightclub bouncer**: The bouncer checks everyone at the door. If you don't meet the requirements (dress code, age, etc.), you don't get in. Once inside, everyone is guaranteed to meet the standards.
+
+</div>
+
+```python
+class Movie(BaseModel):  # <- The bouncer's checklist
+    title: str           # Must have a name
+    year: int            # Must be a valid year (number)
+    rating: float        # Must have a rating (number)
+
+# The bouncer checks at the door (object creation)
+movie = Movie(**raw_data)  # <- Validation happens HERE
+
+# Once past the bouncer, you're guaranteed valid
+print(movie.year + 1)  # Safe - year is definitely an int
+```
+
+**No more "is this a string or int?" questions inside your code.**
 
 ---
 
@@ -2328,6 +2421,27 @@ def test_year_validation():
 ```
 
 **Edge cases are where bugs hide!**
+
+---
+
+# Common Validation Mistakes
+
+<div class="warning">
+
+**Mistakes that let bad data slip through:**
+
+</div>
+
+| Mistake | Example | Better Approach |
+|---------|---------|-----------------|
+| **Only checking type** | `isinstance(x, int)` | Also check range: `0 < x < 1000` |
+| **Trusting "not None"** | `if value:` | Empty string `""` is falsy but not None |
+| **Case sensitivity** | `if status == "active"` | `if status.lower() == "active"` |
+| **Whitespace** | `if name == "John"` | `if name.strip() == "John"` |
+| **Encoding** | Reading UTF-8 as ASCII | Always specify encoding |
+| **Off-by-one** | `year < 2024` | Should it be `<= 2024`? |
+
+**Rule of thumb**: If something CAN go wrong, it WILL. Validate defensively.
 
 ---
 

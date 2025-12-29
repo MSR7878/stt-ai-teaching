@@ -48,6 +48,27 @@ paginate: true
 
 ---
 
+# The Demo Paradox
+
+<div class="insight">
+
+**The best models often die in notebooks.** You can have 99% accuracy, but if no one can try it, does it matter? A mediocre model with a great demo gets feedback, funding, and users. A perfect model in a notebook gets forgotten.
+
+</div>
+
+```
+              Impact
+
+    Demo + Good Model    ████████████████████  HIGH
+    Demo + Bad Model     ████████████          MEDIUM (feedback loop!)
+    No Demo + Good Model ████                  LOW
+    No Demo + Bad Model  █                     NONE
+```
+
+**The demo is what makes the model useful.**
+
+---
+
 # The Demo Spectrum
 
 | Approach | Time | When to Use |
@@ -277,6 +298,32 @@ def load_data(url):
 
 ---
 
+# Why Caching Matters: The Rerun Model
+
+<div class="insight">
+
+**Streamlit's mental model:** Every widget interaction reruns your ENTIRE script from top to bottom. This is simple but naive - without caching, you'd reload your 500MB model every time a user moves a slider!
+
+</div>
+
+```
+User clicks button
+        ↓
+    ┌─────────────────────────────────────┐
+    │  Script runs from line 1            │
+    │       ↓                             │
+    │  load_model() ← CACHED (instant!)   │
+    │       ↓                             │
+    │  Process user input                 │
+    │       ↓                             │
+    │  Display results                    │
+    └─────────────────────────────────────┘
+```
+
+**Cache = "Remember this so we don't do it again."**
+
+---
+
 # Adding Loading Feedback
 
 **Users hate waiting without feedback!**
@@ -439,6 +486,30 @@ demo.launch()
 
 ---
 
+# The Mental Model Difference
+
+<div class="insight">
+
+**Streamlit thinks in pages. Gradio thinks in functions.** Streamlit is "I want to build a web app that happens to have ML". Gradio is "I have a function, make it web-accessible". Choose based on how you think about your project.
+
+</div>
+
+```python
+# Gradio: Define the function, wrap it
+def predict(x): return model(x)
+gr.Interface(fn=predict, inputs="text", outputs="label")
+
+# Streamlit: Build the page, call the function
+st.title("My App")
+x = st.text_input("Input")
+if st.button("Predict"):
+    st.write(predict(x))
+```
+
+**Neither is better - they're different mental models.**
+
+---
+
 <!-- _class: lead -->
 
 # Part 3: Deployment
@@ -529,6 +600,23 @@ api_key = st.secrets["OPENAI_API_KEY"]
 # Part 4: UX Best Practices
 
 *Making demos people actually want to use*
+
+---
+
+# The Psychology of Good Demos
+
+<div class="insight">
+
+**Users form opinions in 3 seconds.** If your demo looks broken, confusing, or slow when they first load it, they'll leave. First impressions aren't just important - they're everything.
+
+</div>
+
+| User Psychology | Design Response |
+|-----------------|-----------------|
+| Short attention span | Show results quickly |
+| Fear of breaking things | Clear, forgiving inputs |
+| Uncertainty about what to do | Examples and defaults |
+| Frustration with waiting | Progress indicators |
 
 ---
 

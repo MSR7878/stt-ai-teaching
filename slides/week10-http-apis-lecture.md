@@ -48,6 +48,26 @@ Think of it like a restaurant:
 
 ---
 
+# Why APIs Are Revolutionary
+
+<div class="insight">
+
+**An API is a universal translator.** It doesn't matter if your model is in Python, if your client is a mobile app written in Swift, or if your dashboard uses JavaScript. Everyone speaks HTTP. Everyone understands JSON. Your ML model becomes accessible to the entire world.
+
+</div>
+
+```
+Python Model  ←→  API  ←→  Mobile App (Swift)
+                    ↕
+                Web App (JavaScript)
+                    ↕
+                Another Service (Go)
+```
+
+**One model, infinite consumers.**
+
+---
+
 # HTTP: The Language of the Web
 
 **Every web request has:**
@@ -217,6 +237,25 @@ class MovieInput(BaseModel):
 
 ---
 
+# Pydantic: Your API's Bouncer
+
+<div class="insight">
+
+**Pydantic is like a bouncer at a club with a strict dress code.** No ID? Go away. Wrong type? Go away. Budget is negative? Go away. This validation happens BEFORE your code runs, so you never have to write `if budget < 0: return error`. Pydantic does it automatically. Your model only sees clean, validated data.
+
+</div>
+
+```
+Raw Request JSON                    Pydantic                  Your Code
+{"budget": "abc", ...}  ──────→  ❌ 422 Error    (never reaches your code)
+{"budget": -10, ...}    ──────→  ❌ 422 Error    (never reaches your code)
+{"budget": 100, ...}    ──────→  ✓ MovieInput → predict(movie)
+```
+
+**Trust your inputs. Pydantic already checked them.**
+
+---
+
 # Pydantic Field Validation
 
 **Add constraints:**
@@ -380,6 +419,27 @@ def predict(movie: MovieInput):
 
 ---
 
+# Status Codes: The Body Language of APIs
+
+<div class="insight">
+
+**Status codes are how APIs communicate without words.** Just like you can tell if someone is happy or angry from their expression, status codes tell you instantly if a request worked or failed - before you even read the response body. Learn the families: 2xx = success, 4xx = your fault, 5xx = server's fault.
+
+</div>
+
+```
+Client: "Give me prediction for budget=-50"
+Server: 422 💢 (Validation Error - your fault!)
+
+Client: "Give me prediction for budget=100"
+Server: 500 😰 (Server Error - our fault, sorry!)
+
+Client: "Give me prediction for budget=100"
+Server: 200 😊 (Success!)
+```
+
+---
+
 # Health Check Endpoint
 
 **Always add a health check:**
@@ -398,6 +458,28 @@ def health_check():
 - Kubernetes/Docker checks if app is running
 - Load balancers know where to send traffic
 - Monitoring tools track uptime
+
+---
+
+# The Heartbeat Analogy
+
+<div class="insight">
+
+**A health check is your API's pulse.** In production, automated systems constantly ping your `/health` endpoint - like a doctor checking your heartbeat. No response? The system knows something is wrong and can restart your service or redirect traffic. Without this, your API could be dead and nobody would know until users complain.
+
+</div>
+
+```
+Load Balancer pings /health every 30 seconds:
+    ┌────────────┐     /health?     ┌────────────┐
+    │   Load     │ ───────────────→ │   API 1    │ ✓ 200 OK
+    │  Balancer  │                  └────────────┘
+    │            │     /health?     ┌────────────┐
+    │            │ ───────────────→ │   API 2    │ ✗ No response!
+    └────────────┘                  └────────────┘
+         │                              (removed from rotation)
+         └──→ Only sends traffic to API 1
+```
 
 ---
 

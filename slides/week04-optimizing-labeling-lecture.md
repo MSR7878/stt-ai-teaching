@@ -83,6 +83,24 @@ remaining = total_needed - labeled_movies  # 99,000 more!
 
 ---
 
+# The Core Insight
+
+<div class="insight">
+
+**Not all labels are created equal, and not all examples need human labels.** The key insight is that we can be strategic about *where* we invest human effort, and *how* we generate labels at scale.
+
+</div>
+
+| Strategy | Key Idea | When to Use |
+|----------|----------|-------------|
+| **Active Learning** | Humans label only the hardest examples | Limited annotation budget |
+| **Weak Supervision** | Encode expert knowledge as rules | Domain experts available |
+| **LLM Labeling** | Use AI as a cheap annotator | Well-defined tasks, need scale |
+
+**Often the best approach combines all three!**
+
+---
+
 # Today's Mission
 
 **Learn techniques to reduce labeling effort by 10x or more.**
@@ -843,6 +861,33 @@ model.fit(X, (probs[:, 1] > 0.5).astype(int))
 - No clear patterns or heuristics
 - Very small dataset (just label it manually)
 - High precision required (weak labels are noisy)
+
+---
+
+# The Quality vs Quantity Trade-off
+
+<div class="insight">
+
+**The fundamental trade-off**: Perfect labels for few examples vs. noisy labels for many examples. Surprisingly, more noisy labels often beats fewer perfect labels!
+
+</div>
+
+```
+    Model Performance
+         ^
+         |                         ___________________
+         |                    ____/
+         |               ____/    Many noisy labels
+         |          ____/
+         |     ____/      _______________
+         |____/     _____/
+         |    _____/   Few perfect labels
+         |___/
+         +----------------------------------------->
+                        Training Data Size
+```
+
+**Why?** Neural networks can "average out" random noise across many examples.
 
 ---
 

@@ -173,6 +173,31 @@ A **baseline** is the simplest possible solution that works.
 
 ---
 
+# The Complexity Ladder
+
+<div class="insight">
+
+**Always climb the complexity ladder one step at a time.** Start with the simplest model. Only move up if it doesn't meet your needs. Each step adds complexity, debugging time, and potential failure points.
+
+</div>
+
+```
+Complexity Ladder:
+
+     5. Deep Neural Network  ←── Only if you REALLY need it
+     4. Gradient Boosting (XGBoost)
+     3. Random Forest
+     2. Logistic Regression  ←── Start here!
+     1. Majority Class       ←── Your baseline floor
+
+Time to implement:  1 hour → 1 day → 1 week → 1 month
+Explainability:     High   ←──────────────────→  Low
+```
+
+**Most real-world problems are solved on steps 2-3, not step 5.**
+
+---
+
 # The Simplest Baseline: "Just Guess"
 
 ```python

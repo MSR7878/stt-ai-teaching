@@ -221,6 +221,30 @@ $$P(\text{token}_i) = \frac{e^{z_i / T}}{\sum_{j} e^{z_j / T}}$$
 
 ---
 
+# Temperature Intuition: The Thermostat Analogy
+
+<div class="insight">
+
+**Think of temperature like adjusting a thermostat for creativity.** Cold (T=0) makes the model rigid and predictable - it always picks the obvious answer. Hot (T=1+) makes it experimental and surprising - sometimes brilliant, sometimes nonsense.
+
+</div>
+
+```
+Temperature = 0 (Cold):
+Q: "The capital of France is ___"
+A: "Paris" (every time, guaranteed)
+
+Temperature = 1.0 (Hot):
+Q: "The capital of France is ___"
+A: "Paris" (often)
+A: "a beautiful city" (sometimes)
+A: "known for the Eiffel Tower" (occasionally)
+```
+
+**Rule of thumb**: Use low temperature for factual tasks, high for creative ones.
+
+---
+
 # Temperature Visualization
 
 **Original logits**: $[10, 8, 2, 1]$ for tokens `["Paris", "London", "Rome", "Berlin"]`

@@ -56,6 +56,29 @@ ERROR: Could not find a version that satisfies the requirement sklearn
 
 ---
 
+# The Reproducibility Spectrum
+
+<div class="insight">
+
+**Your code is only as good as its ability to run elsewhere.** If no one else can run it, it might as well not exist. Reproducibility isn't about being fancy - it's about being useful.
+
+</div>
+
+```
+                    Reproducibility Spectrum
+
+Not Reproducible                                    Fully Reproducible
+     |                                                     |
+     v                                                     v
+[Just code] → [+ README] → [+ requirements.txt] → [+ Docker] → [+ CI/CD]
+     ↓            ↓               ↓                    ↓            ↓
+ "What?"    "Maybe..."      "Probably!"          "Definitely"   "Automated"
+```
+
+**Today's goal**: Get you to "Probably!" or better.
+
+---
+
 # Connection to Our Netflix Project
 
 ```

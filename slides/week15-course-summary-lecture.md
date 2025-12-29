@@ -513,6 +513,33 @@ Model → Demo (Streamlit) → API (FastAPI) → CI/CD → Optimization → Moni
 
 ---
 
+# The Uncomfortable Truth
+
+<div class="insight">
+
+**Most ML projects fail not because of bad models, but because of bad engineering.** The model is often 5% of the code. The other 95% is data pipelines, validation, APIs, deployment, monitoring, and error handling. The course focused on this 95% because that's where projects succeed or fail. Models are easy. Systems are hard.
+
+</div>
+
+```
+What people think ML is:           What ML actually is:
+
+    ┌─────────────┐                ┌──────────────────────────────┐
+    │    Model    │                │  Data Collection (Week 1)    │
+    │   Training  │                │  Data Validation (Week 2)    │
+    │             │                │  Data Labeling (Week 3)      │
+    │  ★ MAGIC ★  │                │  Active Learning (Week 4)    │
+    │             │                │  Data Augmentation (Week 5)  │
+    │             │                │  Model (Week 7) ← only here! │
+    │             │                │  Reproducibility (Week 8)    │
+    │             │                │  Deployment (Weeks 9-11)     │
+    │             │                │  Optimization (Week 12-13)   │
+    └─────────────┘                │  Monitoring (Week 14)        │
+                                   └──────────────────────────────┘
+```
+
+---
+
 # The ML Development Lifecycle
 
 **Stage 1: Exploration**

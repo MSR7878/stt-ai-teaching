@@ -50,6 +50,29 @@ paginate: true
 
 ---
 
+# The Doctor's Approach
+
+<div class="insight">
+
+**Profiling is like a doctor's diagnosis.** You don't prescribe medicine based on a hunch - you run tests first. Similarly, you don't optimize code based on what you *think* is slow. Profile first, then treat the actual disease. The bottleneck is almost never where you expect it to be.
+
+</div>
+
+```
+Patient: "My stomach hurts!"
+Bad Doctor: "Take these pills" (guessing)
+Good Doctor: "Let's run some tests first" (profiling)
+
+Programmer: "My code is slow!"
+Bad Approach: "Let me rewrite in C++" (guessing)
+Good Approach: "Let me profile first" (measuring)
+              → Finds: data loading is 70% of time
+              → Fix: Add num_workers=4
+              → Result: 2x faster, zero code changes!
+```
+
+---
+
 # Performance Metrics Overview
 
 **Training metrics:**
@@ -439,6 +462,26 @@ augment = K.AugmentationSequential(
 - Small gradients underflow to zero
 - Large activations overflow to infinity
 - Training diverges or converges poorly
+
+---
+
+# The Precision Goldilocks Zone
+
+<div class="insight">
+
+**Mixed precision is about using "just enough" precision for each operation.** Master weights need FP32 for small gradient updates. Forward pass can use FP16 because it's just matrix math. It's like using a precise scale for medication but a regular ruler for furniture. Match the tool to the task's precision needs.
+
+</div>
+
+```
+Operation                    Precision Needed    Why?
+────────────────────────────────────────────────────────────
+Master weights               FP32                Accumulate tiny updates
+Loss scaling                 FP32                Small values matter
+Forward pass                 FP16                Just math, speed matters
+Backward pass                FP16                Just math, speed matters
+Softmax normalization        FP32                Numerical stability
+```
 
 ---
 

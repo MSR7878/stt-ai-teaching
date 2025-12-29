@@ -97,6 +97,31 @@ IndexError: list index out of range
 
 ---
 
+# The World Doesn't Stand Still
+
+<div class="insight">
+
+**Your model is a snapshot of the past.** It learned patterns from data collected months ago. But the world keeps changing - users evolve, markets shift, fraudsters adapt. Your model doesn't know any of this. It keeps making predictions based on a world that no longer exists. Without monitoring, you're flying blind.
+
+</div>
+
+```
+Training                 Now
+    │                     │
+    │  ← Model learned    │
+    │    this world       │
+    ▼                     ▼
+┌──────────┐         ┌──────────┐
+│ Users: A │  →→→→→  │ Users: B │  (demographics shifted)
+│ Prices: $ │         │ Prices: $$│  (inflation happened)
+│ Fraud: X  │         │ Fraud: Y  │  (fraudsters adapted)
+└──────────┘         └──────────┘
+
+Model says "Normal!" but the world has changed...
+```
+
+---
+
 # The ML Monitoring Stack
 
 **What to monitor:**
@@ -495,6 +520,30 @@ plt.show()
 **3. Model-based imputation**:
 - Train secondary model to predict labels
 - Use for intermediate monitoring
+
+---
+
+# The Feedback Loop Time Machine
+
+<div class="insight">
+
+**You can't measure accuracy without labels, but labels arrive too late.** Imagine predicting loan defaults - you won't know if you were right for 6 months! By then, your model could have made thousands of bad decisions. This is why we monitor input drift and prediction distributions - they're signals we can see NOW, not 6 months later.
+
+</div>
+
+```
+         Prediction Made          Label Available
+               │                        │
+Day 1:     Model: "Low risk"           │
+Day 30:        │                       │  (still waiting)
+Day 60:        │                       │  (still waiting)
+Day 90:        │                       │  (still waiting)
+Day 180:       │                   "Default!" (too late!)
+               │
+         By now, model made 1000s more predictions!
+
+Solution: Monitor what you CAN see now (input distributions, prediction patterns)
+```
 
 ---
 

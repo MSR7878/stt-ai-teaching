@@ -90,6 +90,26 @@ Why do we need to collect data?
 
 ---
 
+# Why Is Data Collection So Hard?
+
+<div class="insight">
+
+**The Data Collection Paradox**: The data you need rarely exists in the form you need it.
+
+</div>
+
+**Real challenges you'll face:**
+
+| Challenge | Example |
+|-----------|---------|
+| **Scattered sources** | Movie info on IMDb, revenue on Box Office Mojo, reviews on Rotten Tomatoes |
+| **Different formats** | JSON from APIs, HTML from websites, CSV from downloads |
+| **Missing values** | Budget data missing for 40% of movies |
+| **Inconsistent naming** | "The Dark Knight" vs "Dark Knight, The" vs "Batman: The Dark Knight" |
+| **Rate limits** | API allows only 100 requests/day |
+
+---
+
 # Today's Mission
 
 **By the end of this lecture, you will know how to:**
@@ -170,6 +190,39 @@ When APIs don't exist or don't have what you need:
 
 ---
 
+# Decision Tree: How to Get Data
+
+<div class="insight">
+
+**Ask these questions in order:**
+
+</div>
+
+```
+1. Does a ready-made dataset exist?
+   → YES: Download it (Kaggle, HuggingFace)
+   → NO: Continue...
+
+2. Does an official API exist?
+   → YES: Is it free/affordable? Has the data you need?
+     → YES: Use the API
+     → NO: Continue...
+
+3. Can you scrape the website?
+   → Check robots.txt and ToS
+   → YES: Scrape ethically
+   → NO: Look for alternative sources or contact the company
+
+4. None of the above?
+   → Consider manual data collection
+   → Partner with someone who has the data
+   → Reframe the problem with available data
+```
+
+**Most real projects use a combination of all methods!**
+
+---
+
 <!-- _class: lead -->
 
 # Part 3: What is an API?
@@ -208,6 +261,54 @@ GET /movies?title=Inception
 - Rate limiting (fair usage)
 - Versioning (backwards compatibility)
 - Documentation (how to use it)
+
+---
+
+# Why Do APIs Exist?
+
+<div class="insight">
+
+**Think of it this way**: APIs are like a bank teller window. You can't walk into the vault yourself, but you can request specific transactions through a controlled interface.
+
+</div>
+
+**Without APIs** (direct database access):
+- Anyone could read ALL your data
+- Anyone could modify or delete data
+- No way to track who's doing what
+- Server could be overwhelmed
+
+**With APIs** (controlled access):
+- Only expose what you want to share
+- Validate every request
+- Log and monitor usage
+- Protect against abuse
+
+---
+
+# Reading API Documentation
+
+<div class="insight">
+
+**Before making any API call, always check the documentation for:**
+
+</div>
+
+1. **Base URL** - Where do requests go? (e.g., `https://api.omdbapi.com`)
+2. **Authentication** - API key? OAuth token? Where does it go?
+3. **Endpoints** - What resources are available? (`/movies`, `/search`)
+4. **Parameters** - What can you filter/search by?
+5. **Rate limits** - How many requests per minute/day?
+6. **Response format** - What fields come back? What types?
+
+**Example from OMDb API docs:**
+```
+Base URL: https://www.omdbapi.com/
+Auth: apikey parameter in URL
+Endpoints: / (single endpoint, parameters control behavior)
+Parameters: t (title), i (IMDb ID), y (year), type (movie/series)
+Rate limit: 1,000 requests/day (free tier)
+```
 
 ---
 
@@ -311,6 +412,40 @@ Authorization: Bearer YOUR_TOKEN
 
 ---
 
+# Dealing with Rate Limits
+
+<div class="example">
+
+**Strategy 1: Simple delay** - Add `time.sleep()` between requests
+
+</div>
+
+```python
+import time
+
+for movie in movies:
+    response = requests.get(api_url, params={"t": movie})
+    process(response)
+    time.sleep(1)  # Wait 1 second between requests
+```
+
+**Strategy 2: Exponential backoff** - Wait longer after each failure
+
+```python
+wait_time = 1
+while True:
+    response = requests.get(url)
+    if response.status_code == 429:
+        time.sleep(wait_time)
+        wait_time *= 2  # Double the wait: 1, 2, 4, 8, 16...
+    else:
+        break
+```
+
+**Strategy 3: Check headers** - Use `X-RateLimit-Remaining` to pause proactively
+
+---
+
 <!-- _class: lead -->
 
 # Part 4: HTTP Fundamentals
@@ -331,6 +466,33 @@ The foundation of data communication on the web.
 - **Stateless**: Each request is independent
 - **Text-based**: Human-readable (mostly)
 - **Port 80** (HTTP) or **Port 443** (HTTPS)
+
+---
+
+# Understanding "Stateless"
+
+<div class="insight">
+
+**The Goldfish Analogy**: The server has the memory of a goldfish. Every request, it forgets everything about you.
+
+</div>
+
+**What stateless means:**
+
+```
+Request 1: "Hi, I'm Alice. Show me Inception."
+Server: "Here's Inception data."
+
+Request 2: "Now show me Avatar."
+Server: "Who are you? What's Avatar? Send me everything again."
+```
+
+**Why stateless?**
+- Servers handle millions of users - can't remember everyone
+- Any server can handle any request (scalability)
+- Failed requests don't corrupt server state
+
+**How do we work around it?** Cookies, tokens, session IDs (sent with every request)
 
 ---
 
@@ -459,6 +621,30 @@ Protocol    Host      Port   Path          Query        Fragment
 
 ---
 
+# What Do "Safe" and "Idempotent" Mean?
+
+<div class="insight">
+
+**Safe** = "Looking doesn't change anything" (like window shopping)
+**Idempotent** = "Doing it twice has the same effect as once" (like pressing elevator button)
+
+</div>
+
+**Real-world examples:**
+
+| Action | Safe? | Idempotent? | Why? |
+|--------|-------|-------------|------|
+| Reading a book | Yes | Yes | Book doesn't change |
+| Ordering pizza | No | No | Each order = new pizza |
+| Setting thermostat to 72° | No | Yes | Twice = still 72° |
+| Turning on a light | No | Yes | Already on? Still on. |
+
+**Why this matters for APIs:**
+- GET requests can be cached and retried safely
+- POST requests should not be automatically retried (double-charge risk!)
+
+---
+
 # GET Request: Retrieving Data
 
 **Purpose**: Fetch data without modifying anything.
@@ -543,6 +729,34 @@ Content-Type: application/json
 
 ---
 
+# Status Code Intuition
+
+<div class="insight">
+
+**The first digit tells you who's to blame:**
+- **2xx** = Everything worked
+- **4xx** = You messed up (fix your request)
+- **5xx** = They messed up (try again later)
+
+</div>
+
+**How to handle each in your code:**
+
+```python
+if response.status_code == 200:
+    data = response.json()              # Success! Process data
+elif response.status_code == 404:
+    print("Movie not found")            # Your fault - bad ID
+elif response.status_code == 429:
+    time.sleep(60)                      # Rate limited - wait and retry
+elif response.status_code >= 500:
+    time.sleep(5)                       # Server error - retry later
+```
+
+**Pro tip**: Check `response.ok` for any 2xx status code.
+
+---
+
 <!-- _class: lead -->
 
 # Part 6: Response Formats
@@ -613,6 +827,37 @@ Same movie data can be represented in different formats:
 **Only 7 data types**: string, number, boolean, null, array, object
 
 **Note**: No native date type! Dates are typically strings: `"2010-07-16"`
+
+---
+
+# JSON Gotchas and Pitfalls
+
+<div class="warning">
+
+**Common surprises when working with JSON from APIs:**
+
+</div>
+
+```python
+# Gotcha 1: Numbers might be strings!
+data = {"year": "2010", "rating": "8.8"}  # Both are strings!
+year = int(data["year"])                   # Must convert
+
+# Gotcha 2: Missing keys crash your code
+data = {"title": "Inception"}
+director = data["director"]                # KeyError!
+director = data.get("director", "Unknown") # Safe!
+
+# Gotcha 3: null becomes None in Python
+data = {"budget": null}   # JSON null
+if data["budget"]:        # This is False!
+    print("Has budget")
+
+# Gotcha 4: Empty string vs null vs missing key
+{"rating": ""}      # Empty string (exists but blank)
+{"rating": null}    # Null (explicitly no value)
+{}                  # Missing key entirely
+```
 
 ---
 
@@ -1405,6 +1650,32 @@ print(df[["Title", "Year", "imdbRating"]])
 
 ---
 
+# Data Collection Best Practices
+
+<div class="insight">
+
+**The 5 Rules of Robust Data Collection:**
+
+</div>
+
+1. **Save raw responses** - Don't just extract fields; save the full JSON
+   ```python
+   with open(f"raw/{movie_id}.json", "w") as f:
+       json.dump(response.json(), f)
+   ```
+
+2. **Log everything** - Track what succeeded, what failed, and why
+
+3. **Use checkpoints** - Save progress so you can resume after crashes
+
+4. **Handle edge cases** - Movies with no budget, missing directors, etc.
+
+5. **Validate as you go** - Check data types and required fields early
+
+**Why?** You don't want to re-collect 10,000 movies because you missed a field!
+
+---
+
 # curl vs requests: Comparison
 
 | Aspect | curl | Python requests |
@@ -1681,6 +1952,33 @@ for url in urls:
 3. Identify yourself (User-Agent)
 4. Cache responses when possible
 5. Respect rate limits
+
+---
+
+# Common Scraping Mistakes
+
+<div class="warning">
+
+**Mistakes that will break your scraper (or get you blocked):**
+
+</div>
+
+| Mistake | Problem | Solution |
+|---------|---------|----------|
+| No delays | Server blocks you | Add `time.sleep(1)` |
+| Hardcoded selectors | Site changes, code breaks | Use flexible selectors, handle missing elements |
+| No error handling | One bad page crashes everything | Wrap in try/except |
+| Ignoring encoding | Garbled text: "CafÃ©" | Use `response.encoding` |
+| Not saving raw HTML | Can't debug later | Save HTML before parsing |
+
+```python
+# Good pattern: defensive scraping
+try:
+    title = card.select_one('.title')
+    movie['title'] = title.text.strip() if title else "Unknown"
+except Exception as e:
+    logging.error(f"Failed to parse: {url}, error: {e}")
+```
 
 ---
 

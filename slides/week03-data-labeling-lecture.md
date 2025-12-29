@@ -85,6 +85,24 @@ movies = [
 
 ---
 
+# The Teacher Analogy
+
+<div class="insight">
+
+**Machine learning is like teaching a child**: You show examples ("this is a cat, this is a dog"), and the child learns to recognize the pattern. Without examples, there's nothing to learn from.
+
+</div>
+
+**What labeled data provides:**
+- **Definition**: What exactly are we trying to predict?
+- **Examples**: What does "correct" look like?
+- **Boundaries**: Where does one category end and another begin?
+- **Ground truth**: How do we know if the model is right?
+
+**No labels = No supervision = No learning direction**
+
+---
+
 # Why Do We Need Labels?
 
 **1. Supervised Learning requires ground truth**
@@ -1188,6 +1206,31 @@ We need a way to measure agreement and quality.
 
 ---
 
+# Why Agreement Matters
+
+<div class="insight">
+
+**If humans can't agree, how can we expect a model to learn?** The ceiling for model performance is roughly human-level agreement. Low agreement = noisy labels = confused model.
+
+</div>
+
+**The chain reaction:**
+```
+Ambiguous task definition
+       ↓
+Annotators interpret differently
+       ↓
+Inconsistent labels in training data
+       ↓
+Model learns conflicting patterns
+       ↓
+Poor and unpredictable performance
+```
+
+**Fix it at the source**: Clear guidelines → High agreement → Clean labels → Better models
+
+---
+
 # Types of Agreement Metrics
 
 | Data Type | Metrics |
@@ -1233,6 +1276,27 @@ kappa = ────────────────────────
 k = ─────────────────────────
         1 - P_expected
 ```
+
+---
+
+# Why Kappa, Not Just Percent Agreement?
+
+<div class="insight">
+
+**The coin-flip problem**: Two annotators randomly guessing on a binary task will agree 50% of the time. That's not skill - that's chance. Kappa tells you how much better than chance your agreement is.
+
+</div>
+
+**Intuition with examples:**
+
+| Scenario | % Agreement | Kappa | Interpretation |
+|----------|-------------|-------|----------------|
+| Both guess randomly (binary) | 50% | 0.0 | No better than chance |
+| Slight improvement | 60% | 0.2 | Barely better than chance |
+| Real agreement | 80% | 0.6 | Moderate agreement |
+| Almost perfect | 95% | 0.9 | Excellent |
+
+**Kappa normalizes for chance**, giving a fairer picture of true agreement.
 
 ---
 
