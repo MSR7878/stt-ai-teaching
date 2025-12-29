@@ -18,7 +18,7 @@
 
 section {
   font-family: 'Inter', 'Segoe UI', sans-serif;
-  font-size: 21px;
+  font-size: 20px;
   padding: 0;
   color: var(--text);
   display: flex;
@@ -96,58 +96,76 @@ code {
 }
 
 pre {
-  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-  color: #e2e8f0;
+  background: #1e1e1e;
+  color: #d4d4d4;
   border-radius: 12px;
-  padding: 20px;
-  font-size: 0.78em;
+  padding: 18px;
+  font-size: 0.75em;
   line-height: 1.5;
   overflow: hidden;
-  margin: 15px 45px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin: 12px 45px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
 pre code {
   background: transparent;
-  color: #e2e8f0;
+  color: #d4d4d4;
   padding: 0;
 }
 
+/* VS Code Dark+ inspired syntax highlighting - high contrast */
+pre .hljs-string { color: #ce9178; }
+pre .hljs-number { color: #b5cea8; }
+pre .hljs-keyword { color: #569cd6; }
+pre .hljs-built_in { color: #4ec9b0; }
+pre .hljs-comment { color: #6a9955; }
+pre .hljs-attr { color: #9cdcfe; }
+pre .hljs-property { color: #9cdcfe; }
+pre .hljs-literal { color: #569cd6; }
+pre .hljs-function { color: #dcdcaa; }
+pre .hljs-class { color: #4ec9b0; }
+pre .hljs-variable { color: #9cdcfe; }
+pre .hljs-punctuation { color: #d4d4d4; }
+
 /* Modern callout boxes */
 section .example {
-  background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+  background: #f0fdf4;
   border-left: 5px solid var(--success);
   padding: 16px 20px;
   margin: 15px 45px;
   border-radius: 0 12px 12px 0;
   box-shadow: 0 2px 4px rgba(42,157,143,0.1);
+  color: #14532d;
 }
 
 section .insight {
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-  border-left: 5px solid var(--warning);
+  background: #fefce8;
+  border-left: 5px solid #ca8a04;
   padding: 16px 20px;
   margin: 15px 45px;
   border-radius: 0 12px 12px 0;
   box-shadow: 0 2px 4px rgba(233,196,106,0.15);
+  color: #713f12;
 }
 
 section .warning {
-  background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
-  border-left: 5px solid #ef4444;
+  background: #fef2f2;
+  border-left: 5px solid #dc2626;
   padding: 16px 20px;
   margin: 15px 45px;
   border-radius: 0 12px 12px 0;
   box-shadow: 0 2px 4px rgba(239,68,68,0.1);
+  color: #7f1d1d;
 }
 
 section .realworld {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border-left: 5px solid #3b82f6;
+  background: #eff6ff;
+  border-left: 5px solid #2563eb;
   padding: 16px 20px;
   margin: 15px 45px;
   border-radius: 0 12px 12px 0;
   box-shadow: 0 2px 4px rgba(59,130,246,0.1);
+  color: #1e3a8a;
 }
 
 /* Layout helpers */
@@ -167,9 +185,9 @@ section .columns3 {
 
 /* Modern tables */
 section table {
-  font-size: 0.85em;
+  font-size: 0.8em;
   width: calc(100% - 90px);
-  margin: 15px 45px;
+  margin: 12px 45px;
   border-collapse: collapse;
   border: none;
 }
@@ -177,14 +195,14 @@ section table {
 section th {
   background: var(--primary);
   color: white;
-  padding: 12px 10px;
+  padding: 10px 8px;
   font-weight: 600;
   text-align: left;
   border: 1px solid var(--primary);
 }
 
 section td {
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #e2e8f0;
   background: white;
 }
@@ -198,13 +216,13 @@ section img {
 
 /* Lists */
 section ul, section ol {
-  margin: 12px 0;
+  margin: 10px 0;
   padding-left: 25px;
 }
 
 section li {
-  margin: 10px 0;
-  line-height: 1.5;
+  margin: 8px 0;
+  line-height: 1.4;
 }
 
 section li::marker {

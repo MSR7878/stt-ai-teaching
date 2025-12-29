@@ -68,10 +68,10 @@ Why do we need to collect data?
 
 <div class="warning">
 
-- ❌ This data doesn't exist in one place
-- ❌ No single CSV file with everything
-- ❌ Can't just "download" the dataset
-- ✅ **We must BUILD the dataset ourselves**
+- This data doesn't exist in one place
+- No single CSV file with everything
+- Can't just "download" the dataset
+- **We must BUILD the dataset ourselves**
 
 </div>
 
@@ -114,7 +114,7 @@ Why do we need to collect data?
 
 # Three Ways to Get Data
 
-![width:900px](../figures/three_data_options.png)
+![width:750px](../figures/three_data_options.png)
 
 ---
 
@@ -180,7 +180,7 @@ When APIs don't exist or don't have what you need:
 
 # API: A Restaurant Analogy
 
-![width:600px](../figures/restaurant_analogy.png)
+![width:450px](../figures/restaurant_analogy.png)
 
 - **Menu** = API documentation (what you can order)
 - **Order** = API request (what you're asking for)
@@ -336,7 +336,7 @@ The foundation of data communication on the web.
 
 # The Client-Server Model
 
-![width:700px](../figures/http_request_sequence.png)
+![width:500px](../figures/http_request_sequence.png)
 
 1. Client initiates connection
 2. Client sends request
@@ -530,21 +530,16 @@ Content-Type: application/json
 
 # Common Status Codes
 
-**Success (2xx):**
-- `200 OK` - Request succeeded
-- `201 Created` - Resource created (POST)
-- `204 No Content` - Success, empty body
-
-**Client Errors (4xx):**
-- `400 Bad Request` - Malformed request
-- `401 Unauthorized` - Missing authentication
-- `403 Forbidden` - Not allowed
-- `404 Not Found` - Resource doesn't exist
-- `429 Too Many Requests` - Rate limited
-
-**Server Errors (5xx):**
-- `500 Internal Server Error` - Server crashed
-- `503 Service Unavailable` - Server overloaded
+| Code | Meaning | When |
+|------|---------|------|
+| `200 OK` | Success | Request succeeded |
+| `201 Created` | Created | POST created resource |
+| `400 Bad Request` | Client error | Malformed request |
+| `401 Unauthorized` | Auth needed | Missing credentials |
+| `403 Forbidden` | Denied | Not allowed |
+| `404 Not Found` | Missing | Resource doesn't exist |
+| `429 Too Many Requests` | Rate limit | Slow down! |
+| `500 Internal Error` | Server crash | Their fault |
 
 ---
 
