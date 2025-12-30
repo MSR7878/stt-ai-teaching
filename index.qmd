@@ -21,6 +21,15 @@ This 15-week course covers the **complete software engineering stack for modern 
 Throughout the course, you'll build a complete ML system to predict movie success—from collecting data via APIs to deploying and monitoring your model in production.
 :::
 
+### Learning Outcomes
+
+By the end of this course, you will:
+
+1. **Build end-to-end ML systems** — From data collection to production deployment
+2. **Choose the right tools** — Know which tool to use for any data/ML task
+3. **Debug systematically** — Understand why things break and fix them
+4. **Write production code** — Code that others can understand, maintain, and reproduce
+
 ### What You'll Learn
 
 | Module | Key Skills |
@@ -37,33 +46,33 @@ Throughout the course, you'll build a complete ML system to predict movie succes
 
 **Part I — Data Engineering (Weeks 1-5)**
 
-| Week | Topic | Materials |
-|:----:|-------|:---------:|
-| 1 | [Data Collection](#week-1-data-collection) | [Lecture](pdf/week01-data-collection-lecture.pdf) ∙ [Lab](labs/week01-data-collection-lab.html) |
-| 2 | [Data Validation](#week-2-data-validation--quality) | [Lecture](pdf/week02-data-validation-lecture.pdf) ∙ [Lab](labs/week02-data-validation-lab.html) |
-| 3 | [Data Labeling](#week-3-data-labeling--annotation) | [Lecture](pdf/week03-data-labeling-lecture.pdf) ∙ [Lab](labs/week03-data-labeling-lab.html) |
-| 4 | [Optimizing Labeling](#week-4-optimizing-labeling) | [Lecture](pdf/week04-optimizing-labeling-lecture.pdf) ∙ [Lab](labs/week04-optimizing-labeling-lab.html) |
-| 5 | [Data Augmentation](#week-5-data-augmentation) | [Lecture](pdf/week05-data-augmentation-lecture.pdf) ∙ [Lab](labs/week05-data-augmentation-lab.html) |
+| Week | Topic | Lecture | Lab |
+|:----:|-------|:-------:|:---:|
+| 1 | [Data Collection](#week-1-data-collection) | [PDF](pdf/week01-data-collection-lecture.pdf) ∙ [HTML](html/week01-data-collection-lecture.html) | [Notebook](labs/week01-data-collection-lab.html) |
+| 2 | [Data Validation](#week-2-data-validation--quality) | [PDF](pdf/week02-data-validation-lecture.pdf) ∙ [HTML](html/week02-data-validation-lecture.html) | [Notebook](labs/week02-data-validation-lab.html) |
+| 3 | [Data Labeling](#week-3-data-labeling--annotation) | [PDF](pdf/week03-data-labeling-lecture.pdf) ∙ [HTML](html/week03-data-labeling-lecture.html) | [Notebook](labs/week03-data-labeling-lab.html) |
+| 4 | [Optimizing Labeling](#week-4-optimizing-labeling) | [PDF](pdf/week04-optimizing-labeling-lecture.pdf) ∙ [HTML](html/week04-optimizing-labeling-lecture.html) | [Notebook](labs/week04-optimizing-labeling-lab.html) |
+| 5 | [Data Augmentation](#week-5-data-augmentation) | [PDF](pdf/week05-data-augmentation-lecture.pdf) ∙ [HTML](html/week05-data-augmentation-lecture.html) | [Notebook](labs/week05-data-augmentation-lab.html) |
 
 **Part II — Model Development & Deployment (Weeks 6-11)**
 
-| Week | Topic | Materials |
-|:----:|-------|:---------:|
-| 6 | [LLM APIs](#week-6-llm-apis--multimodal-ai) | [Lecture](pdf/week06-llm-apis-lecture.pdf) ∙ [Lab](labs/week06-llm-apis-lab.html) |
-| 7 | [Model Development](#week-7-model-development--training) | [Lecture](pdf/week07-model-development-lecture.pdf) ∙ [Lab](labs/week07-model-development-lab.html) |
-| 8 | [Reproducibility](#week-8-reproducibility--environments) | [Lecture](pdf/week08-reproducibility-lecture.pdf) ∙ [Lab](labs/week08-reproducibility-lab.html) |
-| 9 | [Interactive Demos](#week-9-interactive-ai-demos) | [Lecture](pdf/week09-interactive-demos-lecture.pdf) ∙ [Lab](labs/week09-interactive-demos-lab.html) |
-| 10 | [HTTP & APIs](#week-10-http-apis--fastapi) | [Lecture](pdf/week10-http-apis-lecture.pdf) ∙ [Lab](pdf/week10-http-apis-lab.pdf) |
-| 11 | [Git & CI/CD](#week-11-git-github-actions--cicd) | [Lecture](pdf/week11-git-cicd-lecture.pdf) ∙ [Lab](pdf/week11-git-cicd-lab.pdf) |
+| Week | Topic | Lecture | Lab |
+|:----:|-------|:-------:|:---:|
+| 6 | [LLM APIs](#week-6-llm-apis--multimodal-ai) | [PDF](pdf/week06-llm-apis-lecture.pdf) ∙ [HTML](html/week06-llm-apis-lecture.html) | [Notebook](labs/week06-llm-apis-lab.html) |
+| 7 | [Model Development](#week-7-model-development--training) | [PDF](pdf/week07-model-development-lecture.pdf) ∙ [HTML](html/week07-model-development-lecture.html) | [Slides](html/week07-model-development-lab.html) |
+| 8 | [Reproducibility](#week-8-reproducibility--environments) | [PDF](pdf/week08-reproducibility-lecture.pdf) ∙ [HTML](html/week08-reproducibility-lecture.html) | [Slides](html/week08-reproducibility-lab.html) |
+| 9 | [Interactive Demos](#week-9-interactive-ai-demos) | [PDF](pdf/week09-interactive-demos-lecture.pdf) ∙ [HTML](html/week09-interactive-demos-lecture.html) | [Slides](html/week09-interactive-demos-lab.html) |
+| 10 | [HTTP & APIs](#week-10-http-apis--fastapi) | [PDF](pdf/week10-http-apis-lecture.pdf) ∙ [HTML](html/week10-http-apis-lecture.html) | [Slides](html/week10-http-apis-lab.html) |
+| 11 | [Git & CI/CD](#week-11-git-github-actions--cicd) | [PDF](pdf/week11-git-cicd-lecture.pdf) ∙ [HTML](html/week11-git-cicd-lecture.html) | [Slides](html/week11-git-cicd-lab.html) |
 
 **Part III — Production & Optimization (Weeks 12-15)**
 
-| Week | Topic | Materials |
-|:----:|-------|:---------:|
-| 12 | [Edge Deployment](#week-12-deployment-on-constrained-devices) | [Lecture](pdf/week12-deployment-constrained-lecture.pdf) ∙ [Lab](pdf/week12-deployment-constrained-lab.pdf) |
-| 13 | [Profiling](#week-13-profiling--optimization) | [Lecture](pdf/week13-profiling-optimization-lecture.pdf) ∙ [Lab](pdf/week13-profiling-optimization-lab.pdf) |
-| 14 | [Monitoring](#week-14-model-monitoring--observability) | [Lecture](pdf/week14-model-monitoring-lecture.pdf) ∙ [Lab](pdf/week14-model-monitoring-lab.pdf) |
-| 15 | [Summary](#week-15-course-summary--future-trends) | [Lecture](pdf/week15-course-summary-lecture.pdf) |
+| Week | Topic | Lecture | Lab |
+|:----:|-------|:-------:|:---:|
+| 12 | [Edge Deployment](#week-12-deployment-on-constrained-devices) | [PDF](pdf/week12-deployment-constrained-lecture.pdf) ∙ [HTML](html/week12-deployment-constrained-lecture.html) | [Slides](html/week12-deployment-constrained-lab.html) |
+| 13 | [Profiling](#week-13-profiling--optimization) | [PDF](pdf/week13-profiling-optimization-lecture.pdf) ∙ [HTML](html/week13-profiling-optimization-lecture.html) | [Slides](html/week13-profiling-optimization-lab.html) |
+| 14 | [Monitoring](#week-14-model-monitoring--observability) | [PDF](pdf/week14-model-monitoring-lecture.pdf) ∙ [HTML](html/week14-model-monitoring-lecture.html) | [Slides](html/week14-model-monitoring-lab.html) |
+| 15 | [Summary](#week-15-course-summary--future-trends) | [PDF](pdf/week15-course-summary-lecture.pdf) ∙ [HTML](html/week15-course-summary-lecture.html) | — |
 
 ---
 
@@ -390,10 +399,24 @@ Review the ML pipeline and explore emerging topics.
 ::: {.callout-tip}
 ## Useful Links
 - **Course Syllabus:** [View on main website](https://nipunbatra.github.io/stt-ai-26/)
+- **Course Specification:** [COURSE_SPEC.md](https://github.com/nipunbatra/stt-ai-teaching/blob/master/COURSE_SPEC.md) - pedagogical philosophy and content guidelines
 - **Build Instructions:** See [README.md](https://github.com/nipunbatra/stt-ai-teaching/blob/master/README.md) for building slides locally
 - **Report Issues:** [GitHub Issues](https://github.com/nipunbatra/stt-ai-teaching/issues)
 - **Diagram Generators:** [diagram-generators/](https://github.com/nipunbatra/stt-ai-teaching/tree/master/diagram-generators) - Python scripts for all course diagrams
 :::
+
+### Core Tools Covered
+
+| Category | Tools |
+|----------|-------|
+| **Data Collection** | requests, BeautifulSoup, Playwright |
+| **Data Quality** | Pydantic, pandas, jq |
+| **Labeling** | Label Studio, modAL, Snorkel |
+| **LLM APIs** | Gemini API, OpenAI API |
+| **Model Training** | scikit-learn, AutoGluon, PyTorch |
+| **Deployment** | FastAPI, Streamlit, Docker |
+| **Testing & CI** | pytest, GitHub Actions |
+| **Monitoring** | Evidently AI, Prometheus |
 
 ---
 
