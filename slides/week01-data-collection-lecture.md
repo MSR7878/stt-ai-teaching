@@ -196,7 +196,6 @@ When APIs don't exist or don't have what you need:
 
 </div>
 
-```
 1. Does a ready-made dataset exist?
    → YES: Download it (Kaggle, HuggingFace)
    → NO: Continue to step 2...
@@ -204,13 +203,11 @@ When APIs don't exist or don't have what you need:
 2. Does an official API exist?
    → YES: Is it free/affordable? → Use the API
    → NO: Continue to step 3...
-```
 
 ---
 
 # Decision Tree (continued)
 
-```
 3. Can you scrape the website?
    → Check robots.txt and ToS first
    → YES: Scrape ethically
@@ -220,7 +217,6 @@ When APIs don't exist or don't have what you need:
    → Manual data collection
    → Partner with data owner
    → Reframe the problem
-```
 
 **Most real projects use a combination of all methods!**
 
@@ -473,7 +469,7 @@ Request 2: "Now show me Avatar." → "Who are you?"
 
 # The Client-Server Model
 
-![width:250px](../figures/http_request_sequence.png)
+![width:250px](../figures/server_diagram.svg)
 
 ---
 
@@ -864,11 +860,18 @@ if data["budget"]:        # This is False!
 title,year,genre,director,rating
 Inception,2010,Sci-Fi,Christopher Nolan,8.8
 Avatar,2009,Action,James Cameron,7.9
+The Matrix,1999,Sci-Fi,Wachowskis,8.7
 ```
 
-**Pros**: Opens in Excel, easy pandas loading, very compact
+**Pros**:
+- Opens in Excel/Google Sheets
+- Easy to load into pandas: `pd.read_csv("movies.csv")`
+- Very compact
 
-**Cons**: Flat structure only, no data types, escaping issues
+**Cons**:
+- Flat structure only (no nesting)
+- No data types (everything is text)
+- Escaping issues with commas in data
 
 ---
 
@@ -1059,10 +1062,8 @@ Every row = one HTTP request/response
 3. Paste into terminal
 
 ```bash
-curl 'https://api.example.com/movies?id=123' \
-  -H 'accept: application/json' \
-  -H 'authorization: Bearer eyJhbGciOiJIUzI1...' \
-  -H 'user-agent: Mozilla/5.0 (Macintosh...)' \
+curl "https://www.omdbapi.com/?i=tt3896198&apikey=API_KEY" \
+  -H "accept: application/json" \
   --compressed
 ```
 
