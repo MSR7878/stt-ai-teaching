@@ -1246,34 +1246,28 @@ curl -I <span class="hljs-string">&quot;https://www.omdbapi.com/?t=Inception&amp
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="66" data-paginate="true" data-theme="iitgn-modern" lang="en-IN" data-marpit-pagination="66" style="--paginate:true;--theme:iitgn-modern;" data-marpit-pagination-total="117">
 <h1 id="pretty-printing-with-jq">Pretty Printing with jq</h1>
 <p><strong>Raw JSON is hard to read. Pipe to <code>jq</code> for formatting:</strong></p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">curl -s <span class="hljs-string">&quot;https://www.omdbapi.com/?t=Inception&amp;apikey=[API_KEY]&quot;</span> | jq .
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">curl -s https://nipun-api-testing.hf.space/items | jq .
 </code></pre>
-<p><strong>Output (formatted):</strong></p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">&quot;Title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Inception&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;Year&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2010&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;Rated&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;PG-13&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;Runtime&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;148 min&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;Genre&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Action, Adventure, Sci-Fi&quot;</span>
-<span class="hljs-punctuation">}</span>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-json"><span class="hljs-punctuation">{</span><span class="hljs-attr">&quot;items&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">{</span><span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Apple&quot;</span><span class="hljs-punctuation">,</span> ...<span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span> ...<span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;count&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3</span><span class="hljs-punctuation">}</span>
 </code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="67" data-paginate="true" data-theme="iitgn-modern" lang="en-IN" data-marpit-pagination="67" style="--paginate:true;--theme:iitgn-modern;" data-marpit-pagination-total="117">
-<h1 id="jq-extracting-specific-fields">jq: Extracting Specific Fields</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-comment"># Get just the title</span>
-curl -s ... | jq <span class="hljs-string">&#x27;.Title&#x27;</span>
-<span class="hljs-comment"># Output: &quot;Inception&quot;</span>
+<h1 id="jq-extracting-and-transforming-data">jq: Extracting and Transforming Data</h1>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash"><span class="hljs-comment"># Get just the items array</span>
+curl -s https://nipun-api-testing.hf.space/items | jq <span class="hljs-string">&#x27;.items&#x27;</span>
 
-<span class="hljs-comment"># Get multiple fields as new object</span>
-curl -s ... | jq <span class="hljs-string">&#x27;{title: .Title, year: .Year, rating: .imdbRating}&#x27;</span>
-<span class="hljs-comment"># Output: {&quot;title&quot;: &quot;Inception&quot;, &quot;year&quot;: &quot;2010&quot;, &quot;rating&quot;: &quot;8.8&quot;}</span>
+<span class="hljs-comment"># Get first item only</span>
+curl -s ... | jq <span class="hljs-string">&#x27;.items[0]&#x27;</span>
+<span class="hljs-comment"># {&quot;id&quot;: 1, &quot;name&quot;: &quot;Apple&quot;, &quot;price&quot;: 1.5, ...}</span>
 
-<span class="hljs-comment"># Get first element of array</span>
-curl -s ... | jq <span class="hljs-string">&#x27;.Search[0]&#x27;</span>
+<span class="hljs-comment"># Get all names</span>
+curl -s ... | jq <span class="hljs-string">&#x27;.items[].name&#x27;</span>
+<span class="hljs-comment"># &quot;Apple&quot;  &quot;Banana&quot;  &quot;Orange&quot;</span>
 
-<span class="hljs-comment"># Get all titles from array</span>
-curl -s ... | jq <span class="hljs-string">&#x27;.Search[].Title&#x27;</span>
+<span class="hljs-comment"># Create new structure</span>
+curl -s ... | jq <span class="hljs-string">&#x27;.items[] | {product: .name, cost: .price}&#x27;</span>
 </code></pre>
+<p><strong>More on jq next week!</strong></p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="68" data-paginate="true" data-theme="iitgn-modern" lang="en-IN" data-marpit-pagination="68" style="--paginate:true;--theme:iitgn-modern;" data-marpit-pagination-total="117">
 <h1 id="curl-saving-to-file">curl: Saving to File</h1>

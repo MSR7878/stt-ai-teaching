@@ -997,39 +997,34 @@ curl -v "https://www.omdbapi.com/?t=Inception&apikey=[API_KEY]"
 **Raw JSON is hard to read. Pipe to `jq` for formatting:**
 
 ```bash
-curl -s "https://www.omdbapi.com/?t=Inception&apikey=[API_KEY]" | jq .
+curl -s https://nipun-api-testing.hf.space/items | jq .
 ```
 
-**Output (formatted):**
 ```json
-{
-  "Title": "Inception",
-  "Year": "2010",
-  "Rated": "PG-13",
-  "Runtime": "148 min",
-  "Genre": "Action, Adventure, Sci-Fi"
-}
+{"items": [{"id": 1, "name": "Apple", ...}, ...], "count": 3}
 ```
 
 ---
 
-# jq: Extracting Specific Fields
+# jq: Extracting and Transforming Data
 
 ```bash
-# Get just the title
-curl -s ... | jq '.Title'
-# Output: "Inception"
+# Get just the items array
+curl -s https://nipun-api-testing.hf.space/items | jq '.items'
 
-# Get multiple fields as new object
-curl -s ... | jq '{title: .Title, year: .Year, rating: .imdbRating}'
-# Output: {"title": "Inception", "year": "2010", "rating": "8.8"}
+# Get first item only
+curl -s ... | jq '.items[0]'
+# {"id": 1, "name": "Apple", "price": 1.5, ...}
 
-# Get first element of array
-curl -s ... | jq '.Search[0]'
+# Get all names
+curl -s ... | jq '.items[].name'
+# "Apple"  "Banana"  "Orange"
 
-# Get all titles from array
-curl -s ... | jq '.Search[].Title'
+# Create new structure
+curl -s ... | jq '.items[] | {product: .name, cost: .price}'
 ```
+
+**More on jq next week!**
 
 ---
 
