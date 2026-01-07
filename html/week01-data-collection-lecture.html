@@ -546,16 +546,8 @@ Authorization: Bearer YOUR_TOKEN
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-paginate="true" data-theme="iitgn-modern" lang="en-IN" data-marpit-pagination="32" style="--paginate:true;--theme:iitgn-modern;" data-marpit-pagination-total="132">
 <h1 id="exponential-backoff">Exponential Backoff</h1>
-<p><img src="../figures/exponential_backoff.png" alt="" style="width:750px;" /></p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">wait_time = <span class="hljs-number">1</span>
-<span class="hljs-keyword">while</span> retries &lt; <span class="hljs-number">5</span>:
-    response = requests.get(url)
-    <span class="hljs-keyword">if</span> response.status_code == <span class="hljs-number">429</span>:
-        time.sleep(wait_time)
-        wait_time *= <span class="hljs-number">2</span>  <span class="hljs-comment"># Double: 1s, 2s, 4s, 8s...</span>
-    <span class="hljs-keyword">else</span>:
-        <span class="hljs-keyword">break</span>
-</code></pre>
+<p><img src="../figures/exponential_backoff.png" alt="" style="width:900px;" /></p>
+<p><strong>Wait longer after each failure:</strong> 1s → 2s → 4s → 8s → success!</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-paginate="true" data-class="lead" data-theme="iitgn-modern" lang="en-IN" class="lead" data-marpit-pagination="33" style="--paginate:true;--class:lead;--theme:iitgn-modern;" data-marpit-pagination-total="132">
 <h1 id="part-4-http-fundamentals">Part 4: HTTP Fundamentals</h1>
@@ -575,9 +567,14 @@ Authorization: Bearer YOUR_TOKEN
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-paginate="true" data-theme="iitgn-modern" lang="en-IN" data-marpit-pagination="35" style="--paginate:true;--theme:iitgn-modern;" data-marpit-pagination-total="132">
 <h1 id="understanding-stateless">Understanding &quot;Stateless&quot;</h1>
-<p><img src="../figures/stateless_http.png" alt="" style="width:800px;" /></p>
-<p><strong>Why stateless?</strong> Scalability - any server can handle any request.<br />
-<strong>Solution:</strong> Send tokens/cookies with every request.</p>
+<div class="insight">
+<p><strong>The Goldfish Analogy</strong>: Server forgets you after every request.</p>
+</div>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code>Request 1: &quot;I'm Alice. Show me Inception.&quot; → &quot;Here's data.&quot;
+Request 2: &quot;Now show me Avatar.&quot; → &quot;Who are you?&quot;
+</code></pre>
+<p><strong>Why stateless?</strong> Scalability - any server can handle any request.</p>
+<p><strong>Workaround:</strong> Cookies, tokens, session IDs (sent with every request)</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="36" data-paginate="true" data-theme="iitgn-modern" lang="en-IN" data-marpit-pagination="36" style="--paginate:true;--theme:iitgn-modern;" data-marpit-pagination-total="132">
 <h1 id="the-client-server-model">The Client-Server Model</h1>
