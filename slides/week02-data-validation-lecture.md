@@ -163,7 +163,7 @@ YouTube videos for reference:
 
 # The Data Quality Pyramid
 
-![Data Quality Pyramid](images/data_quality_pyramid_20260109_181425.png)
+![Data Quality Pyramid h:420](images/data_quality_pyramid_20260109_181425.png)
 
 **You can't skip layers. Each depends on the one below.**
 
