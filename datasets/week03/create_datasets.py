@@ -4,10 +4,58 @@ Run: uv run create_datasets.py
 """
 
 import json
+import subprocess
 from pathlib import Path
 
 # Output directory
 DATASETS_DIR = Path(__file__).parent
+
+# Image URLs for downloading
+IMAGE_CLASSIFICATION_URLS = {
+    "cat1.jpg": "https://picsum.photos/seed/cat1/400/300",
+    "dog1.jpg": "https://picsum.photos/seed/dog1/400/300",
+    "car1.jpg": "https://picsum.photos/seed/car1/400/300",
+    "bike1.jpg": "https://picsum.photos/seed/bike1/400/300",
+    "house1.jpg": "https://picsum.photos/seed/house1/400/300",
+    "tree1.jpg": "https://picsum.photos/seed/tree1/400/300",
+    "food1.jpg": "https://picsum.photos/seed/food1/400/300",
+    "phone1.jpg": "https://picsum.photos/seed/phone1/400/300",
+    "book1.jpg": "https://picsum.photos/seed/book1/400/300",
+    "flower1.jpg": "https://picsum.photos/seed/flower1/400/300",
+    "laptop1.jpg": "https://picsum.photos/seed/laptop1/400/300",
+    "beach1.jpg": "https://picsum.photos/seed/beach1/400/300",
+    "city1.jpg": "https://picsum.photos/seed/city1/400/300",
+    "mountain1.jpg": "https://picsum.photos/seed/mountain1/400/300",
+    "coffee1.jpg": "https://picsum.photos/seed/coffee1/400/300",
+}
+
+OBJECT_DETECTION_URLS = {
+    "sports_car.jpg": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=640",
+    "cyclists.jpg": "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=640",
+    "food_plate.jpg": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=640",
+    "office_desk.jpg": "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=640",
+    "classic_car.jpg": "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=640",
+    "dog_park.jpg": "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=640",
+    "cat_closeup.jpg": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=640",
+    "watch.jpg": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=640",
+    "headphones.jpg": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=640",
+    "cat_sitting.jpg": "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=640",
+}
+
+
+def download_images(urls: dict, output_dir: Path):
+    """Download images from URLs."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for filename, url in urls.items():
+        output_path = output_dir / filename
+        if output_path.exists():
+            print(f"  Skipping (exists): {filename}")
+            continue
+        print(f"  Downloading: {filename}")
+        subprocess.run(
+            ["curl", "-sL", url, "-o", str(output_path)],
+            check=True
+        )
 
 
 def create_text_classification_dataset():
@@ -95,161 +143,64 @@ def create_ner_dataset():
 
 
 def create_image_classification_dataset():
-    """
-    For image classification, we'll create a manifest file pointing to sample images.
-    Students can download images or use the provided ones.
-    """
-    (DATASETS_DIR / "image_classification").mkdir(exist_ok=True)
-    # Using placeholder images from picsum.photos for demo
-    # In real lab, students would use their own images
+    """Download images and create manifest for image classification."""
+    task_dir = DATASETS_DIR / "image_classification"
+    task_dir.mkdir(exist_ok=True)
+    images_dir = task_dir / "images"
+
+    print("Downloading image classification images...")
+    download_images(IMAGE_CLASSIFICATION_URLS, images_dir)
+
     images = [
-        {"image": "https://picsum.photos/seed/cat1/400/300", "id": 1, "hint": "animal"},
-        {"image": "https://picsum.photos/seed/dog1/400/300", "id": 2, "hint": "animal"},
-        {"image": "https://picsum.photos/seed/car1/400/300", "id": 3, "hint": "vehicle"},
-        {"image": "https://picsum.photos/seed/bike1/400/300", "id": 4, "hint": "vehicle"},
-        {"image": "https://picsum.photos/seed/house1/400/300", "id": 5, "hint": "building"},
-        {"image": "https://picsum.photos/seed/tree1/400/300", "id": 6, "hint": "nature"},
-        {"image": "https://picsum.photos/seed/food1/400/300", "id": 7, "hint": "food"},
-        {"image": "https://picsum.photos/seed/phone1/400/300", "id": 8, "hint": "electronics"},
-        {"image": "https://picsum.photos/seed/book1/400/300", "id": 9, "hint": "object"},
-        {"image": "https://picsum.photos/seed/flower1/400/300", "id": 10, "hint": "nature"},
-        {"image": "https://picsum.photos/seed/laptop1/400/300", "id": 11, "hint": "electronics"},
-        {"image": "https://picsum.photos/seed/beach1/400/300", "id": 12, "hint": "nature"},
-        {"image": "https://picsum.photos/seed/city1/400/300", "id": 13, "hint": "urban"},
-        {"image": "https://picsum.photos/seed/mountain1/400/300", "id": 14, "hint": "nature"},
-        {"image": "https://picsum.photos/seed/coffee1/400/300", "id": 15, "hint": "food"},
+        {"image": "images/cat1.jpg", "id": 1, "hint": "animal"},
+        {"image": "images/dog1.jpg", "id": 2, "hint": "animal"},
+        {"image": "images/car1.jpg", "id": 3, "hint": "vehicle"},
+        {"image": "images/bike1.jpg", "id": 4, "hint": "vehicle"},
+        {"image": "images/house1.jpg", "id": 5, "hint": "building"},
+        {"image": "images/tree1.jpg", "id": 6, "hint": "nature"},
+        {"image": "images/food1.jpg", "id": 7, "hint": "food"},
+        {"image": "images/phone1.jpg", "id": 8, "hint": "electronics"},
+        {"image": "images/book1.jpg", "id": 9, "hint": "object"},
+        {"image": "images/flower1.jpg", "id": 10, "hint": "nature"},
+        {"image": "images/laptop1.jpg", "id": 11, "hint": "electronics"},
+        {"image": "images/beach1.jpg", "id": 12, "hint": "nature"},
+        {"image": "images/city1.jpg", "id": 13, "hint": "urban"},
+        {"image": "images/mountain1.jpg", "id": 14, "hint": "nature"},
+        {"image": "images/coffee1.jpg", "id": 15, "hint": "food"},
     ]
 
-    output_path = DATASETS_DIR / "image_classification" / "images.json"
+    output_path = task_dir / "images.json"
     with open(output_path, "w") as f:
         json.dump(images, f, indent=2)
     print(f"Created: {output_path} ({len(images)} samples)")
-
-    # Also create a README for this dataset
-    readme = """# Image Classification Dataset
-
-This dataset contains 15 sample images for classification practice.
-
-## Categories to use:
-- animal
-- vehicle
-- building
-- nature
-- food
-- electronics
-- urban
-- object
-
-## Label Studio Import:
-1. Create new project with Image Classification template
-2. Import `images.json`
-3. Configure labels in the labeling interface
-
-## Note:
-Images are loaded from picsum.photos (placeholder service).
-For production, use your own images.
-"""
-    readme_path = DATASETS_DIR / "image_classification" / "README.md"
-    with open(readme_path, "w") as f:
-        f.write(readme)
 
 
 def create_object_detection_dataset():
-    """
-    For object detection, we need images with multiple objects.
-    Using URLs to sample images that have clear objects.
-    """
-    (DATASETS_DIR / "object_detection").mkdir(exist_ok=True)
-    # Sample images good for object detection practice
+    """Download images and create manifest for object detection."""
+    task_dir = DATASETS_DIR / "object_detection"
+    task_dir.mkdir(exist_ok=True)
+    images_dir = task_dir / "images"
+
+    print("Downloading object detection images...")
+    download_images(OBJECT_DETECTION_URLS, images_dir)
+
     images = [
-        {
-            "image": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=640",
-            "id": 1,
-            "description": "Red sports car on road"
-        },
-        {
-            "image": "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=640",
-            "id": 2,
-            "description": "Cyclists racing"
-        },
-        {
-            "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=640",
-            "id": 3,
-            "description": "Food plate with multiple items"
-        },
-        {
-            "image": "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=640",
-            "id": 4,
-            "description": "Office desk with laptop, phone, coffee"
-        },
-        {
-            "image": "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=640",
-            "id": 5,
-            "description": "Classic car"
-        },
-        {
-            "image": "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=640",
-            "id": 6,
-            "description": "Dog in park"
-        },
-        {
-            "image": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=640",
-            "id": 7,
-            "description": "Cat close-up"
-        },
-        {
-            "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=640",
-            "id": 8,
-            "description": "Watch product photo"
-        },
-        {
-            "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=640",
-            "id": 9,
-            "description": "Headphones product photo"
-        },
-        {
-            "image": "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=640",
-            "id": 10,
-            "description": "Cat sitting"
-        },
+        {"image": "images/sports_car.jpg", "id": 1, "description": "Red sports car on road"},
+        {"image": "images/cyclists.jpg", "id": 2, "description": "Cyclists racing"},
+        {"image": "images/food_plate.jpg", "id": 3, "description": "Food plate with multiple items"},
+        {"image": "images/office_desk.jpg", "id": 4, "description": "Office desk with laptop, phone, coffee"},
+        {"image": "images/classic_car.jpg", "id": 5, "description": "Classic car"},
+        {"image": "images/dog_park.jpg", "id": 6, "description": "Dog in park"},
+        {"image": "images/cat_closeup.jpg", "id": 7, "description": "Cat close-up"},
+        {"image": "images/watch.jpg", "id": 8, "description": "Watch product photo"},
+        {"image": "images/headphones.jpg", "id": 9, "description": "Headphones product photo"},
+        {"image": "images/cat_sitting.jpg", "id": 10, "description": "Cat sitting"},
     ]
 
-    output_path = DATASETS_DIR / "object_detection" / "images.json"
+    output_path = task_dir / "images.json"
     with open(output_path, "w") as f:
         json.dump(images, f, indent=2)
     print(f"Created: {output_path} ({len(images)} samples)")
-
-    readme = """# Object Detection Dataset
-
-This dataset contains 10 sample images for bounding box annotation practice.
-
-## Suggested Labels:
-- car
-- person
-- bicycle
-- dog
-- cat
-- laptop
-- phone
-- cup/mug
-- food
-- watch
-- headphones
-
-## Label Studio Import:
-1. Create new project with Object Detection template
-2. Import `images.json`
-3. Draw bounding boxes around objects
-4. Assign labels to each box
-
-## Tips:
-- Draw boxes tightly around objects (small margin)
-- Don't cut off parts of objects
-- Label partially visible objects if >20% visible
-"""
-    readme_path = DATASETS_DIR / "object_detection" / "README.md"
-    with open(readme_path, "w") as f:
-        f.write(readme)
 
 
 def create_label_studio_configs():
@@ -326,8 +277,9 @@ Sample datasets for practicing data annotation with Label Studio.
 # Install Label Studio
 pip install label-studio
 
-# Start Label Studio
-label-studio start
+# Start Label Studio with local file serving
+cd datasets/week03
+label-studio start --data-dir .
 
 # Access at http://localhost:8080
 ```
@@ -343,15 +295,18 @@ label-studio start
 
 ## How to Import into Label Studio
 
-1. **Create a new project** in Label Studio
-2. **Go to Settings > Labeling Interface**
-3. **Copy the config** from `<task>/label_studio_config.xml`
-4. **Import data** from `<task>/*.json`
+### For Text Tasks (Classification, NER)
+1. Create a new project in Label Studio
+2. Go to Settings > Labeling Interface
+3. Copy the config from `<task>/label_studio_config.xml`
+4. Import data from `<task>/*.json`
 
-## Label Studio Configs
-
-Each dataset folder contains a `label_studio_config.xml` file with the
-recommended labeling interface configuration.
+### For Image Tasks
+1. Start Label Studio from this directory: `cd datasets/week03 && label-studio start`
+2. Create a new project
+3. Go to Settings > Cloud Storage > Add Source Storage
+4. Select "Local files" and set the path to `image_classification/` or `object_detection/`
+5. Import the corresponding `images.json`
 
 ## Tasks
 
@@ -367,12 +322,13 @@ Tag entities in sentences: PERSON, ORG, LOCATION, DATE, PRODUCT.
 
 ### 3. Image Classification
 Categorize images into predefined categories.
-- Note: Images loaded from URLs (requires internet)
+- Images are stored locally in `image_classification/images/`
 
 ### 4. Object Detection
 Draw bounding boxes around objects in images.
 - Practice tight box fitting
 - Handle occlusion cases
+- Images are stored locally in `object_detection/images/`
 
 ## Calculating Agreement
 
@@ -407,5 +363,5 @@ if __name__ == "__main__":
     print("\nDone! Datasets created in:", DATASETS_DIR)
     print("\nTo use with Label Studio:")
     print("  1. pip install label-studio")
-    print("  2. label-studio start")
+    print("  2. cd datasets/week03 && label-studio start")
     print("  3. Import the JSON files into your projects")

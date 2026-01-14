@@ -1,77 +1,17 @@
 [
-  {
-    "image": "https://picsum.photos/seed/cat1/400/300",
-    "id": 1,
-    "hint": "animal"
-  },
-  {
-    "image": "https://picsum.photos/seed/dog1/400/300",
-    "id": 2,
-    "hint": "animal"
-  },
-  {
-    "image": "https://picsum.photos/seed/car1/400/300",
-    "id": 3,
-    "hint": "vehicle"
-  },
-  {
-    "image": "https://picsum.photos/seed/bike1/400/300",
-    "id": 4,
-    "hint": "vehicle"
-  },
-  {
-    "image": "https://picsum.photos/seed/house1/400/300",
-    "id": 5,
-    "hint": "building"
-  },
-  {
-    "image": "https://picsum.photos/seed/tree1/400/300",
-    "id": 6,
-    "hint": "nature"
-  },
-  {
-    "image": "https://picsum.photos/seed/food1/400/300",
-    "id": 7,
-    "hint": "food"
-  },
-  {
-    "image": "https://picsum.photos/seed/phone1/400/300",
-    "id": 8,
-    "hint": "electronics"
-  },
-  {
-    "image": "https://picsum.photos/seed/book1/400/300",
-    "id": 9,
-    "hint": "object"
-  },
-  {
-    "image": "https://picsum.photos/seed/flower1/400/300",
-    "id": 10,
-    "hint": "nature"
-  },
-  {
-    "image": "https://picsum.photos/seed/laptop1/400/300",
-    "id": 11,
-    "hint": "electronics"
-  },
-  {
-    "image": "https://picsum.photos/seed/beach1/400/300",
-    "id": 12,
-    "hint": "nature"
-  },
-  {
-    "image": "https://picsum.photos/seed/city1/400/300",
-    "id": 13,
-    "hint": "urban"
-  },
-  {
-    "image": "https://picsum.photos/seed/mountain1/400/300",
-    "id": 14,
-    "hint": "nature"
-  },
-  {
-    "image": "https://picsum.photos/seed/coffee1/400/300",
-    "id": 15,
-    "hint": "food"
-  }
+  {"image": "images/cat1.jpg", "id": 1, "hint": "animal"},
+  {"image": "images/dog1.jpg", "id": 2, "hint": "animal"},
+  {"image": "images/car1.jpg", "id": 3, "hint": "vehicle"},
+  {"image": "images/bike1.jpg", "id": 4, "hint": "vehicle"},
+  {"image": "images/house1.jpg", "id": 5, "hint": "building"},
+  {"image": "images/tree1.jpg", "id": 6, "hint": "nature"},
+  {"image": "images/food1.jpg", "id": 7, "hint": "food"},
+  {"image": "images/phone1.jpg", "id": 8, "hint": "electronics"},
+  {"image": "images/book1.jpg", "id": 9, "hint": "object"},
+  {"image": "images/flower1.jpg", "id": 10, "hint": "nature"},
+  {"image": "images/laptop1.jpg", "id": 11, "hint": "electronics"},
+  {"image": "images/beach1.jpg", "id": 12, "hint": "nature"},
+  {"image": "images/city1.jpg", "id": 13, "hint": "urban"},
+  {"image": "images/mountain1.jpg", "id": 14, "hint": "nature"},
+  {"image": "images/coffee1.jpg", "id": 15, "hint": "food"}
 ]

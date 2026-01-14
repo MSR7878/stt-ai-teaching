@@ -1,52 +1,12 @@
 [
-  {
-    "image": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=640",
-    "id": 1,
-    "description": "Red sports car on road"
-  },
-  {
-    "image": "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=640",
-    "id": 2,
-    "description": "Cyclists racing"
-  },
-  {
-    "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=640",
-    "id": 3,
-    "description": "Food plate with multiple items"
-  },
-  {
-    "image": "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=640",
-    "id": 4,
-    "description": "Office desk with laptop, phone, coffee"
-  },
-  {
-    "image": "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=640",
-    "id": 5,
-    "description": "Classic car"
-  },
-  {
-    "image": "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=640",
-    "id": 6,
-    "description": "Dog in park"
-  },
-  {
-    "image": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=640",
-    "id": 7,
-    "description": "Cat close-up"
-  },
-  {
-    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=640",
-    "id": 8,
-    "description": "Watch product photo"
-  },
-  {
-    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=640",
-    "id": 9,
-    "description": "Headphones product photo"
-  },
-  {
-    "image": "https://images.unsplash.com/photo-1561948955-570b270e7c36?w=640",
-    "id": 10,
-    "description": "Cat sitting"
-  }
+  {"image": "images/sports_car.jpg", "id": 1, "description": "Red sports car on road"},
+  {"image": "images/cyclists.jpg", "id": 2, "description": "Cyclists racing"},
+  {"image": "images/food_plate.jpg", "id": 3, "description": "Food plate with multiple items"},
+  {"image": "images/office_desk.jpg", "id": 4, "description": "Office desk with laptop, phone, coffee"},
+  {"image": "images/classic_car.jpg", "id": 5, "description": "Classic car"},
+  {"image": "images/dog_park.jpg", "id": 6, "description": "Dog in park"},
+  {"image": "images/cat_closeup.jpg", "id": 7, "description": "Cat close-up"},
+  {"image": "images/watch.jpg", "id": 8, "description": "Watch product photo"},
+  {"image": "images/headphones.jpg", "id": 9, "description": "Headphones product photo"},
+  {"image": "images/cat_sitting.jpg", "id": 10, "description": "Cat sitting"}
 ]
