@@ -361,7 +361,16 @@ Tag "New York" or "New York City"?
 
 ---
 
-# Text: Sentiment Analysis
+# The Problem: Understanding Customer Feedback at Scale
+
+![w:800](images/week03/problem_sentiment_social.png)
+
+**Thousands of reviews, tweets, comments every hour.**
+Is the feedback positive, negative, or neutral? What are customers saying about specific features?
+
+---
+
+# The Solution: Sentiment Analysis
 
 **Task**: Classify opinion/emotion in text.
 
@@ -462,16 +471,16 @@ Relations:
 
 ---
 
-# The Problem: What Does a Self-Driving Car See?
+# The Problem: Organizing Millions of Products
 
-![w:1000](images/week03/problem_selfdriving_raw.png)
+![w:900](images/week03/problem_product_classification.png)
 
-**A camera captures 30 frames per second. The car must understand each one.**
-Pedestrians, vehicles, traffic lights, lane markings — all in milliseconds.
+**E-commerce sites have millions of products. Which category does each belong to?**
+Manual categorization is impossible at scale. We need machines to classify images.
 
 ---
 
-# Image: Classification
+# The Solution: Image Classification
 
 **Task**: Assign label(s) to entire image.
 
@@ -498,7 +507,16 @@ Pedestrians, vehicles, traffic lights, lane markings — all in milliseconds.
 
 ---
 
-# Image: Object Detection
+# The Problem: What Does a Self-Driving Car See?
+
+![w:1000](images/week03/problem_selfdriving_raw.png)
+
+**A camera captures 30 frames per second. The car must understand each one.**
+Where are the pedestrians? The other cars? The traffic lights? We need bounding boxes.
+
+---
+
+# The Solution: Object Detection
 
 **Task**: Locate and classify objects with bounding boxes.
 
@@ -553,7 +571,7 @@ Every pixel matters — is it healthy tissue or tumor?
 
 ---
 
-# Image: Semantic Segmentation
+# The Solution: Semantic Segmentation
 
 **Task**: Classify every pixel in image.
 
@@ -608,7 +626,7 @@ Is the patient doing the exercise correctly? Is their range of motion improving?
 
 ---
 
-# Image: Keypoint Detection
+# The Solution: Keypoint Detection
 
 **Task**: Locate specific points (joints, landmarks).
 
@@ -643,7 +661,16 @@ Is the patient doing the exercise correctly? Is their range of motion improving?
 
 ---
 
-# Audio: Transcription
+# The Problem: 10,000 Hours of Customer Calls
+
+![w:900](images/week03/problem_call_center.png)
+
+**Call centers record every conversation. How do we extract insights?**
+What are customers complaining about? Which agents perform best? We need transcription.
+
+---
+
+# The Solution: Audio Transcription
 
 **Task**: Convert speech to text with timestamps.
 
@@ -750,7 +777,16 @@ Include or remove?
 
 ---
 
-# Video: Action Recognition
+# The Problem: Monitoring Security Across Hundreds of Cameras
+
+![w:1000](images/week03/problem_security_footage.png)
+
+**Security teams can't watch all cameras simultaneously.**
+Who entered the building? Which car is that? Where did the person go? We need video understanding.
+
+---
+
+# The Solution: Video Action Recognition
 
 **Task**: Classify actions in video clips.
 
