@@ -1036,17 +1036,30 @@ docker-compose up -d
 
 # The Quality Problem
 
-**Labels are created by humans. Humans make mistakes.**
+**Labels are created by humans. Humans disagree.**
 
 ```
-Annotator 1: "This movie was okay" -> POSITIVE
-Annotator 2: "This movie was okay" -> NEUTRAL
-Annotator 3: "This movie was okay" -> NEGATIVE
+Text: "This movie was okay"
+
+Annotator 1 → POSITIVE  (they're being polite!)
+Annotator 2 → NEUTRAL   (okay = average)
+Annotator 3 → NEGATIVE  (okay = disappointed)
 ```
 
-**Who is right?**
+**Who is right?** It depends on your guidelines!
 
-We need a way to measure agreement and quality.
+---
+
+# Real-World Disagreement Examples
+
+| Domain | Example | Why People Disagree |
+|--------|---------|---------------------|
+| Medical | Is this X-ray showing pneumonia? | Subtle patterns, experience level |
+| Sentiment | "Not bad for what it is" | Sarcasm, context, cultural |
+| Spam | Newsletter from a store you signed up for | Intent vs. content |
+| Toxicity | Political criticism | Subjectivity, personal values |
+
+**Disagreement is normal.** The question is: *how much* disagreement is acceptable?
 
 ---
 
@@ -1064,6 +1077,231 @@ We need a way to measure agreement and quality.
 
 ---
 
+# A Simple Thought Experiment
+
+**Task**: Label 10 emails as Spam or Not Spam
+
+Two annotators label independently:
+
+```
+Email:   1    2    3    4    5    6    7    8    9   10
+Ann A:   S    N    S    S    N    S    N    N    S    S
+Ann B:   S    N    S    N    N    S    N    S    S    S
+         ✓    ✓    ✓    ✗    ✓    ✓    ✓    ✗    ✓    ✓
+```
+
+**Percent Agreement**: 8/10 = **80%**
+
+Is 80% good? Let's find out...
+
+---
+
+# The Problem with Percent Agreement
+
+**Scenario**: What if both annotators just guessed randomly?
+
+```
+Binary task: Spam (50%) or Not Spam (50%)
+
+P(both say Spam)     = 0.5 × 0.5 = 0.25
+P(both say Not Spam) = 0.5 × 0.5 = 0.25
+                                   ────
+P(agree by chance)               = 0.50
+```
+
+**50% agreement by pure luck!**
+
+So 80% agreement is only 30% better than random guessing.
+We need a metric that accounts for this.
+
+---
+
+# Cohen's Kappa: The Intuition
+
+**Kappa answers**: "How much better than chance is your agreement?"
+
+```
+         observed_agreement - chance_agreement
+kappa = ────────────────────────────────────────
+              1 - chance_agreement
+```
+
+| Kappa | Meaning |
+|-------|---------|
+| 0 | No better than random guessing |
+| 1 | Perfect agreement |
+| <0 | Worse than random (systematic disagreement!) |
+
+---
+
+# What Does Kappa "Look Like"?
+
+**10 items, 2 categories (Yes/No), 2 annotators**
+
+| κ ≈ 0 (Random) | κ ≈ 0.6 (Moderate) | κ = 1.0 (Perfect) |
+|:---:|:---:|:---:|
+| A: Y N Y N Y | A: Y Y N Y N | A: Y Y N N Y |
+| B: N Y N Y N | B: Y Y Y Y N | B: Y Y N N Y |
+| Agree: 0/5 | Agree: 4/5 | Agree: 5/5 |
+
+**Key insight**: Same 80% agreement can have different kappa depending on the distribution!
+
+---
+
+# Kappa Example: 10 Items (Easy Math)
+
+**Our spam example**:
+```
+Email:   1  2  3  4  5  6  7  8  9  10
+Ann A:   S  N  S  S  N  S  N  N  S  S   (6 Spam, 4 Not)
+Ann B:   S  N  S  N  N  S  N  S  S  S   (6 Spam, 4 Not)
+```
+
+**Step 1: Build confusion matrix**
+
+|  | B: Spam | B: Not | Total |
+|--|:--:|:--:|:--:|
+| A: Spam | 5 | 1 | 6 |
+| A: Not | 1 | 3 | 4 |
+| Total | 6 | 4 | 10 |
+
+---
+
+# Kappa Example: Calculate P_observed
+
+**Observed agreement**: Items where both agreed
+
+```
+Both said Spam:     5
+Both said Not Spam: 3
+                    ─
+Total agreed:       8
+
+P_observed = 8/10 = 0.80
+```
+
+---
+
+# Kappa Example: Calculate P_expected
+
+**Expected agreement by chance**: What if they labeled randomly with their same proportions?
+
+```
+P(A says Spam) = 6/10 = 0.6
+P(B says Spam) = 6/10 = 0.6
+
+P(both Spam by chance)     = 0.6 × 0.6 = 0.36
+P(both Not Spam by chance) = 0.4 × 0.4 = 0.16
+                                         ────
+P_expected                             = 0.52
+```
+
+**By chance alone, they'd agree 52% of the time!**
+
+---
+
+# Kappa Example: Final Calculation
+
+```
+         P_observed - P_expected
+kappa = ─────────────────────────
+            1 - P_expected
+
+         0.80 - 0.52
+      = ─────────────
+          1 - 0.52
+
+         0.28
+      = ───── = 0.58
+         0.48
+```
+
+**κ = 0.58** → Moderate agreement
+
+80% sounds good, but kappa reveals it's only moderately better than chance.
+
+---
+
+# Verify with Python
+
+```python
+from sklearn.metrics import cohen_kappa_score
+
+ann_a = ['S', 'N', 'S', 'S', 'N', 'S', 'N', 'N', 'S', 'S']
+ann_b = ['S', 'N', 'S', 'N', 'N', 'S', 'N', 'S', 'S', 'S']
+
+kappa = cohen_kappa_score(ann_a, ann_b)
+print(f"Kappa: {kappa:.2f}")  # 0.58
+
+# Compare to percent agreement
+agree = sum(a == b for a, b in zip(ann_a, ann_b))
+print(f"Percent: {agree/len(ann_a):.0%}")  # 80%
+```
+
+---
+
+# Edge Case: What's Negative Kappa?
+
+**Negative kappa** = Systematic disagreement (worse than chance)
+
+```
+Ann A:  Y  Y  Y  Y  Y  N  N  N  N  N
+Ann B:  N  N  N  N  N  Y  Y  Y  Y  Y
+        ✗  ✗  ✗  ✗  ✗  ✗  ✗  ✗  ✗  ✗
+```
+
+P_observed = 0%, but P_expected = 50%
+
+```
+κ = (0.0 - 0.5) / (1 - 0.5) = -1.0
+```
+
+**κ = -1** means they disagree on *everything*!
+(Maybe one annotator misunderstood the labels?)
+
+---
+
+# Edge Case: Imbalanced Classes
+
+**90% of emails are Not Spam**
+
+```
+Ann A:  N  N  N  N  N  N  N  N  N  S
+Ann B:  N  N  N  N  N  N  N  N  N  S
+```
+
+P_observed = 100%, but P_expected = 0.9 × 0.9 + 0.1 × 0.1 = 0.82
+
+```
+κ = (1.0 - 0.82) / (1 - 0.82) = 1.0
+```
+
+**Still κ = 1.0!** (Perfect agreement on rare class is still perfect)
+
+But if they disagreed on just the one spam:
+```
+κ = (0.9 - 0.82) / (1 - 0.82) = 0.44
+```
+
+**With imbalanced classes, one disagreement hurts kappa a lot!**
+
+---
+
+# Kappa Interpretation Guide
+
+| Kappa | Level | What It Means | Action |
+|-------|-------|---------------|--------|
+| < 0 | Worse than chance | Annotators confused or labels swapped | Check for systematic errors |
+| 0.0–0.20 | Slight | Barely better than guessing | Major guideline rewrite |
+| 0.21–0.40 | Fair | Some agreement, many issues | Significant training needed |
+| 0.41–0.60 | Moderate | Acceptable for pilot | Refine guidelines |
+| 0.61–0.80 | Substantial | Good for most tasks | Minor tweaks |
+| 0.81–1.0 | Almost Perfect | Production ready | Ship it! |
+
+**Target**: κ ≥ 0.8 for production | **If κ < 0.6**: Fix guidelines before collecting more data!
+
+---
+
 # Types of Agreement Metrics
 
 | Data Type | Metrics |
@@ -1073,135 +1311,6 @@ We need a way to measure agreement and quality.
 | **Spatial (Images)** | IoU (Intersection over Union), Dice Coefficient |
 
 **Choose metric based on your data type and number of annotators!**
-
----
-
-# Percent Agreement: The Naive Approach
-
-```python
-agreed = sum(ann1 == ann2 for ann1, ann2 in zip(labels1, labels2))
-agreement = agreed / total_items
-```
-
-**Problem**: Doesn't account for chance!
-
-**Example**:
-- Binary task (Yes/No)
-- Both annotators guess randomly
-- Expected agreement by chance: 50%
-- 60% agreement sounds okay, but it's barely better than random!
-
----
-
-# Cohen's Kappa
-
-**Accounts for chance agreement**
-
-```
-         observed_agreement - chance_agreement
-kappa = ────────────────────────────────────────
-              1 - chance_agreement
-```
-
-**In notation**:
-```
-     P_observed - P_expected
-k = ─────────────────────────
-        1 - P_expected
-```
-
----
-
-# Why Kappa, Not Just Percent Agreement?
-
-<div class="insight">
-
-**The coin-flip problem**: Two annotators randomly guessing on a binary task will agree 50% of the time. That's not skill - that's chance. Kappa tells you how much better than chance your agreement is.
-
-</div>
-
-**Intuition with examples:**
-
-| Scenario | % Agreement | Kappa | Interpretation |
-|----------|-------------|-------|----------------|
-| Both guess randomly (binary) | 50% | 0.0 | No better than chance |
-| Slight improvement | 60% | 0.2 | Barely better than chance |
-| Real agreement | 80% | 0.6 | Moderate agreement |
-| Almost perfect | 95% | 0.9 | Excellent |
-
-**Kappa normalizes for chance**, giving a fairer picture of true agreement.
-
----
-
-# Cohen's Kappa: Python
-
-```python
-from sklearn.metrics import cohen_kappa_score
-
-annotator1 = ['pos', 'neg', 'pos', 'pos', 'neg', 'pos', 'neg', 'neg']
-annotator2 = ['pos', 'neg', 'neg', 'pos', 'neg', 'pos', 'neg', 'pos']
-
-kappa = cohen_kappa_score(annotator1, annotator2)
-print(f"Cohen's Kappa: {kappa:.2f}")  # 0.50
-```
-
----
-
-# Kappa Interpretation
-
-| Kappa Value | Agreement Level | Action |
-|-------------|-----------------|--------|
-| < 0.00 | Poor | Redesign task |
-| 0.00 - 0.20 | Slight | Major guideline revision |
-| 0.21 - 0.40 | Fair | Significant revision |
-| 0.41 - 0.60 | Moderate | Minor revision |
-| 0.61 - 0.80 | Substantial | Guidelines working |
-| 0.81 - 1.00 | Almost Perfect | Excellent! |
-
-**Target**: kappa >= 0.8 for production | **If kappa < 0.6**: Improve guidelines first!
-
----
-
-# Kappa Example: Step by Step
-
-**Scenario**: 2 annotators label 100 items (Spam / Not Spam)
-
-```
-                    Annotator B
-                    Spam    Not Spam    Total
-Annotator A  Spam    45        5         50
-             Not     5        45         50
-             Total   50       50        100
-```
-
-**Step 1**: Observed Agreement
-```
-P_o = (45 + 45) / 100 = 0.90
-```
-
----
-
-# Kappa Example: Step by Step (cont.)
-
-**Step 2**: Expected Agreement by Chance
-```
-P(A says Spam) = 50/100 = 0.5
-P(B says Spam) = 50/100 = 0.5
-
-P(both say Spam by chance) = 0.5 * 0.5 = 0.25
-P(both say Not Spam by chance) = 0.5 * 0.5 = 0.25
-
-P_e = 0.25 + 0.25 = 0.50
-```
-
-**Step 3**: Calculate Kappa
-```
-      P_o - P_e     0.90 - 0.50
-k = ─────────── = ───────────── = 0.80
-      1 - P_e       1 - 0.50
-```
-
-**Result**: Substantial agreement!
 
 ---
 
