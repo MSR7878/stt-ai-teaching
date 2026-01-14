@@ -3,6 +3,10 @@ index.html
 themes.html
 /.quarto/
 
+# Generated slides (built locally or by CI)
+html/
+pdf/
+
 # Node modules
 node_modules/
 .npm/

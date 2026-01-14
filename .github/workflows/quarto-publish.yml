@@ -22,6 +22,34 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Marp CLI
+        run: npm install -g @marp-team/marp-cli
+
+      - name: Build Marp slides (HTML)
+        run: |
+          mkdir -p html
+          for f in slides/*.md; do
+            filename=$(basename "$f" .md)
+            echo "Building HTML: $f"
+            marp "$f" -o "html/${filename}.html" --allow-local-files
+          done
+
+      - name: Build Marp slides (PDF)
+        run: |
+          mkdir -p pdf
+          # Install Chrome for PDF generation
+          npx playwright install chromium
+          for f in slides/*.md; do
+            filename=$(basename "$f" .md)
+            echo "Building PDF: $f"
+            marp "$f" -o "pdf/${filename}.pdf" --allow-local-files || echo "Warning: PDF build failed for $f"
+          done
+
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
