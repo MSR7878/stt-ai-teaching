@@ -1,0 +1,102 @@
+[
+  {
+    "text": "Apple CEO Tim Cook announced the new iPhone 15 at their headquarters in Cupertino on September 12.",
+    "id": 1
+  },
+  {
+    "text": "Elon Musk's Tesla delivered record numbers of Model Y vehicles in Shanghai last quarter.",
+    "id": 2
+  },
+  {
+    "text": "Microsoft founder Bill Gates visited the World Health Organization in Geneva yesterday.",
+    "id": 3
+  },
+  {
+    "text": "Dr. Sarah Chen from Stanford University published groundbreaking research on Monday.",
+    "id": 4
+  },
+  {
+    "text": "Amazon Web Services opened a new data center in Mumbai, India in March 2024.",
+    "id": 5
+  },
+  {
+    "text": "The Beatles performed their last concert at Apple Corps headquarters in London.",
+    "id": 6
+  },
+  {
+    "text": "NASA astronaut Neil Armstrong landed on the Moon on July 20, 1969.",
+    "id": 7
+  },
+  {
+    "text": "Sundar Pichai announced Google's new Pixel 8 phone at the Made by Google event.",
+    "id": 8
+  },
+  {
+    "text": "Professor James Wilson from MIT will speak at the conference in Boston next week.",
+    "id": 9
+  },
+  {
+    "text": "Netflix CEO Reed Hastings stepped down from his position in January 2023.",
+    "id": 10
+  },
+  {
+    "text": "The United Nations headquarters in New York hosted the climate summit.",
+    "id": 11
+  },
+  {
+    "text": "Mark Zuckerberg renamed Facebook to Meta in October 2021.",
+    "id": 12
+  },
+  {
+    "text": "Toyota announced the new Camry model will be manufactured in Kentucky.",
+    "id": 13
+  },
+  {
+    "text": "Dr. Anthony Fauci addressed the National Institutes of Health in Washington D.C.",
+    "id": 14
+  },
+  {
+    "text": "Samsung released the Galaxy S24 series at their Unpacked event in San Jose.",
+    "id": 15
+  },
+  {
+    "text": "Warren Buffett's Berkshire Hathaway held its annual meeting in Omaha on Saturday.",
+    "id": 16
+  },
+  {
+    "text": "OpenAI released ChatGPT in November 2022, changing the AI landscape.",
+    "id": 17
+  },
+  {
+    "text": "Prime Minister Narendra Modi inaugurated the new parliament building in Delhi.",
+    "id": 18
+  },
+  {
+    "text": "Spotify founder Daniel Ek announced layoffs at their Stockholm office.",
+    "id": 19
+  },
+  {
+    "text": "The European Central Bank raised interest rates in Frankfurt last Thursday.",
+    "id": 20
+  },
+  {
+    "text": "Patient John Smith, age 45, was prescribed Metformin 500mg twice daily.",
+    "id": 21
+  },
+  {
+    "text": "Dr. Emily Watson at Mayo Clinic diagnosed the condition on February 15.",
+    "id": 22
+  },
+  {
+    "text": "The FDA approved Pfizer's new vaccine for distribution in the United States.",
+    "id": 23
+  },
+  {
+    "text": "Memorial Hospital in Chicago reported increased cases of influenza this winter.",
+    "id": 24
+  },
+  {
+    "text": "Nurse practitioner Maria Garcia administered the Moderna booster shot.",
+    "id": 25
+  }
+]

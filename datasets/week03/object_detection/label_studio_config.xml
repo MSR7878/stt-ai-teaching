@@ -1,0 +1,15 @@
+<View>
+  <Image name="image" value="$image"/>
+  <RectangleLabels name="label" toName="image">
+    <Label value="car" background="#FF0000"/>
+    <Label value="person" background="#00FF00"/>
+    <Label value="dog" background="#0000FF"/>
+    <Label value="cat" background="#FFFF00"/>
+    <Label value="laptop" background="#FF00FF"/>
+    <Label value="phone" background="#00FFFF"/>
+    <Label value="cup" background="#FFA500"/>
+    <Label value="food" background="#800080"/>
+    <Label value="watch" background="#008080"/>
+    <Label value="headphones" background="#FFC0CB"/>
+  </RectangleLabels>
+</View>

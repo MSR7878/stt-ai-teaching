@@ -1,0 +1,13 @@
+<View>
+  <Image name="image" value="$image"/>
+  <Choices name="category" toName="image" choice="single">
+    <Choice value="animal"/>
+    <Choice value="vehicle"/>
+    <Choice value="building"/>
+    <Choice value="nature"/>
+    <Choice value="food"/>
+    <Choice value="electronics"/>
+    <Choice value="urban"/>
+    <Choice value="object"/>
+  </Choices>
+</View>
