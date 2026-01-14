@@ -36,7 +36,7 @@ jobs:
           for f in slides/*.md; do
             filename=$(basename "$f" .md)
             echo "Building HTML: $f"
-            marp "$f" -o "html/${filename}.html" --allow-local-files
+            marp "$f" -o "html/${filename}.html" --allow-local-files --theme-set slides/iitgn-modern.css
           done
 
       - name: Build Marp slides (PDF)
@@ -47,7 +47,7 @@ jobs:
           for f in slides/*.md; do
             filename=$(basename "$f" .md)
             echo "Building PDF: $f"
-            marp "$f" -o "pdf/${filename}.pdf" --allow-local-files || echo "Warning: PDF build failed for $f"
+            marp "$f" -o "pdf/${filename}.pdf" --allow-local-files --theme-set slides/iitgn-modern.css || echo "Warning: PDF build failed for $f"
           done
 
       - name: Setup Quarto
