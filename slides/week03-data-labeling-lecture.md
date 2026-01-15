@@ -25,97 +25,78 @@ paginate: true
 
 # Previously on CS 203...
 
-**Week 1**: We collected movie data from the OMDB API
+**Week 1 & 2**: We collected and cleaned movie data from the OMDB API
 
-```python
-movies = []
-for title in movie_list:
-    response = requests.get(OMDB_API, params={"t": title})
-    movies.append(response.json())
-```
-
-**Week 2**: We validated and cleaned the data
-
-```python
-# Validated schema, fixed types, removed duplicates
-clean_movies = validate_and_clean(raw_movies)
-print(f"Clean dataset: {len(clean_movies)} movies")
-```
+| Title | Year | Genre | Runtime | Director | Budget |
+|-------|------|-------|---------|----------|--------|
+| Inception | 2010 | Sci-Fi | 148 min | Nolan | $160M |
+| The Room | 2003 | Drama | 99 min | Wiseau | $6M |
+| Parasite | 2019 | Thriller | 132 min | Bong | $11M |
+| ... | ... | ... | ... | ... | ... |
 
 **Now**: We have 10,000 clean movies. Time to build a model!
+
+**Business Question**: *"Can we predict which movies will be profitable?"*
 
 ---
 
 # The Missing Ingredient
 
-```python
-# Our clean movie data
-movies = [
-    {"title": "Inception", "year": 2010, "plot": "A thief who..."},
-    {"title": "The Room", "year": 2003, "plot": "Johnny is a..."},
-    {"title": "Parasite", "year": 2019, "plot": "Greed and..."},
-    # ... 9,997 more movies
-]
+| Title | Year | Genre | Budget | **TotalRevenue** |
+|-------|------|-------|--------|:----------------:|
+| Inception | 2010 | Sci-Fi | $160M | **???** |
+| The Room | 2003 | Drama | $6M | **???** |
+| Parasite | 2019 | Thriller | $11M | **???** |
 
-# We want to predict: Is this a good movie?
-# But wait... what makes a movie "good"?
-```
+<div class="insight">
 
-**The data doesn't tell us the answer. We need LABELS.**
+**The problem**: We have *features* (year, genre, budget) but no *target variable*.
+
+Where does TotalRevenue come from? We need to **aggregate from multiple sources**:
+- Domestic box office, International box office, Streaming deals, DVD/Blu-ray sales...
+- Each source has different reporting standards, currencies, time windows
+
+</div>
+
+**Someone must collect, normalize, and aggregate revenue data → LABELS**
 
 ---
 
 # The Labeling Bottleneck
 
-<div class="insight">
+| Title | Year | Genre | Budget | **TotalRevenue** |
+|-------|------|-------|--------|:----------------:|
+| Inception | 2010 | Sci-Fi | $160M | $836M ✓ |
+| The Room | 2003 | Drama | $6M | $1.8M ✓ |
+| Parasite | 2019 | Thriller | $11M | $263M ✓ |
+| Movie #4 | 2015 | Action | $45M | **?** |
+| ... | ... | ... | ... | **?** |
+| Movie #10,000 | 2020 | Comedy | $12M | **?** |
 
-**The AI Reality Check**
+**For each movie**: Query Box Office Mojo, TheNumbers, studio reports → Convert currencies → Sum domestic + international + streaming → Verify
 
-| Data Type | Availability |
-|-----------|--------------|
-| Unlabeled Data | **Abundant** — web, sensors, logs, databases |
-| Labeled Data | **Scarce** — expensive, time-consuming |
-| Time on Labeling | **80%** of AI project effort |
-
-</div>
-
-**This is the bottleneck that slows down most AI projects.**
-
----
-
-# The Teacher Analogy
-
-<div class="insight">
-
-**Machine learning is like teaching a child**: You show examples ("this is a cat, this is a dog"), and the child learns to recognize the pattern. Without examples, there's nothing to learn from.
-
-</div>
-
-**What labeled data provides:**
-- **Definition**: What exactly are we trying to predict?
-- **Examples**: What does "correct" look like?
-- **Boundaries**: Where does one category end and another begin?
-- **Ground truth**: How do we know if the model is right?
-
-**No labels = No supervision = No learning direction**
+**10,000 movies × 5 sources × currency conversion × manual verification = EXPENSIVE!**
 
 ---
 
-# Why Do We Need Labels?
+# Same Data, Different Labels
 
-**1. Supervised Learning requires ground truth**
-```
-Input: "This movie was terrible!"  -->  Model  -->  Output: ???
+**Same movie features can predict different things:**
 
-Without labels, model can't learn what "terrible" means for the task.
-```
+| Task | Label Needed | Sources |
+|------|--------------|---------|
+| **Predict Revenue** | TotalRevenue ($) | Box Office Mojo, TheNumbers, studio reports |
+| **Predict Critical Success** | CriticScore (0-100) | Rotten Tomatoes, Metacritic, IMDB |
+| **Predict Audience Appeal** | AudienceScore (0-100) | RT Audience, IMDB user ratings |
+| **Content Classification** | Genre tags | Manual annotation, Wikipedia |
 
-**2. Evaluation needs a test set**
-- Even unsupervised methods need labels to verify quality
+<div class="insight">
 
-**3. Labeling forces you to define the problem**
-- What exactly is "spam"? What counts as "positive sentiment"?
-- Ambiguity in labeling = ambiguity in your model
+**The label defines the task.** Same features, different labels = different ML problems.
+
+Each label requires its own collection and aggregation effort.
+
+</div>
 
 ---
 
@@ -134,75 +115,40 @@ Without labels, model can't learn what "terrible" means for the task.
 
 <!-- _class: lead -->
 
-# Part 2: Where Does Data Come From?
+# Part 2: Data Without Labels
 
-*Sources of unlabeled data*
-
----
-
-# The Data Landscape
-
-| **Public Sources** | **Private Sources** |
-|--------------------|---------------------|
-| Web scraping | Company databases |
-| Public APIs | User uploads |
-| Open datasets | Internal logs |
-| Government data | Sensor streams |
-| Social media | Transaction records |
-
-**Unlabeled data is everywhere. The challenge is getting labels.**
+*The abundance of data, the scarcity of labels*
 
 ---
 
-# Public Data Sources
+# Unlabeled Data is Everywhere
 
-**Web Scraping** (Week 1 topic):
-```python
-# News articles, product listings, reviews
-soup = BeautifulSoup(response.text)
-articles = soup.find_all('article')
-```
-
-**Public APIs**:
-- Twitter/X API - millions of tweets
-- Reddit API - discussions and comments
-- Wikipedia API - encyclopedic text
-
-**Open Datasets**:
-- Common Crawl - petabytes of web pages
-- ImageNet - millions of images (but WITH labels!)
-- The Pile - 800GB of diverse text
+![w:800](images/week03/unlabeled_data_everywhere.png)
 
 ---
 
-# Private/Enterprise Data
+# The Labeling Cost Reality
 
-**User-Generated Content**:
-```python
-# E-commerce reviews
-reviews = db.query("SELECT * FROM product_reviews")
-# No sentiment labels!
-```
+| Source | Data Volume | Labels Needed | Estimated Cost |
+|--------|-------------|---------------|----------------|
+| E-commerce | 1M reviews | Sentiment (pos/neg/neu) | $10K-30K |
+| Call center | 10K hours | Transcripts + Intent | $50K-150K |
+| Security | 1 year footage | Event annotations | $200K+ |
+| Hospital | 50K scans | Tumor boundaries | $500K+ (expert) |
 
-**Operational Logs**:
-```python
-# Server logs, user behavior
-logs = parse_log_files("/var/log/app/")
-# No "normal" vs "anomaly" labels!
-```
+<div class="insight">
 
-**Sensor Data**:
-```python
-# IoT devices, cameras, microphones
-sensor_stream = read_sensor(device_id)
-# No event annotations!
-```
+**ImageNet**: 14M images × $0.01/label = **$140K just for labels**
+
+Labels are often **more expensive than the data collection itself**.
+
+</div>
 
 ---
 
 # The Label Gap
 
-![w:900](images/week03/label_gap.png)
+![w:700](images/week03/label_gap.png)
 
 **The gap between available data and labeled data is enormous.**
 
@@ -243,11 +189,46 @@ sensor_stream = read_sensor(device_id)
 
 ---
 
-# Task Complexity Spectrum
+# Text: Complexity Spectrum
 
-![w:1000](images/week03/task_complexity.png)
+![w:800](images/week03/complexity_text.png)
 
-**More complex tasks = more time = more cost**
+---
+
+# Vision: Complexity Spectrum
+
+![w:800](images/week03/complexity_vision.png)
+
+---
+
+# Audio: Complexity Spectrum
+
+![w:800](images/week03/complexity_audio.png)
+
+---
+
+# Video: Complexity Spectrum
+
+![w:800](images/week03/complexity_video.png)
+
+---
+
+# The Cost Reality
+
+| Domain | Simple Task | Complex Task | Multiplier |
+|--------|-------------|--------------|:----------:|
+| **Text** | Classification: ₹2/item | Relation extraction: ₹80/item | **40x** |
+| **Vision** | Image label: ₹2/img | Instance segmentation: ₹400/img | **200x** |
+| **Audio** | Clip label: ₹4/clip | Full diarization: ₹150/min | **40x** |
+| **Video** | Video label: ₹8/clip | Dense captioning: ₹800/min | **100x** |
+
+<div class="insight">
+
+**Choose the simplest task that solves your problem.**
+
+Don't do pixel segmentation if bounding boxes suffice. Don't do NER if classification works.
+
+</div>
 
 ---
 
@@ -271,13 +252,15 @@ A human can't review millions of emails. We need machines to learn the pattern.
 **Task**: Assign label(s) to entire text.
 
 ```python
-# Binary Classification
+# Binary Classification (2 classes: POSITIVE, NEGATIVE)
 {"text": "This movie was terrible!", "label": "NEGATIVE"}
 
-# Multi-class Classification
+# Multi-class Classification (pick 1 of N classes)
+# Classes: BILLING, ACCOUNT_SUPPORT, TECHNICAL, SALES, OTHER
 {"text": "How do I reset my password?", "label": "ACCOUNT_SUPPORT"}
 
-# Multi-label Classification
+# Multi-label Classification (pick any subset of classes)
+# Classes: POSITIVE_FEATURE, NEGATIVE_FEATURE, NEUTRAL, QUESTION
 {"text": "Great phone with poor battery",
  "labels": ["POSITIVE_FEATURE", "NEGATIVE_FEATURE"]}
 ```
@@ -296,7 +279,7 @@ A human can't review millions of emails. We need machines to learn the pattern.
 
 # The Problem: Extracting Information from Clinical Notes
 
-![w:900](images/week03/problem_clinical_notes.png)
+![w:700](images/week03/problem_clinical_notes.png)
 
 **Hospitals have millions of unstructured notes.**
 How do we extract drug names, dosages, symptoms automatically?
@@ -473,7 +456,7 @@ Relations:
 
 # The Problem: Organizing Millions of Products
 
-![w:900](images/week03/problem_product_classification.png)
+![w:700](images/week03/problem_product_classification.png)
 
 **E-commerce sites have millions of products. Which category does each belong to?**
 Manual categorization is impossible at scale. We need machines to classify images.
@@ -509,7 +492,7 @@ Manual categorization is impossible at scale. We need machines to classify image
 
 # The Problem: What Does a Self-Driving Car See?
 
-![w:1000](images/week03/problem_selfdriving_raw.png)
+![w:800](images/week03/problem_selfdriving_raw.png)
 
 **A camera captures 30 frames per second. The car must understand each one.**
 Where are the pedestrians? The other cars? The traffic lights? We need bounding boxes.
@@ -547,27 +530,31 @@ Where are the pedestrians? The other cars? The traffic lights? We need bounding 
 
 # Object Detection: Best Practices
 
-**Bounding Box Tightness**:
+![w:450](images/week03/bbox_tightness.png)
 
-![w:800](images/week03/bbox_tightness.png)
-
-**Occlusion Rules**:
-- Label partially visible objects? (>20% visible = yes)
-- How to handle overlapping boxes?
-
-**Edge Cases**:
-- Reflections in mirrors?
-- Objects in pictures on walls?
-- Tiny/distant objects?
+| Guideline | Rule of Thumb |
+|-----------|---------------|
+| **Box tightness** | Box should touch object edges — not too loose, not cutting into object |
+| **Partial occlusion** | Label if >20% of object is visible |
+| **Tiny objects** | Skip if <10 pixels in either dimension |
+| **Reflections** | Don't label objects in mirrors/windows |
+| **Pictures on walls** | Don't label objects inside photos/posters |
 
 ---
 
 # The Problem: Finding Tumors in Medical Scans
 
-![w:700](images/week03/problem_medical_raw.png)
+![w:500](images/week03/problem_medical_raw.png)
 
-**Radiologists review thousands of scans. Can AI help spot anomalies?**
-Every pixel matters — is it healthy tissue or tumor?
+**Radiologists review thousands of scans.** Every pixel matters — is it healthy tissue or tumor?
+
+---
+
+# The Solution: Pixel-level Annotation
+
+![w:700](images/week03/semantic_segmentation.png)
+
+**Annotators must label every single pixel** — tumor (red), healthy tissue (green), background (blue)
 
 ---
 
@@ -593,7 +580,7 @@ Pixel values:
 
 # Segmentation: Diagram
 
-![w:900](images/week03/semantic_segmentation.png)
+![w:700](images/week03/semantic_segmentation.png)
 
 **Tools**: Brush, Polygon, Magic Wand, SAM (Segment Anything Model)
 
@@ -601,16 +588,15 @@ Pixel values:
 
 # Instance vs Semantic Segmentation
 
-![w:900](images/week03/instance_vs_semantic.png)
+![w:700](images/week03/instance_vs_semantic.png)
 
-**Semantic**: All pixels of same class get same label (all dogs = red)
-**Instance**: Each object gets unique ID (dog 1 = red, dog 2 = green, dog 3 = blue)
+**Semantic**: All dogs = same color | **Instance**: Each dog = unique color
 
 ---
 
 # Another Application: Urban Planning from Satellites
 
-![w:900](images/week03/problem_satellite_raw.png)
+![w:700](images/week03/problem_satellite_raw.png)
 
 **Segmentation isn't just for medical imaging.**
 Urban planners use satellite segmentation to map buildings, roads, vegetation, water bodies.
@@ -663,7 +649,7 @@ Is the patient doing the exercise correctly? Is their range of motion improving?
 
 # The Problem: 10,000 Hours of Customer Calls
 
-![w:900](images/week03/problem_call_center.png)
+![w:700](images/week03/problem_call_center.png)
 
 **Call centers record every conversation. How do we extract insights?**
 What are customers complaining about? Which agents perform best? We need transcription.
@@ -779,7 +765,7 @@ Include or remove?
 
 # The Problem: Monitoring Security Across Hundreds of Cameras
 
-![w:1000](images/week03/problem_security_footage.png)
+![w:800](images/week03/problem_security_footage.png)
 
 **Security teams can't watch all cameras simultaneously.**
 Who entered the building? Which car is that? Where did the person go? We need video understanding.
@@ -836,7 +822,7 @@ Who entered the building? Which car is that? Where did the person go? We need vi
 
 # Video Tracking: Diagram
 
-![w:900](images/week03/video_tracking.png)
+![w:700](images/week03/video_tracking.png)
 
 **Key concept**: Same object maintains consistent ID across frames
 **Challenges**: Occlusion, re-identification after object disappears
@@ -1065,54 +1051,49 @@ Annotator 3 → NEGATIVE  (okay = disappointed)
 
 # Why Agreement Matters
 
-<div class="insight">
+**If humans can't agree, how can we expect a model to learn?**
 
-**If humans can't agree, how can we expect a model to learn?** The ceiling for model performance is roughly human-level agreement. Low agreement = noisy labels = confused model.
+![w:550](images/week03/chain_reaction.png)
 
-</div>
-
-![w:700](images/week03/chain_reaction.png)
-
-**Fix it at the source**: Clear guidelines → High agreement → Clean labels → Better models
+Low agreement → Noisy labels → Confused model → Poor predictions
 
 ---
 
-# A Simple Thought Experiment
+# The Coin Flip Problem
 
-**Task**: Label 10 emails as Spam or Not Spam
+**Imagine two lazy annotators who just flip coins:**
 
-Two annotators label independently:
+| Email | Ann A (random) | Ann B (random) | Agree? |
+|-------|----------------|----------------|--------|
+| 1 | Spam | Spam | Yes |
+| 2 | Not Spam | Spam | No |
+| 3 | Spam | Spam | Yes |
+| 4 | Not Spam | Not Spam | Yes |
+| 5 | Spam | Not Spam | No |
+
+**Even random guessing gives ~50% agreement!**
+
+So when someone says "we got 80% agreement" — is that good, or just slightly better than coin flips?
+
+---
+
+# Why 80% Agreement Can Be Misleading
+
+**Two annotators label 10 emails:**
 
 ```
 Email:   1    2    3    4    5    6    7    8    9   10
 Ann A:   S    N    S    S    N    S    N    N    S    S
 Ann B:   S    N    S    N    N    S    N    S    S    S
-         ✓    ✓    ✓    ✗    ✓    ✓    ✓    ✗    ✓    ✓
 ```
 
 **Percent Agreement**: 8/10 = **80%**
 
-Is 80% good? Let's find out...
+**But wait**: Random guessing gives 50% agreement.
 
----
+So 80% is only **30 percentage points above chance**.
 
-# The Problem with Percent Agreement
-
-**Scenario**: What if both annotators just guessed randomly?
-
-```
-Binary task: Spam (50%) or Not Spam (50%)
-
-P(both say Spam)     = 0.5 × 0.5 = 0.25
-P(both say Not Spam) = 0.5 × 0.5 = 0.25
-                                   ────
-P(agree by chance)               = 0.50
-```
-
-**50% agreement by pure luck!**
-
-So 80% agreement is only 30% better than random guessing.
-We need a metric that accounts for this.
+Is that impressive? We need a metric that tells us: *"How much better than random are we?"*
 
 ---
 
@@ -1134,17 +1115,23 @@ kappa = ────────────────────────
 
 ---
 
-# What Does Kappa "Look Like"?
+# Kappa: The Key Insight
 
-**10 items, 2 categories (Yes/No), 2 annotators**
+**Kappa asks**: *"How much of the agreement is REAL vs just LUCK?"*
 
-| κ ≈ 0 (Random) | κ ≈ 0.6 (Moderate) | κ = 1.0 (Perfect) |
-|:---:|:---:|:---:|
-| A: Y N Y N Y | A: Y Y N Y N | A: Y Y N N Y |
-| B: N Y N Y N | B: Y Y Y Y N | B: Y Y N N Y |
-| Agree: 0/5 | Agree: 4/5 | Agree: 5/5 |
+```
+                Observed Agreement - Chance Agreement
+    Kappa (κ) = ─────────────────────────────────────
+                      1 - Chance Agreement
+```
 
-**Key insight**: Same 80% agreement can have different kappa depending on the distribution!
+| Scenario | % Agree | Chance | Kappa | Interpretation |
+|----------|---------|--------|-------|----------------|
+| Coin flips | 50% | 50% | **0.0** | No better than random |
+| Our example | 80% | 52% | **0.58** | Moderate — room for improvement |
+| Perfect | 100% | 52% | **1.0** | Complete agreement |
+
+**κ = 0.58 means**: Of the agreement that *could* exist beyond chance (48%), we achieved 58% of it.
 
 ---
 
@@ -1240,24 +1227,41 @@ print(f"Percent: {agree/len(ann_a):.0%}")  # 80%
 
 ---
 
-# Edge Case: What's Negative Kappa?
-
-**Negative kappa** = Systematic disagreement (worse than chance)
+# Negative Kappa: Complete Disagreement
 
 ```
-Ann A:  Y  Y  Y  Y  Y  N  N  N  N  N
-Ann B:  N  N  N  N  N  Y  Y  Y  Y  Y
+Ann A:  Y  Y  Y  Y  Y  N  N  N  N  N    (5 Yes, 5 No)
+Ann B:  N  N  N  N  N  Y  Y  Y  Y  Y    (5 Yes, 5 No)
         ✗  ✗  ✗  ✗  ✗  ✗  ✗  ✗  ✗  ✗
 ```
 
-P_observed = 0%, but P_expected = 50%
+**P_observed** = 0/10 = **0%** (they never agree!)
 
+**P_expected** (chance agreement):
 ```
-κ = (0.0 - 0.5) / (1 - 0.5) = -1.0
+P(A says Y) = 5/10 = 0.5    P(B says Y) = 5/10 = 0.5
+P(A says N) = 5/10 = 0.5    P(B says N) = 5/10 = 0.5
+
+P(both Y) = 0.5 × 0.5 = 0.25
+P(both N) = 0.5 × 0.5 = 0.25
+P_expected = 0.25 + 0.25 = 0.50 = 50%
 ```
 
-**κ = -1** means they disagree on *everything*!
-(Maybe one annotator misunderstood the labels?)
+**κ = (0.0 - 0.5) / (1 - 0.5) = -1.0**
+
+---
+
+# When Does Negative Kappa Happen?
+
+**Real-world examples of κ < 0:**
+
+| Scenario | What Happened |
+|----------|---------------|
+| Label swap | Ann B thought "1" meant Spam, Ann A thought "1" meant Not Spam |
+| Opposite interpretation | "Positive sentiment" = good review vs. COVID positive |
+| Instructions misread | One annotator labeled what IS there, other labeled what's MISSING |
+
+**κ = -1 is a red flag**: Something is systematically wrong. Don't collect more data — fix the misunderstanding first!
 
 ---
 
@@ -1314,24 +1318,40 @@ But if they disagreed on just the one spam:
 
 ---
 
-# Fleiss' Kappa: Multiple Annotators
+# Fleiss' Kappa: More Than 2 Annotators
 
-**When you have more than 2 annotators:**
+**Problem**: Cohen's Kappa only works for exactly 2 annotators.
+
+**Fleiss' Kappa** generalizes to any number of annotators.
+
+| Item | Cat A | Cat B | Cat C | Interpretation |
+|------|-------|-------|-------|----------------|
+| Email 1 | 3 | 0 | 0 | All 3 annotators chose A (perfect agreement) |
+| Email 2 | 1 | 2 | 0 | 1 chose A, 2 chose B (partial agreement) |
+| Email 3 | 0 | 1 | 2 | 1 chose B, 2 chose C (partial agreement) |
+
+**Same intuition as Cohen's**: How much better than chance?
+
+---
+
+# Fleiss' Kappa: Python Code
 
 ```python
 from statsmodels.stats.inter_rater import fleiss_kappa
 import numpy as np
 
-# Data format: (n_items, n_categories)
-# Each cell = count of annotators who chose that category
+# Each row = item, each column = category
+# Cell value = number of annotators who chose that category
 data = np.array([
-    [3, 0, 0],  # Item 1: all 3 chose category 0
-    [1, 2, 0],  # Item 2: 1 chose cat 0, 2 chose cat 1
-    [0, 1, 2],  # Item 3: 1 chose cat 1, 2 chose cat 2
+    [3, 0, 0],  # Item 1: unanimous agreement on cat 0
+    [1, 2, 0],  # Item 2: split 1-2 between cat 0 and 1
+    [0, 1, 2],  # Item 3: split 1-2 between cat 1 and 2
 ])
 
-print(f"Fleiss' Kappa: {fleiss_kappa(data):.3f}")
+print(f"Fleiss' Kappa: {fleiss_kappa(data):.3f}")  # Output: ~0.26
 ```
+
+**Interpretation**: Same scale as Cohen's (0 = chance, 1 = perfect)
 
 ---
 
@@ -1465,7 +1485,7 @@ A: SPAM (even if not selling anything - potential phishing)
 
 # Guidelines: Decision Trees
 
-![w:900](images/week03/decision_tree.png)
+![w:700](images/week03/decision_tree.png)
 
 **Decision trees reduce annotator uncertainty.**
 
@@ -1625,187 +1645,6 @@ final = weighted_vote(labels, weights)
 - Expert adjudication for disagreements
 
 **Iterate until quality targets are met!**
-
----
-
-<!-- _class: lead -->
-
-# Part 7: Cost Estimation
-
-*Planning your annotation budget*
-
----
-
-# Cost Factors
-
-| Factor | Low Cost | High Cost |
-|--------|----------|-----------|
-| **Task Complexity** | Classification: $0.01-0.05/item | Segmentation: $1-5/item |
-| **Quality** | Single annotator: 1x | 3x redundancy: 3x |
-| **Domain** | General: $10-20/hr | Expert: $50-200/hr |
-| **Platform** | MTurk: variable | Scale AI: premium |
-
-**Key insight: Cost = Complexity x Redundancy x Expertise**
-
----
-
-# Cost Example: Image Object Detection
-
-**Project**: Label 10,000 images with bounding boxes (5 objects/image)
-
-**Scenario 1: In-house team**
-```python
-images = 10000
-time_per_image = 3  # minutes
-hourly_rate = 25    # USD
-
-total_hours = (images * time_per_image) / 60  # 500 hours
-total_cost = total_hours * hourly_rate        # $12,500
-```
-
-**Scenario 2: Crowdsourcing (MTurk)**
-```python
-cost_per_image = 0.30    # USD
-redundancy = 3           # annotators per image
-
-total_cost = images * cost_per_image * redundancy  # $9,000
-```
-
----
-
-# Cost Example (continued)
-
-**Scenario 3: Professional service (Scale AI)**
-```python
-cost_per_image = 1.50    # USD (high quality)
-redundancy = 1           # They handle QC internally
-
-total_cost = images * cost_per_image  # $15,000
-```
-
-**Trade-off Summary**:
-| Approach | Cost | Quality | Speed |
-|----------|------|---------|-------|
-| In-house | $12,500 | High (control) | Slow |
-| MTurk | $9,000 | Variable | Fast |
-| Scale AI | $15,000 | High (guaranteed) | Medium |
-
----
-
-# Budget Planning Formula
-
-```python
-def estimate_annotation_budget(n_items, complexity, quality, domain):
-    # Base rates per item (USD)
-    base_rates = {"simple": 0.05, "medium": 0.30, "complex": 2.00}
-
-    # Quality multipliers (redundancy factor)
-    quality_mult = {"low": 1, "medium": 2, "high": 3}
-
-    # Domain expertise multipliers
-    domain_mult = {"general": 1, "expert": 5}
-
-    cost = n_items * base_rates[complexity] * quality_mult[quality] \
-           * domain_mult[domain]
-    return cost
-```
-
----
-
-# Budget Planning: Example
-
-```python
-# Project: 10,000 items, medium complexity, high quality, general domain
-budget = estimate_annotation_budget(
-    n_items=10000,
-    complexity="medium",
-    quality="high",
-    domain="general"
-)
-print(f"Estimated budget: ${budget:,.0f}")  # $9,000
-
-# Same project with expert annotators (medical/legal)
-expert_budget = estimate_annotation_budget(10000, "medium", "high", "expert")
-print(f"Expert budget: ${expert_budget:,.0f}")  # $45,000
-```
-
-**Formula**: `items * base_rate * redundancy * expertise`
-
----
-
-<!-- _class: lead -->
-
-# Part 8: Managing Annotation Teams
-
-*People, not just tools*
-
----
-
-# Team Structures
-
-![w:1000](images/week03/team_structures.png)
-
-**Roles**: Project Lead (guidelines, training) | QC Lead (quality, adjudication) | Annotators (labeling)
-
----
-
-# Annotator Selection
-
-**What to look for:**
-
-1. **Attention to detail** - Test with ambiguous examples
-2. **Consistency** - Same answer for same item on different days
-3. **Speed vs Quality balance** - Not too fast, not too slow
-4. **Communication** - Asks questions when unsure
-5. **Domain knowledge** (if needed) - Medical, legal, technical
-
-**Red flags:**
-- Suspiciously fast completion
-- Random-looking answers on gold questions
-- Never asks clarifying questions
-- Quality degrades over time
-
----
-
-# Common Annotator Issues
-
-**Issue 1: Fatigue**
-```
-Quality degrades over long sessions
-
-Solution:
-- Limit sessions to 2-3 hours
-- Insert mandatory breaks
-- Mix easy and hard items
-```
-
-**Issue 2: Anchoring Bias**
-```
-First few items influence later decisions
-
-Solution:
-- Randomize order
-- Warm-up period not counted
-```
-
-**Issue 3: Label Leakage**
-```
-Annotator sees previous labels or predictions
-
-Solution:
-- Hide previous annotations
-- Don't show model predictions (unless intentional)
-```
-
----
-
-# Annotator Feedback Loop
-
-![w:700](images/week03/feedback_loop.png)
-
-**Continuous improvement through regular feedback!**
-
----
 
 <!-- _class: lead -->
 
