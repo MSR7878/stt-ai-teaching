@@ -162,6 +162,23 @@ Labels are often **more expensive than the data collection itself**.
 
 ---
 
+# Our Tool: Label Studio
+
+**Open-source, web-based annotation platform**
+
+```bash
+pip install label-studio
+label-studio start
+# → http://localhost:8080
+```
+
+**Why Label Studio?**
+- Supports all modalities (text, image, audio, video)
+- Free and self-hosted
+- We'll see it in action for each task type
+
+---
+
 <!-- _class: lead -->
 
 # Part 3: Types of Labeling Tasks
@@ -235,6 +252,8 @@ Don't do pixel segmentation if bounding boxes suffice. Don't do NER if classific
 <!-- _class: lead -->
 
 # Part 3a: Text Annotation Tasks
+
+*Classification, NER, sentiment, and more*
 
 ---
 
@@ -452,6 +471,8 @@ Relations:
 
 # Part 3b: Image Annotation Tasks
 
+*From classification to pixel-level segmentation*
+
 ---
 
 # The Problem: Organizing Millions of Products
@@ -544,7 +565,20 @@ Where are the pedestrians? The other cars? The traffic lights? We need bounding 
 
 # The Problem: Finding Tumors in Medical Scans
 
-![w:500](images/week03/problem_medical_raw.png)
+<div style="display: flex; justify-content: space-around; align-items: center;">
+<div style="text-align: center;">
+
+![w:400](images/week03/problem_medical_raw.png)
+**Raw scan**
+
+</div>
+<div style="text-align: center;">
+
+![w:400](images/week03/problem_medical_segmented.png)
+**Segmented**
+
+</div>
+</div>
 
 **Radiologists review thousands of scans.** Every pixel matters — is it healthy tissue or tumor?
 
@@ -594,12 +628,27 @@ Pixel values:
 
 ---
 
+# Segmentation Formats: Binary Mask vs Polygon
+
+![w:700](images/week03/binary_mask_vs_polygon.png)
+
+| **Binary Mask** | **Polygon** |
+|-----------------|-------------|
+| Pixel-by-pixel (0 or 1) | List of (x, y) vertices |
+| Exact boundaries | Approximate boundaries |
+| Large file size | Compact storage |
+| `mask[y][x] = 1` | `[(x1,y1), (x2,y2), ...]` |
+
+**Trade-off**: Masks are precise but heavy; polygons are lightweight but approximate.
+
+---
+
 # Another Application: Urban Planning from Satellites
 
-![w:700](images/week03/problem_satellite_raw.png)
+![w:800](images/week03/satellite_urban_segmented.png)
 
 **Segmentation isn't just for medical imaging.**
-Urban planners use satellite segmentation to map buildings, roads, vegetation, water bodies.
+Urban planners use satellite segmentation to map buildings (red), roads (gray), vegetation (green), water (blue).
 
 ---
 
@@ -641,211 +690,16 @@ Is the patient doing the exercise correctly? Is their range of motion improving?
 
 ---
 
-<!-- _class: lead -->
+# Audio & Video Annotation
 
-# Part 3c: Audio Annotation Tasks
+**Same principles, more complexity:**
 
----
+| Modality | Key Tasks | Challenge |
+|----------|-----------|-----------|
+| **Audio** | Transcription, speaker diarization, emotion | Temporal alignment, overlapping speech |
+| **Video** | Object tracking, action recognition, temporal segmentation | Maintaining identity across frames (occlusion) |
 
-# The Problem: 10,000 Hours of Customer Calls
-
-![w:700](images/week03/problem_call_center.png)
-
-**Call centers record every conversation. How do we extract insights?**
-What are customers complaining about? Which agents perform best? We need transcription.
-
----
-
-# The Solution: Audio Transcription
-
-**Task**: Convert speech to text with timestamps.
-
-```json
-{
-  "audio": "interview.wav",
-  "transcription": [
-    {"start": 0.0, "end": 3.2, "speaker": "A",
-     "text": "Hello, how are you?"},
-    {"start": 3.5, "end": 5.8, "speaker": "B",
-     "text": "I'm doing well, thank you."}
-  ]
-}
-```
-
-**Speed**: 15-30 min of audio per hour of work (3-4x real-time)
-
----
-
-# Audio Transcription: Diagram
-
-![w:700](images/week03/audio_transcription_ui.png)
-
----
-
-# Transcription Challenges
-
-**1. Speaker Diarization** - Who is speaking?
-```
-[0:00-0:02] Speaker A: "I think that--"
-[0:01-0:03] Speaker B: "No wait, listen..."  <- Overlap!
-```
-
-**2. Background Sounds**
-```
-"The cat [dog barking] jumped over the fence"
-```
-
-**3. Accents & Dialects**
-```
-"gonna" vs "going to" - Transcribe verbatim?
-```
-
-**4. Filler Words**
-```
-"So, um, I was thinking, like, maybe we could, uh..."
-Include or remove?
-```
-
----
-
-# Audio: Sound Event Detection
-
-**Task**: Identify and timestamp sound events.
-
-```json
-{
-  "audio": "home_audio.wav",
-  "events": [
-    {"start": 2.3, "end": 3.1, "label": "door_slam"},
-    {"start": 5.0, "end": 8.2, "label": "dog_bark"},
-    {"start": 10.5, "end": 11.0, "label": "glass_break"}
-  ]
-}
-```
-
-**Applications**:
-- Surveillance: gunshot, glass break
-- Healthcare: cough, snore
-- Environment: bird species, vehicles
-
----
-
-# Audio: Speaker & Emotion Recognition
-
-**Speaker Recognition**:
-```json
-{
-  "audio": "meeting.wav",
-  "segments": [
-    {"start": 0, "end": 5, "speaker": "Alice"},
-    {"start": 5, "end": 12, "speaker": "Bob"}
-  ]
-}
-```
-
-**Emotion Recognition**:
-```json
-{
-  "audio": "utterance.wav",
-  "emotion": "angry",
-  "arousal": 7,    // 1-9 scale (calm to excited)
-  "valence": 2     // 1-9 scale (negative to positive)
-}
-```
-
-**Challenge**: Emotion is subjective - expect lower IAA
-
----
-
-<!-- _class: lead -->
-
-# Part 3d: Video Annotation Tasks
-
----
-
-# The Problem: Monitoring Security Across Hundreds of Cameras
-
-![w:800](images/week03/problem_security_footage.png)
-
-**Security teams can't watch all cameras simultaneously.**
-Who entered the building? Which car is that? Where did the person go? We need video understanding.
-
----
-
-# The Solution: Video Action Recognition
-
-**Task**: Classify actions in video clips.
-
-```json
-{
-  "video": "sports.mp4",
-  "fps": 30,
-  "actions": [
-    {"start_frame": 0, "end_frame": 90, "label": "running"},
-    {"start_frame": 90, "end_frame": 150, "label": "jumping"},
-    {"start_frame": 150, "end_frame": 200, "label": "landing"}
-  ]
-}
-```
-
-**Types**:
-- **Clip-level**: One label per clip
-- **Temporal**: Start/end for each action
-- **Dense**: Label every frame
-
----
-
-# Video: Object Tracking
-
-**Task**: Follow objects across frames.
-
-```json
-{
-  "video": "traffic.mp4",
-  "tracks": [
-    {
-      "track_id": 1,
-      "category": "car",
-      "bboxes": [
-        {"frame": 0, "bbox": [100, 200, 50, 80]},
-        {"frame": 1, "bbox": [105, 202, 50, 80]},
-        {"frame": 2, "bbox": [110, 204, 50, 80]}
-      ]
-    }
-  ]
-}
-```
-
-**Challenges**: Occlusion, re-identification after disappearing
-
----
-
-# Video Tracking: Diagram
-
-![w:700](images/week03/video_tracking.png)
-
-**Key concept**: Same object maintains consistent ID across frames
-**Challenges**: Occlusion, re-identification after object disappears
-
----
-
-# Video: Temporal Segmentation
-
-**Task**: Divide video into meaningful segments.
-
-```json
-{
-  "video": "cooking_recipe.mp4",
-  "segments": [
-    {"start": 0, "end": 15, "label": "gather_ingredients"},
-    {"start": 15, "end": 45, "label": "chop_vegetables"},
-    {"start": 45, "end": 90, "label": "cook_in_pan"},
-    {"start": 90, "end": 120, "label": "plate_and_serve"}
-  ]
-}
-```
-
-**Applications**: Sports analysis, surgical videos, tutorials
+**See Appendix for detailed slides on Audio/Video annotation tasks.**
 
 ---
 
@@ -1024,6 +878,8 @@ docker-compose up -d
 
 **Labels are created by humans. Humans disagree.**
 
+![w:500](images/week03/human_disagreement_illusion.png)
+
 ```
 Text: "This movie was okay"
 
@@ -1061,19 +917,25 @@ Low agreement → Noisy labels → Confused model → Poor predictions
 
 # The Coin Flip Problem
 
-**Imagine two lazy annotators who just flip coins:**
+**Imagine two annotators labeling randomly (but with their own biases):**
 
-| Email | Ann A (random) | Ann B (random) | Agree? |
-|-------|----------------|----------------|--------|
-| 1 | Spam | Spam | Yes |
-| 2 | Not Spam | Spam | No |
-| 3 | Spam | Spam | Yes |
-| 4 | Not Spam | Not Spam | Yes |
-| 5 | Spam | Not Spam | No |
+| Email | Ann A | Ann B | Agree? |
+|-------|-------|-------|--------|
+| 1 | Spam | Spam | ✓ |
+| 2 | Not Spam | Spam | ✗ |
+| 3 | Spam | Spam | ✓ |
+| 4 | Not Spam | Not Spam | ✓ |
+| 5 | Spam | Not Spam | ✗ |
 
-**Even random guessing gives ~50% agreement!**
+**Observed agreement**: 3/5 = **60%** — sounds decent?
 
-So when someone says "we got 80% agreement" — is that good, or just slightly better than coin flips?
+**But what if they labeled randomly with their proportions?**
+- Ann A: 3/5 Spam | Ann B: 3/5 Spam
+- P(both Spam) = 0.6 × 0.6 = 0.36
+- P(both Not) = 0.4 × 0.4 = 0.16
+- **P(agree by chance) = 0.52**
+
+60% observed vs 52% expected — barely better than random!
 
 ---
 
@@ -1097,261 +959,69 @@ Is that impressive? We need a metric that tells us: *"How much better than rando
 
 ---
 
-# Cohen's Kappa: The Intuition
+# Cohen's Kappa: The Formula
 
 **Kappa answers**: "How much better than chance is your agreement?"
 
-```
-         observed_agreement - chance_agreement
-kappa = ────────────────────────────────────────
-              1 - chance_agreement
-```
+$$\kappa = \frac{P_{observed} - P_{expected}}{1 - P_{expected}}$$
 
 | Kappa | Meaning |
 |-------|---------|
 | 0 | No better than random guessing |
 | 1 | Perfect agreement |
-| <0 | Worse than random (systematic disagreement!) |
+| <0 | Worse than random (labels swapped?) |
 
 ---
 
-# Kappa: The Key Insight
+# Kappa Example: Spam Classification
 
-**Kappa asks**: *"How much of the agreement is REAL vs just LUCK?"*
-
-```
-                Observed Agreement - Chance Agreement
-    Kappa (κ) = ─────────────────────────────────────
-                      1 - Chance Agreement
-```
-
-| Scenario | % Agree | Chance | Kappa | Interpretation |
-|----------|---------|--------|-------|----------------|
-| Coin flips | 50% | 50% | **0.0** | No better than random |
-| Our example | 80% | 52% | **0.58** | Moderate — room for improvement |
-| Perfect | 100% | 52% | **1.0** | Complete agreement |
-
-**κ = 0.58 means**: Of the agreement that *could* exist beyond chance (48%), we achieved 58% of it.
-
----
-
-# Kappa Example: 10 Items (Easy Math)
-
-**Our spam example**:
 ```
 Email:   1  2  3  4  5  6  7  8  9  10
 Ann A:   S  N  S  S  N  S  N  N  S  S   (6 Spam, 4 Not)
 Ann B:   S  N  S  N  N  S  N  S  S  S   (6 Spam, 4 Not)
+         ✓  ✓  ✓  ✗  ✓  ✓  ✓  ✗  ✓  ✓   → 8/10 = 80% agree
 ```
 
-**Step 1: Build confusion matrix**
+| Step | Calculation | Result |
+|------|-------------|--------|
+| P_observed | 8/10 | **0.80** |
+| P_expected | (0.6×0.6) + (0.4×0.4) | **0.52** |
+| **κ** | (0.80 - 0.52) / (1 - 0.52) | **0.58** |
 
-|  | B: Spam | B: Not | Total |
-|--|:--:|:--:|:--:|
-| A: Spam | 5 | 1 | 6 |
-| A: Not | 1 | 3 | 4 |
-| Total | 6 | 4 | 10 |
-
----
-
-# Kappa Example: Calculate P_observed
-
-**Observed agreement**: Items where both agreed
-
-```
-Both said Spam:     5
-Both said Not Spam: 3
-                    ─
-Total agreed:       8
-
-P_observed = 8/10 = 0.80
-```
-
----
-
-# Kappa Example: Calculate P_expected
-
-**Expected agreement by chance**: What if they labeled randomly with their same proportions?
-
-```
-P(A says Spam) = 6/10 = 0.6
-P(B says Spam) = 6/10 = 0.6
-
-P(both Spam by chance)     = 0.6 × 0.6 = 0.36
-P(both Not Spam by chance) = 0.4 × 0.4 = 0.16
-                                         ────
-P_expected                             = 0.52
-```
-
-**By chance alone, they'd agree 52% of the time!**
-
----
-
-# Kappa Example: Final Calculation
-
-```
-         P_observed - P_expected
-kappa = ─────────────────────────
-            1 - P_expected
-
-         0.80 - 0.52
-      = ─────────────
-          1 - 0.52
-
-         0.28
-      = ───── = 0.58
-         0.48
-```
-
-**κ = 0.58** → Moderate agreement
-
-80% sounds good, but kappa reveals it's only moderately better than chance.
-
----
-
-# Verify with Python
+80% sounds good, but κ=0.58 reveals it's only **moderately** better than chance!
 
 ```python
 from sklearn.metrics import cohen_kappa_score
-
-ann_a = ['S', 'N', 'S', 'S', 'N', 'S', 'N', 'N', 'S', 'S']
-ann_b = ['S', 'N', 'S', 'N', 'N', 'S', 'N', 'S', 'S', 'S']
-
-kappa = cohen_kappa_score(ann_a, ann_b)
-print(f"Kappa: {kappa:.2f}")  # 0.58
-
-# Compare to percent agreement
-agree = sum(a == b for a, b in zip(ann_a, ann_b))
-print(f"Percent: {agree/len(ann_a):.0%}")  # 80%
+kappa = cohen_kappa_score(ann_a, ann_b)  # 0.58
 ```
-
----
-
-# Negative Kappa: Complete Disagreement
-
-```
-Ann A:  Y  Y  Y  Y  Y  N  N  N  N  N    (5 Yes, 5 No)
-Ann B:  N  N  N  N  N  Y  Y  Y  Y  Y    (5 Yes, 5 No)
-        ✗  ✗  ✗  ✗  ✗  ✗  ✗  ✗  ✗  ✗
-```
-
-**P_observed** = 0/10 = **0%** (they never agree!)
-
-**P_expected** (chance agreement):
-```
-P(A says Y) = 5/10 = 0.5    P(B says Y) = 5/10 = 0.5
-P(A says N) = 5/10 = 0.5    P(B says N) = 5/10 = 0.5
-
-P(both Y) = 0.5 × 0.5 = 0.25
-P(both N) = 0.5 × 0.5 = 0.25
-P_expected = 0.25 + 0.25 = 0.50 = 50%
-```
-
-**κ = (0.0 - 0.5) / (1 - 0.5) = -1.0**
-
----
-
-# When Does Negative Kappa Happen?
-
-**Real-world examples of κ < 0:**
-
-| Scenario | What Happened |
-|----------|---------------|
-| Label swap | Ann B thought "1" meant Spam, Ann A thought "1" meant Not Spam |
-| Opposite interpretation | "Positive sentiment" = good review vs. COVID positive |
-| Instructions misread | One annotator labeled what IS there, other labeled what's MISSING |
-
-**κ = -1 is a red flag**: Something is systematically wrong. Don't collect more data — fix the misunderstanding first!
-
----
-
-# Edge Case: Imbalanced Classes
-
-**90% of emails are Not Spam**
-
-```
-Ann A:  N  N  N  N  N  N  N  N  N  S
-Ann B:  N  N  N  N  N  N  N  N  N  S
-```
-
-P_observed = 100%, but P_expected = 0.9 × 0.9 + 0.1 × 0.1 = 0.82
-
-```
-κ = (1.0 - 0.82) / (1 - 0.82) = 1.0
-```
-
-**Still κ = 1.0!** (Perfect agreement on rare class is still perfect)
-
-But if they disagreed on just the one spam:
-```
-κ = (0.9 - 0.82) / (1 - 0.82) = 0.44
-```
-
-**With imbalanced classes, one disagreement hurts kappa a lot!**
 
 ---
 
 # Kappa Interpretation Guide
 
-| Kappa | Level | What It Means | Action |
-|-------|-------|---------------|--------|
-| < 0 | Worse than chance | Annotators confused or labels swapped | Check for systematic errors |
-| 0.0–0.20 | Slight | Barely better than guessing | Major guideline rewrite |
-| 0.21–0.40 | Fair | Some agreement, many issues | Significant training needed |
-| 0.41–0.60 | Moderate | Acceptable for pilot | Refine guidelines |
-| 0.61–0.80 | Substantial | Good for most tasks | Minor tweaks |
-| 0.81–1.0 | Almost Perfect | Production ready | Ship it! |
+| Kappa | Level | Action |
+|-------|-------|--------|
+| < 0 | Worse than chance | Check for label swap! |
+| 0.0–0.40 | Slight/Fair | Major guideline rewrite |
+| 0.41–0.60 | Moderate | Refine guidelines |
+| 0.61–0.80 | Substantial | Minor tweaks |
+| **0.81–1.0** | **Almost Perfect** | **Production ready!** |
 
 **Target**: κ ≥ 0.8 for production | **If κ < 0.6**: Fix guidelines before collecting more data!
 
 ---
 
-# Types of Agreement Metrics
+# Beyond Cohen's Kappa
 
-| Data Type | Metrics |
-|-----------|---------|
-| **Categorical** | Percent Agreement, Cohen's Kappa (2 raters), Fleiss' Kappa (3+ raters), Krippendorff's Alpha |
-| **Continuous/Ordinal** | Pearson Correlation, Spearman Correlation, Intraclass Correlation |
-| **Spatial (Images)** | IoU (Intersection over Union), Dice Coefficient |
+| Scenario | Use This Metric |
+|----------|-----------------|
+| 2 annotators, categorical | **Cohen's Kappa** |
+| 3+ annotators, categorical | **Fleiss' Kappa** |
+| Bounding boxes / masks | **IoU** (Intersection over Union) |
+| Text spans (NER) | **Span F1** |
+| Transcription | **WER** (Word Error Rate) |
 
-**Choose metric based on your data type and number of annotators!**
-
----
-
-# Fleiss' Kappa: More Than 2 Annotators
-
-**Problem**: Cohen's Kappa only works for exactly 2 annotators.
-
-**Fleiss' Kappa** generalizes to any number of annotators.
-
-| Item | Cat A | Cat B | Cat C | Interpretation |
-|------|-------|-------|-------|----------------|
-| Email 1 | 3 | 0 | 0 | All 3 annotators chose A (perfect agreement) |
-| Email 2 | 1 | 2 | 0 | 1 chose A, 2 chose B (partial agreement) |
-| Email 3 | 0 | 1 | 2 | 1 chose B, 2 chose C (partial agreement) |
-
-**Same intuition as Cohen's**: How much better than chance?
-
----
-
-# Fleiss' Kappa: Python Code
-
-```python
-from statsmodels.stats.inter_rater import fleiss_kappa
-import numpy as np
-
-# Each row = item, each column = category
-# Cell value = number of annotators who chose that category
-data = np.array([
-    [3, 0, 0],  # Item 1: unanimous agreement on cat 0
-    [1, 2, 0],  # Item 2: split 1-2 between cat 0 and 1
-    [0, 1, 2],  # Item 3: split 1-2 between cat 1 and 2
-])
-
-print(f"Fleiss' Kappa: {fleiss_kappa(data):.3f}")  # Output: ~0.26
-```
-
-**Interpretation**: Same scale as Cohen's (0 = chance, 1 = perfect)
+**Same intuition**: How much better than chance?
 
 ---
 
@@ -1363,44 +1033,18 @@ print(f"Fleiss' Kappa: {fleiss_kappa(data):.3f}")  # Output: ~0.26
 
 ---
 
-# IoU: Python Implementation
+# IoU for Segmentation Masks
+
+![w:550](images/week03/iou_segmentation_masks.png)
 
 ```python
-def calculate_iou(box1, box2):
-    """Calculate IoU between two boxes [x1, y1, x2, y2]."""
-    # Intersection coordinates
-    x1, y1 = max(box1[0], box2[0]), max(box1[1], box2[1])
-    x2, y2 = min(box1[2], box2[2]), min(box1[3], box2[3])
-
-    if x2 < x1 or y2 < y1:
-        return 0.0  # No overlap
-
-    intersection = (x2 - x1) * (y2 - y1)
-    area1 = (box1[2] - box1[0]) * (box1[3] - box1[1])
-    area2 = (box2[2] - box2[0]) * (box2[3] - box2[1])
-
-    return intersection / (area1 + area2 - intersection)
+def segmentation_iou(mask1, mask2):
+    intersection = np.logical_and(mask1, mask2).sum()
+    union = np.logical_or(mask1, mask2).sum()
+    return intersection / union if union > 0 else 0
 ```
 
----
-
-# IoU: Usage Example
-
-```python
-box1 = [100, 100, 200, 200]  # Ground truth
-box2 = [150, 150, 250, 250]  # Prediction
-
-iou = calculate_iou(box1, box2)
-print(f"IoU: {iou:.2f}")  # 0.14
-
-# Thresholds
-if iou > 0.7:
-    print("Good match!")
-elif iou > 0.5:
-    print("Acceptable match")
-else:
-    print("Poor match - boxes don't align well")
-```
+**Also common**: Dice = 2×Intersection / (|A| + |B|)
 
 ---
 
@@ -1422,233 +1066,28 @@ else:
 
 # Part 6: Quality Control
 
-*Ensuring consistent, accurate labels*
+*Brief overview — details in lab*
 
 ---
 
-# The Quality Control Framework
+# Quality Control: 6 Pillars
 
-| Pillar | Description |
-|--------|-------------|
-| **1. GUIDELINES** | Clear, detailed annotation instructions |
-| **2. TRAINING** | Calibration sessions with annotators |
-| **3. GOLD STANDARD** | Known-correct examples for testing |
-| **4. REDUNDANCY** | Multiple annotators per item |
-| **5. MONITORING** | Ongoing IAA and accuracy tracking |
-| **6. ADJUDICATION** | Expert resolution of disagreements |
+| Pillar | Key Point |
+|--------|-----------|
+| **1. GUIDELINES** | Clear definitions + edge cases |
+| **2. TRAINING** | Calibration rounds until κ > 0.8 |
+| **3. GOLD STANDARD** | 10% known-correct items mixed in |
+| **4. REDUNDANCY** | 2-3 annotators per item |
+| **5. MONITORING** | Track IAA and accuracy over time |
+| **6. ADJUDICATION** | Majority vote or expert review |
 
-**All six pillars work together for quality labels!**
-
----
-
-# 1. Guidelines: The Foundation
-
-**Good guidelines include:**
-
-**Clear Definitions**:
-```markdown
-SPAM: Unsolicited commercial email sent in bulk.
-NOT SPAM: Personal email, newsletters you subscribed to.
-```
-
-**Positive and Negative Examples**:
-```markdown
-SPAM examples:
-  - "Buy cheap meds now! Click here!"
-  - "You've won $1,000,000!"
-
-NOT SPAM examples:
-  - "Meeting tomorrow at 3pm"
-  - "Your order has shipped"
-```
+**Workflow**: Pilot (50-100 items) → Measure IAA → Fix guidelines → Production
 
 ---
-
-# Guidelines: Edge Cases
-
-**The real value is in edge cases:**
-
-```markdown
-## Edge Cases
-
-Q: Promotional email from a store I bought from?
-A: NOT SPAM (established commercial relationship)
-
-Q: Newsletter I don't remember subscribing to?
-A: NOT SPAM if it has unsubscribe link, SPAM otherwise
-
-Q: Email from unknown sender asking for information?
-A: SPAM (even if not selling anything - potential phishing)
-```
-
----
-
-# Guidelines: Decision Trees
-
-![w:700](images/week03/decision_tree.png)
-
-**Decision trees reduce annotator uncertainty.**
-
----
-
-# 2. Training: Calibration Sessions
-
-**Before Production Labeling:**
-
-1. **Study guidelines** - All annotators read same document
-2. **Practice round** - Label 20-50 items independently
-3. **Group discussion** - Review disagreements together
-4. **Update guidelines** - Add clarifications based on discussion
-5. **Second practice** - Label another 20-50 items
-6. **Measure IAA** - Must reach threshold before production
-
-```python
-# Target: Kappa > 0.8 before production
-if kappa < 0.8:
-    print("Need more calibration!")
-    revise_guidelines()
-    run_another_practice_round()
-```
-
----
-
-# 3. Gold Standard Questions
-
-**Mix known-correct items into the task:**
-
-```python
-# Create gold standard set (obvious examples)
-gold_items = [
-    {"text": "FREE MONEY CLICK NOW!!!", "label": "SPAM"},
-    {"text": "Meeting at 3pm tomorrow", "label": "NOT_SPAM"},
-    {"text": "Your Amazon order shipped", "label": "NOT_SPAM"},
-]
-
-# Mix 10% gold items into annotation queue
-all_items = real_items + random.sample(gold_items, k=n//10)
-random.shuffle(all_items)
-```
-
----
-
-# Gold Standard: Monitoring Accuracy
-
-```python
-def evaluate_annotator(annotations, gold_answers):
-    correct = sum(a == g for a, g in zip(annotations, gold_answers))
-    return correct / len(gold_answers)
-
-# Check annotator performance on gold items
-accuracy = evaluate_annotator(annotator_labels, gold_labels)
-
-if accuracy < 0.9:
-    flag_annotator_for_review()
-    print(f"Annotator accuracy: {accuracy:.0%} - needs retraining")
-```
-
-**Target: >90% accuracy on gold questions**
-
----
-
-# 4. Redundancy
-
-**Multiple annotators per item:**
-
-```python
-# Assign each item to 3 annotators
-annotations = {
-    "item_1": ["SPAM", "SPAM", "NOT_SPAM"],
-    "item_2": ["NOT_SPAM", "NOT_SPAM", "NOT_SPAM"],
-    "item_3": ["SPAM", "NOT_SPAM", "SPAM"],
-}
-
-# Majority vote aggregation
-def majority_vote(labels):
-    return max(set(labels), key=labels.count)
-
-final_labels = {item: majority_vote(lbls) for item, lbls in annotations.items()}
-```
-
----
-
-# Redundancy: Handling Disagreements
-
-```python
-# Flag items with low agreement for expert review
-for item, labels in annotations.items():
-    if len(set(labels)) > 1:  # Any disagreement
-        send_to_expert(item)
-
-# Example output
-# item_1: 2/3 agree -> majority vote = SPAM
-# item_2: 3/3 agree -> unanimous = NOT_SPAM
-# item_3: 2/3 agree -> majority vote = SPAM (flagged for review)
-```
-
-**Typical redundancy**: 2-5 annotators per item
-
----
-
-# 5. Monitoring: Track Quality Over Time
-
-| Annotator | Gold Acc. | IAA | Speed | Status |
-|-----------|-----------|-----|-------|--------|
-| Alice | 95% | 0.85 | 120/hr | Good |
-| Bob | 92% | 0.82 | 145/hr | Good |
-| Charlie | 78% | 0.65 | 180/hr | **REVIEW NEEDED** |
-| Diana | 89% | 0.78 | 100/hr | OK |
-
-**Overall IAA**: 0.81 (Substantial) | **Progress**: 4,523 / 10,000 items
-
----
-
-# 6. Adjudication
-
-**When annotators disagree, who decides?**
-
-**Option 1: Majority Vote**
-```python
-labels = ["spam", "spam", "not_spam"]
-final = max(set(labels), key=labels.count)  # "spam"
-```
-
-**Option 2: Expert Adjudication**
-```python
-if len(set(labels)) > 1:  # Disagreement
-    final = expert_decides(item, labels)
-```
-
-**Option 3: Weighted Vote**
-```python
-# Weight by annotator historical accuracy
-weights = [0.95, 0.88, 0.75]  # Alice, Bob, Charlie
-final = weighted_vote(labels, weights)
-```
-
----
-
-# The Quality Control Workflow
-
-**1. PILOT (50-100 items)**
-- Multiple annotators label same items
-- Calculate IAA (target: kappa > 0.8)
-- Discuss disagreements, refine guidelines
-
-**2. PRODUCTION**
-- Label large batch
-- 10-20% overlap for ongoing IAA
-- Gold standard checks (10% of items)
-
-**3. REVIEW**
-- Spot check 5-10% of labels
-- Identify problematic annotators
-- Expert adjudication for disagreements
-
-**Iterate until quality targets are met!**
 
 <!-- _class: lead -->
 
-# Part 9: Key Takeaways
+# Part 7: Key Takeaways
 
 ---
 
@@ -1691,7 +1130,7 @@ final = weighted_vote(labels, weights)
 
 <!-- _class: lead -->
 
-# Part 10: Lab Preview
+# Part 8: Lab Preview
 
 *What you'll build today*
 
@@ -1771,3 +1210,135 @@ label-studio start
 # Thank You!
 
 See you in the lab!
+
+---
+
+<!-- _class: lead -->
+
+# Appendix: Audio & Video Annotation
+
+*Reference slides — not covered in lecture*
+
+---
+
+# Audio: Transcription
+
+**Task**: Convert speech to text with timestamps.
+
+```json
+{
+  "audio": "interview.wav",
+  "transcription": [
+    {"start": 0.0, "end": 3.2, "speaker": "A", "text": "Hello, how are you?"},
+    {"start": 3.5, "end": 5.8, "speaker": "B", "text": "I'm doing well, thank you."}
+  ]
+}
+```
+
+**Challenges**: Speaker diarization, overlapping speech, accents, filler words
+
+---
+
+# Audio: Sound Event Detection
+
+**Task**: Identify and timestamp sound events.
+
+```json
+{
+  "audio": "home_audio.wav",
+  "events": [
+    {"start": 2.3, "end": 3.1, "label": "door_slam"},
+    {"start": 5.0, "end": 8.2, "label": "dog_bark"},
+    {"start": 10.5, "end": 11.0, "label": "glass_break"}
+  ]
+}
+```
+
+**Applications**: Surveillance, healthcare monitoring, environmental sounds
+
+---
+
+# Video: Object Tracking
+
+**Task**: Follow the *same* object across multiple frames.
+
+```json
+{
+  "video": "traffic.mp4",
+  "tracks": [
+    {
+      "track_id": 1,        // Same ID across all frames!
+      "category": "car",
+      "bboxes": [
+        {"frame": 0, "bbox": [100, 200, 50, 80]},
+        {"frame": 1, "bbox": [105, 202, 50, 80]},
+        {"frame": 2, "bbox": [110, 204, 50, 80]}
+      ]
+    }
+  ]
+}
+```
+
+**Challenge**: Re-identification after occlusion
+
+---
+
+# Video: Temporal Segmentation
+
+**Task**: Divide video into meaningful segments.
+
+![w:700](images/week03/video_temporal_segmentation.png)
+
+| Segment | Start | End | Label |
+|---------|-------|-----|-------|
+| 1 | 0:00 | 0:15 | gather_ingredients |
+| 2 | 0:15 | 0:45 | chop_vegetables |
+| 3 | 0:45 | 1:30 | cook_in_pan |
+
+**Applications**: Sports analysis, surgical videos, tutorials
+
+---
+
+# Span F1 for NER
+
+![w:700](images/week03/ner_span_agreement.png)
+
+| Metric | Value |
+|--------|-------|
+| **Exact Match** | 2/3 = 0.67 (spans must match exactly) |
+| **Partial Match** | 3/3 = 1.0 (overlapping spans count) |
+
+**Span F1** = Harmonic mean of Precision & Recall on entity spans
+
+---
+
+# WER for Transcription
+
+![w:700](images/week03/wer_transcription.png)
+
+$$\text{WER} = \frac{\text{Substitutions} + \text{Insertions} + \text{Deletions}}{\text{Total Words}}$$
+
+```python
+import jiwer
+wer = jiwer.wer("The cat sat on the mat", "The cat sit on a mat")
+print(f"WER: {wer:.1%}")  # 33.3%
+```
+
+---
+
+# IoU: Python Implementation
+
+```python
+def calculate_iou(box1, box2):
+    """Calculate IoU between two boxes [x1, y1, x2, y2]."""
+    x1, y1 = max(box1[0], box2[0]), max(box1[1], box2[1])
+    x2, y2 = min(box1[2], box2[2]), min(box1[3], box2[3])
+
+    if x2 < x1 or y2 < y1:
+        return 0.0  # No overlap
+
+    intersection = (x2 - x1) * (y2 - y1)
+    area1 = (box1[2] - box1[0]) * (box1[3] - box1[1])
+    area2 = (box2[2] - box2[0]) * (box2[3] - box2[1])
+    return intersection / (area1 + area2 - intersection)
+```
